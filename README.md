@@ -2,7 +2,7 @@
 
 <div style="display: flex; align-items: center;">
   <img src="https://github.com/user-attachments/assets/5db98860-ee19-4281-b09f-f813106a43d5" alt="Image" width="200" style="margin-right: 10px;"/>
-  <p>: 사용자가 발견한 포토 스팟을 핀에 꽂듯이 저장하고, 다른 사용자들과 공유할 수 있는 포토스팟 공유 웹 서비스</p>
+  <p>: 사용자가 발견한 포토 스팟을 핀에 꽂듯dl 저장하고, 다른 사용자들과 공유할 수 있는 포토스팟 공유 웹 서비스</p>
 </div>
 
 ## 📌 주요 기능
