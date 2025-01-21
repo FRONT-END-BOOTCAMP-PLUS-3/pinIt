@@ -17,7 +17,7 @@
 }
 
 .hidden {
-  transform: translateY(-100%); /* 화면 위로 숨김 */
+  transform: translateX(-50%) translateY(-200%); /* 수직 아래로 숨김 */
 }
 
 .img {
