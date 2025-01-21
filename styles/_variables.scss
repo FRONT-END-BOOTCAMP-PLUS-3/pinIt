@@ -1,0 +1,65 @@
+// Font-face 설정
+@font-face {
+  font-family: 'Pretendard';
+  font-style: normal;
+  font-weight: 400;
+  src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff')
+    format('woff');
+}
+
+@font-face {
+  font-family: 'Pretendard';
+  font-style: normal;
+  font-weight: 700;
+  src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Bold.woff')
+    format('woff');
+}
+
+// Colors
+$main-black-1: #292526; // 주요 색상
+$main-black-2: #787676; // 보조 색상
+$main-black-3: #a3a1a2;
+$main-black-4: #f2f2f2;
+$divide: #f2f2f2; // 구분선
+$hover-black: #292526; // 호버 검정
+$hover-white: #f2f2f2; // 호버 흰색
+$icon-white: #f2f2f2; // 아이콘 흰색
+$bg-white: #ffffff; // 배경색
+$check-blue: #2f88ff;
+$text-black: #292526; // 텍스트 검정
+$text-gray: #a3a1a2; // 텍스트 회색
+
+// Typography
+$font-family: 'Pretendard', sans-serif;
+$font-size-small: 12px;
+$font-size-medium: 14px;
+$font-size-large: 16px;
+
+$font-weight-light: 200;
+$font-weight-normal: 400;
+$font-weight-bold: 700;
+
+// Spacing
+$spacing-none: 0px;
+$spacing-xsmall: 4px;
+$spacing-small: 8px;
+$spacing-medium: 16px;
+$spacing-large: 24px;
+$spacing-xlarge: 32px;
+$spacing-xxlarge: 48px;
+
+// Borders
+$border-width-thin: 1px;
+$border-width-thick: 2px;
+
+$border-radius-none: 0px;
+$border-radius-small: 4px;
+$border-radius-medium: 8px;
+$border-radius-large: 16px;
+$border-radius-circle: 50%;
+
+// Icon Sizes
+$icon-size-small: 16px;
+$icon-size-medium: 24px;
+$icon-size-large: 32px;
+$icon-size-xlarge: 48px;
