@@ -1,5 +1,4 @@
 import withPWA from 'next-pwa';
-import path from 'path';
 
 const nextPWA = withPWA({
   dest: 'public',
@@ -13,8 +12,7 @@ const nextConfig = {
     return config;
   },
   sassOptions: {
-    includePaths: [path.join(__dirname, 'styles')],
-    prependData: `@import "_variables.scss"; @import "_mixins.scss";`,
+    prependData: `@use "@/styles/_variables.scss" as *; @use "@/styles/_mixins.scss" as *;`,
   },
 };
 

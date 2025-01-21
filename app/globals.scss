@@ -1,39 +1,42 @@
-@import '@/styles/variables.scss';
-
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 html,
 body {
-  width: 375px; /* 모바일 크기 설정 (예: iPhone 12 기준) */
-  height: 667px; /* 모바일 화면 높이 설정 */
-  margin: 0 auto; /* 화면 중앙 정렬 */
-  max-width: 100vw;
-  max-height: 100vh;
-  overflow: hidden;
-  color: var(--foreground);
-  background: var(--background);
+  width: 100%;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; /* Prevent horizontal scrolling */
   font-family: $font-family;
+  background-color: $main-black-4; /* Theme color from manifest */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
+.container {
+  padding: $global-side-padding;
+  max-width: 75vh;
+  min-height: 100vh;
+  margin: 0 auto; /* Center the container */
+  overflow: hidden;
+  background-color: $bg-white;
+  color: $text-black;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add subtle shadow for a polished look */
 }
 
-/* Remove margin and padding for specific elements */
+/* General reset */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+a,
+a:hover,
+a:focus {
+  color: inherit;
+  text-decoration: none;
+}
+
+// remove margin
 body,
 button,
 dd,
@@ -64,7 +67,7 @@ figcaption {
   padding: 0;
 }
 
-/* Anchor styles */
+// link
 a,
 a:hover,
 a:focus {
@@ -72,7 +75,7 @@ a:focus {
   text-decoration: none;
 }
 
-/* Headings */
+// style
 h1,
 h2,
 h3,
@@ -82,12 +85,10 @@ h6 {
   font-weight: normal;
 }
 
-/* List styles */
 ul {
   list-style: none;
 }
 
-/* Font styles */
 em,
 address {
   font-style: normal;
@@ -97,13 +98,12 @@ strong {
   font-weight: normal;
 }
 
-/* Images */
 img {
   vertical-align: top;
   width: 100%;
 }
 
-/* Form and button default styles */
+// default design
 input,
 textarea,
 button,
@@ -114,10 +114,4 @@ select {
   border-radius: 0;
   font-size: 16px;
   border: 0;
-}
-
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
 }
