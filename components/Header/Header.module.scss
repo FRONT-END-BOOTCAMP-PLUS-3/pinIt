@@ -25,3 +25,18 @@
   width: auto;
   max-height: 55px; /* 헤더 높이에 맞게 로고 크기 조정 */
 }
+
+.icon {
+  position: absolute; /* 헤더 안에서 아이콘을 고정 */
+  right: 10px; /* 헤더의 우측 끝에서 20px 떨어짐 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  cursor: pointer;
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+  }
+}
