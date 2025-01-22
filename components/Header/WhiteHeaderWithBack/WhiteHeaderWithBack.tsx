@@ -21,7 +21,7 @@ const WhiteHeaderWithBack = () => {
         role='button'
         tabIndex={0}
       >
-        <Icon id='left-black' />
+        <Icon id='left' color='#292526' />
       </div>
     </header>
   );

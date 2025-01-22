@@ -11,19 +11,19 @@ const UserNavigation = () => {
   return (
     <nav className={`${styles.navigation} ${!isVisible ? styles.hidden : ''}`}>
       <div className={styles.navItem}>
-        <Icon id='home-bold' />
+        <Icon id='home' />
       </div>
       <div className={styles.navItem}>
-        <Icon id='map-bold' />
+        <Icon id='map' />
       </div>
       <div className={styles.navItem}>
-        <Icon id='create-bold' />
+        <Icon id='create' />
       </div>
       <div className={styles.navItem}>
-        <Icon id='heart-bold' />
+        <Icon id='heart' />
       </div>
       <div className={styles.navItem}>
-        <Icon id='person-bold' />
+        <Icon id='person' />
       </div>
     </nav>
   );

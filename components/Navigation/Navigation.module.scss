@@ -19,6 +19,7 @@
 }
 
 .navItem {
+  position: relative; // 아이콘 아래 흰색 동그라미를 위해 추가
   display: flex;
   justify-content: center;
   align-items: center;
@@ -32,16 +33,24 @@
   &:hover {
     background-color: $hover-black; /* 호버 색상 */
   }
-  /* 아이콘을 상하좌우 중심에 배치 */
+
   svg {
-    display: block; /* 이미지나 SVG가 블록으로 인식되도록 */
-    margin: auto; /* 자동으로 중심 정렬 */
+    display: block;
+    margin: auto;
   }
 
-  &.admin {
-    width: 46px;
-    height: 46px;
+  &.active {
+    background-color: rgba(255, 255, 255, 0.1); // 활성화된 아이템 배경 강조
   }
+}
+
+.indicator {
+  position: absolute;
+  bottom: -8px; // 아이콘 아래 위치
+  width: 8px;
+  height: 8px;
+  background-color: $icon-white; // 흰색 동그라미
+  border-radius: 50%;
 }
 
 .hidden {

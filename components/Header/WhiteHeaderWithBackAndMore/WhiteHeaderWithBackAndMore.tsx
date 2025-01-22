@@ -27,7 +27,7 @@ const WhiteHeaderWithBackAndMore = () => {
         role='button'
         tabIndex={0}
       >
-        <Icon id='left-black' />
+        <Icon id='left' color='#292526' />
       </div>
       <div
         className={`${styles.icon} ${styles.iconRight}`}
@@ -35,7 +35,7 @@ const WhiteHeaderWithBackAndMore = () => {
         role='button'
         tabIndex={0}
       >
-        <Icon id='more-black' />
+        <Icon id='more' color='#292526' />
       </div>
       {dropdownVisible && (
         <div className={styles.dropdown}>
