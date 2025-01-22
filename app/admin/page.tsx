@@ -1,7 +1,7 @@
-export default function AdminHome() {
+export default function Admin() {
   return (
     <>
-      <div style={{ marginTop: '60px' }}>관리자모드 페이지!</div>
+      <div>admin 페이지</div>
     </>
   );
 }

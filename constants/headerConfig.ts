@@ -20,7 +20,7 @@ const HEADER_CONFIG: Record<string, PageConfig> = {
     hasNavigation: false,
   },
   [ROUTES.map]: { header: 'Header', hasNavigation: true },
-  [ROUTES.add.pin]: { header: 'Header', hasNavigation: true },
+  [ROUTES.add.nav]: { header: 'Header', hasNavigation: true },
   [ROUTES.add.location]: {
     header: 'WhiteHeaderWithBack',
     hasNavigation: false,

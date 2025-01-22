@@ -11,7 +11,7 @@ interface RouteConfig {
   };
   map: string;
   add: {
-    pin: string;
+    nav: string;
     location: string;
   };
   like: string;
@@ -44,7 +44,7 @@ const ROUTES: RouteConfig = {
   },
   map: '/map',
   add: {
-    pin: '/add',
+    nav: '/add',
     location: '/add/location',
   },
   like: '/like',
