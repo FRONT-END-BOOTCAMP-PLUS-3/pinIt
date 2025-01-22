@@ -13,7 +13,7 @@
   text-align: center;
 
   // 마우스를 클릭했을 때 효과
-  &:active {
+  &:hover {
     background-color: $hover-white; // 더 어두운 회색 배경
   }
 }

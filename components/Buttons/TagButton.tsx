@@ -8,7 +8,7 @@ const TagButton = (tag: string) => {
           type='checkbox'
           id={tag.id}
           className={styles.checkbox}
-          // checked={selected.includes(tag.id)}
+          // checked={selected.includes(tag.id)} // selected는 체크된 태그들 모으는 배열
           // onChange={() => onChange(tag.id)}
         />
         <label htmlFor={tag.id} className={styles.label}>
