@@ -1,11 +1,3 @@
-import Button from '@/components/Buttons/Button';
-import HeartIconButton from '@/components/Buttons/HeartIconButton';
-import TagButton from '@/components/Buttons/TagButton';
-
 export default function Home() {
-  return (
-    <div>
-      <HeartIconButton />
-    </div>
-  );
+  return <div>ㅎㅇ안녕하세요!! 이거 프리텐다드 맞나</div>;
 }
