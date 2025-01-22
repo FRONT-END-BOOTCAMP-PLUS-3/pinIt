@@ -1,3 +1,5 @@
+import S from '@/components/Icon/Icon.module.scss';
+
 const Icon = ({
   id,
   color = 'white',
@@ -10,7 +12,12 @@ const Icon = ({
   height?: number;
 }) => {
   return (
-    <svg width={`${width}px`} height={`${height}px`} style={{ color }}>
+    <svg
+      className={S.component}
+      width={`${width}px`}
+      height={`${height}px`}
+      style={{ color }}
+    >
       <use href={`/stack.svg#${id}`} />
     </svg>
   );
