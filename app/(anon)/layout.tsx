@@ -1,7 +1,7 @@
 'use client';
 
 import Header from '@/components/Header/Header/Header';
-import UserNavigation from '@/components/Navigation/UserNavigation/UserNavigation';
+import AdminNavigation from '@/components/Navigation/AdminNavigation/AdminNavigation';
 import { usePathname } from 'next/navigation';
 
 const AnonLayout = ({ children }: { children: React.ReactNode }) => {
@@ -14,7 +14,7 @@ const AnonLayout = ({ children }: { children: React.ReactNode }) => {
     <>
       <Header />
       {children}
-      {isMainLayout && <UserNavigation />}
+      {isMainLayout && <AdminNavigation />}
     </>
   );
 };

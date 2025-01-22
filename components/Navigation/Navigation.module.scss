@@ -12,7 +12,7 @@
   height: 80px;
   background-color: $main-black-1; /* 배경색 */
   border-radius: 50px; /* 둥근 모서리 */
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2); /* 그림자 효과 */
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2); /* 그림자 효과 */
   padding: 0 20px;
   margin-bottom: 20px;
   transition: transform 0.3s ease; /* 부드러운 애니메이션 */
@@ -32,10 +32,15 @@
   &:hover {
     background-color: $hover-black; /* 호버 색상 */
   }
+  /* 아이콘을 상하좌우 중심에 배치 */
+  svg {
+    display: block; /* 이미지나 SVG가 블록으로 인식되도록 */
+    margin: auto; /* 자동으로 중심 정렬 */
+  }
 
-  img {
-    width: 24px;
-    height: 24px;
+  &.admin {
+    width: 46px;
+    height: 46px;
   }
 }
 
