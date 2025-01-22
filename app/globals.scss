@@ -114,4 +114,6 @@ select {
   border-radius: 0;
   font-size: 16px;
   border: 0;
+  // 모바일에서의 탭 하이라이트 제거
+  -webkit-tap-highlight-color: transparent;
 }
