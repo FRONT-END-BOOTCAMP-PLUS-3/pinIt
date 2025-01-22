@@ -1,6 +1,6 @@
 'use client';
 
-import Header from '@/components/Header/Header/Header';
+import WhiteHeaderWithBackAndMore from '@/components/Header/WhiteHeaderWithBackAndMore/WhiteHeaderWithBackAndMore';
 import UserNavigation from '@/components/Navigation/UserNavigation/UserNavigation';
 import { usePathname } from 'next/navigation';
 
@@ -12,7 +12,7 @@ const AnonLayout = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <>
-      <Header />
+      <WhiteHeaderWithBackAndMore />
       {children}
       {isMainLayout && <UserNavigation />}
     </>

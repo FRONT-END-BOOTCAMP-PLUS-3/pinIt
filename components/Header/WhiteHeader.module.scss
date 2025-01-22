@@ -22,7 +22,6 @@
 
 .icon {
   position: absolute; /* 헤더 안에서 아이콘을 고정 */
-  left: 10px; /* 헤더의 우측 끝에서 20px 떨어짐 */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -30,10 +29,48 @@
   height: 50px;
   border-radius: 50%;
   cursor: pointer;
+
   &:hover {
     background-color: rgba(255, 255, 255, 0.15);
   }
-  svg {
-    color: black;
+
+  &.iconLeft {
+    left: 10px; /* 헤더의 왼쪽에서 10px 떨어짐 */
+  }
+
+  &.iconRight {
+    right: 10px; /* 헤더의 오른쪽에서 10px 떨어짐 */
+  }
+}
+
+.dropdown {
+  position: absolute;
+  top: 70px; /* 헤더 바로 아래에 위치 */
+  right: 10px; /* 아이콘과 정렬 */
+  display: flex; /* 드롭다운 표시 */
+  flex-direction: column;
+  background-color: $bg-white; /* 드롭다운 배경 */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  z-index: 999;
+
+  button {
+    background: none;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    text-align: left;
+    width: 100%;
+    color: $text-black; /* 텍스트 색상 */
+    font-size: $font-size-medium;
+    border-radius: 8px;
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.05);
+    }
+
+    &.delete {
+      color: red; /* 삭제 버튼 강조 */
+    }
   }
 }
