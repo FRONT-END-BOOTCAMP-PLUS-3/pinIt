@@ -1,10 +1,16 @@
 import Icon from '../Icon/Icon';
 import styles from './RoundIconButton.module.scss';
 
-const RoundIconButton = ({ onClick }) => {
+const RoundIconButton = ({
+  iconId,
+  onClickIconButton,
+}: {
+  iconId: string;
+  onClickIconButton: React.MouseEventHandler;
+}) => {
   return (
-    <button className={styles.btn} onClick={onClick}>
-      <Icon id='trash' />
+    <button type='button' className={styles.btn} onClick={onClickIconButton}>
+      <Icon id={iconId} />
     </button>
   );
 };

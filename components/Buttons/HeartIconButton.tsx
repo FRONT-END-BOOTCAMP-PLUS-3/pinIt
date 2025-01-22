@@ -1,13 +1,21 @@
 import Icon from '../Icon/Icon';
 import styles from './HeartIconButton.module.scss';
 
-const liked = true; // liked는 좋아요 눌렀는지 받아오는 것
-
-const HeartIconButton = () => {
+// liked는 상태관리
+const HeartIconButton = ({
+  liked,
+  onClickLikeButton,
+}: {
+  liked: boolean;
+  onClickLikeButton: React.MouseEventHandler;
+}) => {
   return (
     <>
-      {/* onClick={handleClick} 나중에 추가 */}
-      <button className={styles.button}>
+      <button
+        type='button'
+        className={styles.button}
+        onClick={onClickLikeButton}
+      >
         <Icon
           id={liked ? 'heart-bold' : 'heart'}
           color={liked ? '#FF2F32' : 'none'}

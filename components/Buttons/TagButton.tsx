@@ -1,18 +1,26 @@
 import styles from './TagButton.module.scss';
 
-const TagButton = (tag: string) => {
+const TagButton = ({
+  tag,
+  checked,
+  onChangeTagButton,
+}: {
+  tag: string;
+  checked: boolean;
+  onChangeTagButton: (event: React.ChangeEvent<HTMLInputElement>) => void;
+}) => {
   return (
     <>
-      <div key={tag.id}>
+      <div>
         <input
           type='checkbox'
-          id={tag.id}
+          id={tag}
           className={styles.checkbox}
-          // checked={selected.includes(tag.id)} // selected는 체크된 태그들 모으는 배열
-          // onChange={() => onChange(tag.id)}
+          checked={checked}
+          onChange={onChangeTagButton}
         />
-        <label htmlFor={tag.id} className={styles.label}>
-          {/* {tag.label} */}
+        <label htmlFor={tag} className={styles.label}>
+          {tag}
         </label>
       </div>
     </>

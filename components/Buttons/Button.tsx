@@ -1,8 +1,14 @@
 import styles from './Button.module.scss';
 
-const Button = ({ label, onClick }) => {
+const Button = ({
+  label,
+  onClickButton,
+}: {
+  label: string;
+  onClickButton: React.MouseEventHandler;
+}) => {
   return (
-    <button className={styles.btn} onClick={onClick}>
+    <button type='button' className={styles.btn} onClick={onClickButton}>
       {label}
     </button>
   );
