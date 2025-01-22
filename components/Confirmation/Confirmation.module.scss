@@ -1,0 +1,33 @@
+.confirmation {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba($color: $main-black-3, $alpha: 0.4);
+
+  .confirmation_contents {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: $bg-white;
+    width: 60%;
+    height: 15%;
+    padding: 16px;
+    border: 1px solid $main-black-4;
+    border-radius: $border-radius-large;
+    box-shadow: 0.5px 0.5px 0.5px 0.5px rgba($color: $main-black-3, $alpha: 0.2);
+  }
+
+  .button_container {
+    display: flex;
+    flex-flow: row nowrap;
+    gap: 20px;
+  }
+}
