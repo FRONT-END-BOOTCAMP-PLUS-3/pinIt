@@ -57,10 +57,10 @@ const ROUTES: RouteConfig = {
     nav: '/admin',
     createChallengeTopic: '/admin/createChallengeTopic',
     challengeTopic: {
-      detail: '/admin/[topic-id]',
-      edit: '/admin/[topic-id]/edit',
+      detail: '/admin/topic/[topic-id]',
+      edit: '/admin/topic/[topic-id]/edit',
     },
-    userDetail: '/admin/[user-id]',
+    userDetail: '/admin/user/[user-id]',
   },
 };
 
