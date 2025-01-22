@@ -16,7 +16,7 @@ const WhiteHeaderWithBack = () => {
   return (
     <header className={`${styles.header} ${!isVisible ? styles.hidden : ''}`}>
       <div
-        className={styles.icon}
+        className={`${styles.icon} ${styles.iconLeft}`}
         onClick={handleBack}
         role='button'
         tabIndex={0}

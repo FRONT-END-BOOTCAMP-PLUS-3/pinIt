@@ -25,19 +25,16 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
+  width: $icon-size-xlarge;
+  height: $icon-size-xlarge;
+  border-radius: $border-radius-circle; /* 원형 */
   cursor: pointer;
-
   &:hover {
-    background-color: rgba(255, 255, 255, 0.15);
+    background-color: rgba($hover-white, 0.15); /* 호버 배경색 */
   }
-
   &.iconLeft {
     left: 10px; /* 헤더의 왼쪽에서 10px 떨어짐 */
   }
-
   &.iconRight {
     right: 10px; /* 헤더의 오른쪽에서 10px 떨어짐 */
   }
@@ -51,9 +48,8 @@
   flex-direction: column;
   background-color: $bg-white; /* 드롭다운 배경 */
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  border-radius: 8px;
+  border-radius: $border-radius-medium;
   z-index: 999;
-
   button {
     background: none;
     border: none;
@@ -63,12 +59,10 @@
     width: 100%;
     color: $text-black; /* 텍스트 색상 */
     font-size: $font-size-medium;
-    border-radius: 8px;
-
+    border-radius: $border-radius-medium;
     &:hover {
-      background-color: rgba(0, 0, 0, 0.05);
+      background-color: rgba($main-black-1, 0.05); /* 호버 배경색 */
     }
-
     &.delete {
       color: red; /* 삭제 버튼 강조 */
     }
