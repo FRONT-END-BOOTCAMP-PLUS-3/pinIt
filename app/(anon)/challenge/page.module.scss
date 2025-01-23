@@ -1,0 +1,21 @@
+.Challenge {
+  display: flex;
+  flex-flow: column nowrap;
+  width: 100%;
+  gap: $spacing-medium;
+}
+
+.title {
+  height: fit-content;
+}
+
+.pinCard_container {
+  width: 100%;
+  display: inline-flex;
+  flex-flow: row wrap;
+  // width 조절 시 아이템 layout
+  // justify-content: space-around;
+  column-gap: 6px;
+  row-gap: 14px;
+  margin: 0 auto;
+}

@@ -21,7 +21,7 @@ const HeartIconButton = ({
         onClick={onClickLikeButton}
       >
         <Icon
-          id={liked ? 'heart-bold' : 'heart-bold'}
+          id={liked ? 'heart-bold' : 'heart'}
           color={liked ? '#FF2F32' : '#ffffff'}
           width={w}
           height={h}
