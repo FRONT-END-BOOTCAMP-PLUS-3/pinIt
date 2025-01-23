@@ -1,0 +1,70 @@
+.header {
+  z-index: 999;
+  position: fixed;
+  top: 0;
+  left: 50%; /* 가로 중앙 기준 */
+  transform: translateX(-50%); /* 가로 중앙 정렬 */
+  display: flex;
+  justify-content: center; /* 로고 중앙 정렬 */
+  align-items: center;
+  max-width: 75vh;
+  margin: 0 auto; /* Center the container */
+  width: 100%;
+  height: 60px; /* 헤더 높이 */
+  background-color: $bg-white; /* 배경색 */
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+  transition: transform 0.3s ease; /* 부드러운 애니메이션 */
+}
+
+.hidden {
+  transform: translateX(-50%) translateY(-200%); /* 수직 위로 숨김 */
+}
+
+.icon {
+  position: absolute; /* 헤더 안에서 아이콘을 고정 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: $icon-size-xlarge;
+  height: $icon-size-xlarge;
+  border-radius: $border-radius-circle; /* 원형 */
+  cursor: pointer;
+  &:hover {
+    background-color: rgba($hover-white, 0.15); /* 호버 배경색 */
+  }
+  &.iconLeft {
+    left: 10px; /* 헤더의 왼쪽에서 10px 떨어짐 */
+  }
+  &.iconRight {
+    right: 10px; /* 헤더의 오른쪽에서 10px 떨어짐 */
+  }
+}
+
+.dropdown {
+  position: absolute;
+  top: 70px; /* 헤더 바로 아래에 위치 */
+  right: 10px; /* 아이콘과 정렬 */
+  display: flex; /* 드롭다운 표시 */
+  flex-direction: column;
+  background-color: $bg-white; /* 드롭다운 배경 */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  border-radius: $border-radius-medium;
+  z-index: 999;
+  button {
+    background: none;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    text-align: left;
+    width: 100%;
+    color: $text-black; /* 텍스트 색상 */
+    font-size: $font-size-medium;
+    border-radius: $border-radius-medium;
+    &:hover {
+      background-color: rgba($main-black-1, 0.05); /* 호버 배경색 */
+    }
+    &.delete {
+      color: red; /* 삭제 버튼 강조 */
+    }
+  }
+}
