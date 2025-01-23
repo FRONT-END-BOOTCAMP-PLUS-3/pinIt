@@ -22,8 +22,8 @@ interface RouteConfig {
   };
   admin: {
     nav: string;
-    createChallengeTopic: string;
-    challengeTopic: {
+    topic: {
+      create: string;
       detail: string;
       edit: string;
     };
@@ -55,8 +55,8 @@ const ROUTES: RouteConfig = {
   },
   admin: {
     nav: '/admin',
-    createChallengeTopic: '/admin/createChallengeTopic',
-    challengeTopic: {
+    topic: {
+      create: '/admin/topic/create',
       detail: '/admin/topic/[topic-id]',
       edit: '/admin/topic/[topic-id]/edit',
     },

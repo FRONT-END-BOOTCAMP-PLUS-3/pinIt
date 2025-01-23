@@ -36,15 +36,15 @@ const HEADER_CONFIG: Record<string, PageConfig> = {
     hasNavigation: false,
   },
   [ROUTES.admin.nav]: { header: 'HeaderWithIcon', hasNavigation: true },
-  [ROUTES.admin.createChallengeTopic]: {
+  [ROUTES.admin.topic.create]: {
     header: 'WhiteHeaderWithBack',
     hasNavigation: false,
   },
-  [ROUTES.admin.challengeTopic.detail]: {
+  [ROUTES.admin.topic.detail]: {
     header: 'WhiteHeaderWithBack',
     hasNavigation: false,
   },
-  [ROUTES.admin.challengeTopic.edit]: {
+  [ROUTES.admin.topic.edit]: {
     header: 'WhiteHeaderWithBack',
     hasNavigation: false,
   },
