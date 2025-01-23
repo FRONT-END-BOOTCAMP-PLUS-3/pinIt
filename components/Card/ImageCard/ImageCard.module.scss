@@ -2,6 +2,7 @@
   width: 112px;
   height: 160px;
   border-radius: $border-radius-large;
-  border: 0.5px solid $main-black-2;
   overflow: hidden;
+  flex: 0 0 auto;
+  scroll-snap-align: start;
 }
