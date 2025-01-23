@@ -13,6 +13,7 @@
   cursor: pointer;
   background-color: $bg-white;
   color: $text-black;
+  line-height: 1.5;
 }
 
 .checkbox:checked + .label {
