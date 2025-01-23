@@ -1,6 +1,7 @@
 // 기본 버튼 스타일
 .btn {
   background-color: $main-black-1; // 검정색 배경
+  aspect-ratio: 1 / 1;
   padding: $spacing-xsmall; // 버튼 안쪽 여백
   border: none; // 테두리 없음
   border-radius: $border-radius-circle; // 둥근 모서리
@@ -9,6 +10,8 @@
   align-items: center;
   justify-content: center;
   text-align: center;
+  max-width: fit-content;
+  max-height: fit-content;
 
   &:focus {
     outline: none; // 포커스 시 파란색 네모 제거
