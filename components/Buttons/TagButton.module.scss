@@ -6,10 +6,10 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: $spacing-small $spacing-small;
+  padding: 7px $spacing-small;
   font-size: $font-size-medium;
   border-radius: 25px;
-  border: $border-width-thin solid $main-black-3;
+  border: $border-width-thin solid $input-before;
   cursor: pointer;
   background-color: $bg-white;
   color: $text-black;

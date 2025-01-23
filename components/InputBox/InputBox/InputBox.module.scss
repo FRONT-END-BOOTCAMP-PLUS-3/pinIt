@@ -1,20 +1,23 @@
 .input_box {
   width: 100%;
-  border-bottom: 1px solid $main-black-3;
-}
 
-.input_box input {
-  width: 100%;
-  padding: 10px 0px;
-  color: $main-black-3;
-  font-size: $font-size-large;
-  background-color: transparent;
-  -webkit-tap-highlight-color: transparent;
-  box-shadow: none;
-}
+  input {
+    width: 100%;
+    padding: 10px 0px;
+    background-color: transparent;
+    -webkit-tap-highlight-color: transparent;
+    box-shadow: none;
+    border: none;
+    border-bottom: 1px solid $input-before;
+    outline: none;
 
-.input_box input:focus {
-  outline: none;
-  border: none;
-  box-shadow: none;
+    &:focus {
+      border-color: $main-black-1;
+      border-width: $border-width-thin;
+    }
+
+    &:not(:placeholder-shown) {
+      border-bottom: 1px solid $main-black-1; // 텍스트가 있는 경우 색상 변경
+    }
+  }
 }
