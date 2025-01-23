@@ -3,7 +3,7 @@ import Icon from '@/components/Icon/Icon';
 import Image from 'next/image';
 
 const SelectablePinCard = ({
-  url = '/default.png',
+  url = '/default_image.png',
   alt,
   location,
   address,
@@ -18,7 +18,6 @@ const SelectablePinCard = ({
   onClickCheckButton: React.ChangeEventHandler;
 }) => {
   return (
-    // <div className={!checked ? style.SelectablePinCard : style.Selected}>
     <div
       className={
         !checked

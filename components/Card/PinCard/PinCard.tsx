@@ -1,9 +1,9 @@
+import HeartIconButton from '@/components/Buttons/HeartIconButton';
 import style from '@/components/Card/PinCard/PinCard.module.scss';
-import Icon from '@/components/Icon/Icon';
 import Image from 'next/image';
 
 const PinCard = ({
-  url = '/default.png',
+  url = '/default_image.png',
   alt,
   location,
   address,
@@ -35,10 +35,10 @@ const PinCard = ({
         className={style.likeButton}
         onClick={onClickLikeButton}
       >
-        {!clicked ? (
-          <Icon id='heart' width={16} height={16}></Icon>
+        {clicked ? (
+          <HeartIconButton liked={true} onClickLikeButton={() => {}} />
         ) : (
-          <Icon id='heart-bold' width={16} height={16}></Icon>
+          <HeartIconButton liked={false} onClickLikeButton={() => {}} />
         )}
       </button>
     </div>
