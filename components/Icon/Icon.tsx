@@ -3,8 +3,8 @@ import S from '@/components/Icon/Icon.module.scss';
 const Icon = ({
   id,
   color = 'white',
-  width = 24,
-  height = 24,
+  width = 30,
+  height = 30,
 }: {
   id: string;
   color?: string;

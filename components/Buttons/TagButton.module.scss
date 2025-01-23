@@ -1,0 +1,22 @@
+.checkbox {
+  display: none; // 체크박스 숨기기
+}
+
+.label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: $spacing-small $spacing-small;
+  font-size: $font-size-medium;
+  border-radius: 25px;
+  border: $border-width-thin solid $main-black-3;
+  cursor: pointer;
+  background-color: $bg-white;
+  color: $text-black;
+}
+
+.checkbox:checked + .label {
+  background-color: $main-black-1;
+  color: $main-black-4;
+  border-color: $main-black-1;
+}
