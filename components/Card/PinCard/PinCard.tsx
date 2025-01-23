@@ -36,9 +36,19 @@ const PinCard = ({
         onClick={onClickLikeButton}
       >
         {clicked ? (
-          <HeartIconButton liked={true} onClickLikeButton={() => {}} />
+          <HeartIconButton
+            liked={true}
+            w={16}
+            h={16}
+            onClickLikeButton={onClickLikeButton}
+          />
         ) : (
-          <HeartIconButton liked={false} onClickLikeButton={() => {}} />
+          <HeartIconButton
+            liked={false}
+            w={16}
+            h={16}
+            onClickLikeButton={onClickLikeButton}
+          />
         )}
       </button>
     </div>
