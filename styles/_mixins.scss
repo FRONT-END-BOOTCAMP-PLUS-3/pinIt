@@ -1,0 +1,10 @@
+@mixin cardContainer {
+  width: 100%;
+  display: inline-flex;
+  flex-flow: row wrap;
+  // width 조절 시 아이템 layout
+  //   justify-content: center;
+  column-gap: 6px;
+  row-gap: 14px;
+  margin: 0 auto;
+}
