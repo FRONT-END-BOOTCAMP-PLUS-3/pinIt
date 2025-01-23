@@ -1,14 +1,14 @@
-.Challenge {
+.challengeAdd {
   display: flex;
   flex-flow: column nowrap;
   width: 100%;
   gap: $spacing-medium;
 
   .title {
-    height: fit-content;
+    font-size: $font-size-xlarge;
   }
 
-  .pinCard_container {
+  .card_container {
     @include cardContainer;
   }
 }
