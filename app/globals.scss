@@ -7,6 +7,8 @@ body {
   overflow-x: hidden; /* Prevent horizontal scrolling */
   font-family: $font-family;
   background-color: $main-black-4; /* Theme color from manifest */
+  color: $text-black;
+  font-size: $font-size-large;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -82,7 +84,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-weight: normal;
+  font-weight: $font-weight-bold;
 }
 
 ul {
