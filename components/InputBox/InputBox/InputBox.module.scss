@@ -19,5 +19,10 @@
     &:not(:placeholder-shown) {
       border-bottom: 1px solid $main-black-1; // 텍스트가 있는 경우 색상 변경
     }
+
+    &:hover {
+      border-color: $main-black-1;
+      border-width: $border-width-thin;
+    }
   }
 }
