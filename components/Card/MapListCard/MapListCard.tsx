@@ -1,3 +1,5 @@
+'use client';
+
 import style from '@/components/Card/MapListCard/MapListCard.module.scss';
 import Image from 'next/image';
 

@@ -1,3 +1,5 @@
+'use client';
+
 import HeartIconButton from '@/components/Buttons/HeartIconButton';
 import style from '@/components/Card/PinCard/PinCard.module.scss';
 import Image from 'next/image';

@@ -1,3 +1,5 @@
+'use client';
+
 import style from '@/components/Card/ImageCard/ImageCard.module.scss';
 import Image from 'next/image';
 

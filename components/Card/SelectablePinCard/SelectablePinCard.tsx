@@ -1,3 +1,5 @@
+'use client';
+
 import style from '@/components/Card/SelectablePinCard/SelectablePinCard.module.scss';
 import Icon from '@/components/Icon/Icon';
 import Image from 'next/image';
