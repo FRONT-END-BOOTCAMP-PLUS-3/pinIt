@@ -1,8 +1,15 @@
+'use client';
+
 import { useState, useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 
 const useScrollVisibility = (threshold = 50) => {
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
+  const pathname = usePathname(); // 현재 경로 가져오기
+
+  // 항상 true로 설정할(= 스크롤을해도 바가 사라지지 않게 할) 경로를 담은 배열
+  const alwaysVisiblePaths = ['/add/location'];
 
   const handleScroll = () => {
     const currentScrollY = window.scrollY;
@@ -17,11 +24,15 @@ const useScrollVisibility = (threshold = 50) => {
   };
 
   useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, [lastScrollY, threshold]);
+    if (!alwaysVisiblePaths.includes(pathname)) {
+      window.addEventListener('scroll', handleScroll);
+      return () => {
+        window.removeEventListener('scroll', handleScroll);
+      };
+    } else {
+      setIsVisible(true); // 특정 경로에서는 항상 true
+    }
+  }, [lastScrollY, threshold, pathname]);
 
   return isVisible;
 };
