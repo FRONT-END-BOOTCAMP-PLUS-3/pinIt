@@ -8,13 +8,25 @@ import HeaderWithIcon from '@/components/Header/HeaderWithIcon/HeaderWithIcon';
 import Header from '@/components/Header/Header/Header';
 import WhiteHeaderWithBack from '@/components/Header/WhiteHeaderWithBack/WhiteHeaderWithBack';
 
+interface PageConfig {
+  header: string | null;
+  hasNavigation: boolean;
+}
+
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   const pathname = usePathname(); // 현재 경로 가져오기
-  const pageConfig = HEADER_CONFIG[pathname] || {}; // 경로별 설정 가져오기
+
+  // HEADER_CONFIG에서 현재 경로에 해당하는 설정 찾기
+  const pageConfig: PageConfig = HEADER_CONFIG.find(({ path }) =>
+    path.test(pathname),
+  )?.config || {
+    header: null,
+    hasNavigation: false,
+  };
 
   // 헤더를 동적으로 렌더링
   const renderHeader = () => {
@@ -47,7 +59,7 @@ export default function RootLayout({
           <div>
             {renderHeader()}
             <div style={{ marginTop: '60px' }}>{children}</div>
-            {pageConfig.hasNavigation && <UserNavigation />}{' '}
+            {pageConfig.hasNavigation && <UserNavigation />}
             {/* 네비게이션 표시 여부 */}
           </div>
         </div>
