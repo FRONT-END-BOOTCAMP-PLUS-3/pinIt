@@ -1,3 +1,18 @@
+//////////////////////////////////
+// 공통으로 쓰는 스타일
+
+.title {
+  font-size: $font-size-xlarge;
+}
+
+.pageTitle {
+  font-size: $font-size-xxlarge;
+  margin-bottom: $spacing-medium;
+}
+
+//////////////////////////////////
+// 컴포넌트별로 쓰는 스타일
+
 .photoAndTextContainer {
   display: flex;
   gap: 16px; /* 두 컨테이너 사이 간격 */
@@ -152,19 +167,109 @@
   }
 }
 
-.title {
-  font-size: $font-size-xlarge;
-}
+.locationSearchContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  z-index: 1000;
 
-.pageTitle {
-  font-size: $font-size-xxlarge;
-  margin-bottom: $spacing-medium;
+  .searchBox {
+    position: fixed;
+    background-color: white;
+    bottom: 0;
+    padding: 16px;
+    border-radius: $border-radius-large $border-radius-large 0 0;
+    width: 100%;
+    max-width: 75vh;
+    height: 70%;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .searchHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .searchInput {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 25px;
+      outline: none;
+
+      &:focus {
+        border-color: $main-black-1;
+      }
+
+      &:hover {
+        border-color: $main-black-1;
+      }
+    }
+  }
+
+  .currentLocation {
+    .gpsIcon {
+      display: flex; /* Flexbox 사용 */
+      justify-content: center; /* 수평 가운데 정렬 */
+      align-items: center; /* 수직 가운데 정렬 */
+      width: fit-content; /* 부모 요소의 크기를 채움 (필요 시 조정) */
+      height: fit-content; /* 부모 요소의 크기를 채움 (필요 시 조정) */
+    }
+
+    .link {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 8px 16px;
+      border-radius: 25px;
+      background: $main-black-1;
+      color: white;
+      cursor: pointer;
+
+      &:hover {
+        background: $main-black-4;
+        border: 1px solid $main-black-4;
+        color: $text-black;
+      }
+    }
+  }
+
+  .locationList {
+    margin-top: 16px;
+    overflow-y: auto;
+    flex-grow: 1;
+
+    .locationItem {
+      padding: 10px 0px;
+      border-bottom: 1px solid #eee;
+
+      .locationName {
+        font-weight: bold;
+      }
+
+      .locationAddress {
+        font-size: $font-size-medium;
+        color: $text-gray;
+      }
+      &:hover {
+        background: $main-black-4;
+        cursor: pointer;
+      }
+    }
+  }
 }
 
 .saveButton {
   margin: 30px auto 80px auto;
   width: fit-content;
-}
-
-.popup-overlay {
 }
