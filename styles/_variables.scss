@@ -28,16 +28,19 @@ $bg-white: #ffffff; // 배경색
 $check-blue: #2f88ff;
 $text-black: #292526; // 텍스트 검정
 $text-gray: #a3a1a2; // 텍스트 회색
+$input-before: #ccc; // 인풋박스 포커스 되기 전 색상
 
 // Typography
 $font-family: 'Pretendard', sans-serif;
 $font-size-small: 12px;
 $font-size-medium: 14px;
 $font-size-large: 16px;
+$font-size-xlarge: 18px;
+$font-size-xxlarge: 20px;
 
 $font-weight-light: 200;
-$font-weight-normal: 400;
-$font-weight-bold: 700;
+$font-weight-normal: 500;
+$font-weight-bold: 600;
 
 // Spacing
 $spacing-none: 0px;

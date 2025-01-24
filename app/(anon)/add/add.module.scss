@@ -1,0 +1,170 @@
+.photoAndTextContainer {
+  display: flex;
+  gap: 16px; /* 두 컨테이너 사이 간격 */
+  width: 100%;
+
+  .photoUploadContainer {
+    flex: 1; /* 사진 업로드 컨테이너가 남은 공간을 채우도록 설정 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .uploadLabel {
+      display: inline-block;
+      width: 150px;
+      height: 150px;
+      background-color: #f9f9f9;
+      border: 1px dashed $input-before;
+      border-radius: $border-radius-medium;
+      text-align: center;
+      cursor: pointer;
+      position: relative;
+      transition: background-color 0.3s ease;
+
+      &:hover {
+        background-color: $main-black-4;
+        border: 1px dashed $main-black-1;
+      }
+    }
+
+    .placeholder {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+    }
+
+    .plusIcon {
+      font-size: 24px;
+      color: $text-gray;
+    }
+
+    .text {
+      color: $text-gray;
+      margin-top: 4px;
+    }
+
+    .count {
+      font-size: $font-size-small;
+      color: $text-gray;
+      margin-top: 2px;
+    }
+
+    .hiddenInput {
+      display: none;
+    }
+  }
+
+  .textAreaContainer {
+    flex: 2; /* 텍스트 입력 컨테이너가 사진 업로드 컨테이너보다 더 많은 공간을 차지하도록 설정 */
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    textarea {
+      width: 100%;
+      height: 150px; /* 사진 업로드 컨테이너 높이에 맞춤 */
+      padding: 10px;
+      border: 1px solid $input-before;
+      border-radius: $border-radius-medium;
+      transition: border-color 0.2s ease;
+      outline: none; /* 포커스 시 파란선 제거 */
+
+      &:focus {
+        border-color: $main-black-1;
+        border-width: $border-width-thin;
+      }
+
+      &:hover {
+        border-color: $main-black-1;
+        border-width: $border-width-thin;
+      }
+
+      &:not(:placeholder-shown) {
+        border: 1px solid $main-black-1; // 텍스트가 있는 경우 색상 변경
+      }
+    }
+
+    .characterCount {
+      align-self: flex-end;
+      font-size: $font-size-small;
+      color: $text-gray;
+    }
+  }
+}
+
+.locationInputContainer {
+  margin-top: 20px;
+}
+
+.datePickerContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  margin-top: 30px;
+
+  input[type='date'] {
+    width: 100%;
+    padding: 10px 0px;
+    border: none;
+    border-bottom: 1px solid $input-before;
+    background-color: transparent;
+    outline: none;
+
+    transition:
+      border-color 0.3s ease,
+      background-color 0.3s ease;
+
+    &:focus {
+      border-color: $main-black-1;
+      border-width: $border-width-thin;
+    }
+
+    &::-webkit-calendar-picker-indicator {
+      color: #333;
+      cursor: pointer;
+    }
+
+    &:hover {
+      border-color: $main-black-1;
+      border-width: $border-width-thin;
+    }
+  }
+
+  &.selected {
+    input[type='date'] {
+      border-bottom: 1px solid $main-black-1; // 날짜가 선택되었을 때 색상 변경
+    }
+  }
+}
+
+.tagSelectorContainer {
+  width: 100%;
+  margin-top: 30px;
+
+  .tagsWrapper {
+    padding: 10px 0px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+}
+
+.title {
+  font-size: $font-size-xlarge;
+}
+
+.pageTitle {
+  font-size: $font-size-xxlarge;
+  margin-bottom: $spacing-medium;
+}
+
+.saveButton {
+  margin: 30px auto 80px auto;
+  width: fit-content;
+}
+
+.popup-overlay {
+}

@@ -13,7 +13,6 @@ const Header = () => {
         className={styles.img}
         alt='PinIt 헤더 로고'
         src='/headerLogo.png'
-        layout='intrinsic' // 이미지 비율 유지
         width={1300} // 원본 너비
         height={446} // 원본 높이
         priority // 로딩 우선순위 지정
