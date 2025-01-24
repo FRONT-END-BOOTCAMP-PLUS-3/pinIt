@@ -6,6 +6,10 @@ interface PageConfig {
 
 const HEADER_CONFIG: Array<{ path: RegExp; config: PageConfig }> = [
   // 구체적인 경로는 상단에 위치
+  {
+    path: /^\/$/,
+    config: { header: 'HeaderWithIcon', hasNavigation: true },
+  },
   { path: /^\/add$/, config: { header: 'Header', hasNavigation: true } },
   { path: /^\/map$/, config: { header: 'Header', hasNavigation: true } },
   {
