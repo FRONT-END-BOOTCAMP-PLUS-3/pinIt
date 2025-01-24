@@ -27,18 +27,20 @@ const SelectablePinCard = ({
           : `${style.SelectablePinCard} ${style.Selected}`
       }
     >
-      <Image
-        className={style.image}
-        src={url}
-        alt={alt}
-        width={120}
-        height={160}
-      />
-      <div className={style.PinCard_text}>
+      <div className={style.image_wrapper}>
+        <Image
+          className={style.image}
+          src={url}
+          alt={alt}
+          fill={true}
+          sizes='(max-width: 768px) 33vw'
+        />
+      </div>
+      <div className={style.text}>
         <h2 className={style.location}>{location}</h2>
         <p className={style.address}>{address}</p>
       </div>
-      <label className={style.checkButton}>
+      <label className={style.icon}>
         <input
           type='checkbox'
           checked={checked}

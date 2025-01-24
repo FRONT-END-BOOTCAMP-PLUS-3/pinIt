@@ -21,18 +21,20 @@ const PinCard = ({
 }) => {
   return (
     <div className={style.PinCard}>
-      <Image
-        className={style.image}
-        src={url}
-        alt={alt}
-        width={120}
-        height={160}
-      />
-      <div className={style.PinCard_text}>
+      <div className={style.image_wrapper}>
+        <Image
+          className={style.image}
+          src={url}
+          alt={alt}
+          fill={true}
+          sizes='(max-width: 768px) 33vw'
+        />
+      </div>
+      <div className={style.text}>
         <h2 className={style.location}>{location}</h2>
         <p className={style.address}>{address}</p>
       </div>
-      <div className={style.likeButton}>
+      <div className={style.icon}>
         {liked ? (
           <HeartIconButton
             liked={true}

@@ -1,49 +1,8 @@
 .SelectablePinCard {
-  width: 112px;
-  border-radius: $border-radius-medium;
-  overflow: hidden;
-  position: relative;
-
-  .image {
-    width: 112px;
-    height: 160px;
-  }
-
-  .PinCard_text {
-    display: flex;
-    flex-flow: column nowrap;
-    align-items: baseline;
-    gap: 2px;
-    padding: $spacing-xsmall $spacing-xsmall 0;
-  }
-
-  .location {
-    width: 100%;
-    font-size: $font-size-large;
-    font-weight: $font-weight-normal;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-  }
-
-  .address {
-    font-size: $font-size-small;
-    color: $main-black-2;
-  }
-
-  .checkButton {
-    background-color: transparent;
-    position: absolute;
-    top: 6px;
-    right: 6px;
-    cursor: pointer;
-
-    input {
-      display: none;
-    }
-  }
+  @include card;
 
   &.Selected {
+    border-radius: $border-radius-medium;
     outline: 3px solid $check-blue;
   }
 }
