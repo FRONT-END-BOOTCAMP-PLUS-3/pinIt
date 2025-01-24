@@ -1,0 +1,63 @@
+.addLocationContainer {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  max-width: 75vh;
+
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: flex-start;
+
+  .mapSectionContainer {
+    position: fixed;
+    top: 60px;
+    width: 100%;
+    height: 75%;
+    background-color: $main-black-4;
+  }
+
+  .addressSectionContainer {
+    position: fixed;
+    background-color: white;
+    bottom: 0;
+    padding: $global-side-padding;
+    border-radius: 16px 16px 0 0;
+    width: 100%;
+    max-width: 75vh;
+    height: 20%; /* 조금 더 높게 설정 */
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0px -2px 8px rgba(0, 0, 0, 0.1);
+
+    .addressDetails {
+      font-size: $font-size-xlarge;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+    .addressSubDetails {
+      color: $text-gray;
+      margin-bottom: 16px;
+    }
+
+    .registerButton {
+      width: 100%;
+      padding: 12px 0;
+      font-weight: bold;
+      color: white;
+      background-color: #292526;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+
+      &:hover {
+        background-color: $main-black-4;
+        color: $text-black;
+      }
+    }
+  }
+}
