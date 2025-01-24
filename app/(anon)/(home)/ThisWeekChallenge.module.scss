@@ -9,6 +9,29 @@
   font-weight: $font-weight-bold;
 }
 
+.challengeTitle {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+}
+
+.link {
+  color: $main-black-2;
+  text-align: right;
+  font-size: $font-size-medium;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.challengeContainer {
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: column;
+  gap: $spacing-medium;
+}
+
 .imageCardContainer {
   display: flex;
   flex-wrap: nowrap;
@@ -17,12 +40,12 @@
   overflow-x: auto; // 가로스크롤 활성화
   scroll-snap-type: x mandatory; // 스크롤을 각 카드에 맞춰서 정렬됩니다
   width: 100%;
-  // scrollbar-width: none; // Firefox에서 스크롤바를 숨기기
+  scrollbar-width: none; // Firefox에서 스크롤바를 숨기기
 }
 
-// .imageCardContainer::-webkit-scrollbar {
-//   display: none; // 웹킷 기반 브라우저에서 스크롤바를 숨기기
-// }
+.imageCardContainer::-webkit-scrollbar {
+  display: none; // 웹킷 기반 브라우저에서 스크롤바를 숨기기
+}
 
 .challengeAddBtn {
   background-color: $bg-white; // 검정색 배경
