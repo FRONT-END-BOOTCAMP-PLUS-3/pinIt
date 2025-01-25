@@ -1,10 +1,10 @@
 'use client';
 
-import style from '@/components/Card/SelectablePinCard/SelectablePinCard.module.scss';
+import style from '@/components/Card/MyPinCard/MyPinCard.module.scss';
 import Icon from '@/components/Icon/Icon';
 import Image from 'next/image';
 
-const SelectablePinCard = ({
+const MyPinCard = ({
   url = '/default_image.png',
   alt,
   location,
@@ -66,4 +66,4 @@ const SelectablePinCard = ({
   );
 };
 
-export default SelectablePinCard;
+export default MyPinCard;

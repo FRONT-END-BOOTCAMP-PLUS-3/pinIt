@@ -25,7 +25,7 @@ const ComboBox: React.FC<ComboBoxOptions> = ({ options }) => {
         <div className={styles.combo_box}>
             <button type="button" onClick={handleToggle}>
                 <span>{selected}</span>
-                <Icon id={isOpened ? "right" : "left"} width={17} height={17} color="#fff" />
+                <Icon id={isOpened ? "right" : "left"} width={18} height={18} color="#fff" />
             </button>
             <ul className={styles.toggle_list} style={{display: isOpened ? "block" : "none"}}>
                 {options.map(option => (
