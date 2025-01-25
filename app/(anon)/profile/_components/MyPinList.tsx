@@ -20,7 +20,7 @@ const MyPinList = ({ list }: { list: Pin[] }) => {
     const [padding, setPadding] = useState(0);
     
     const itemWidth = 112; // 각 li의 고정 너비
-    const gap = 19; // 아이템 간 간격
+    const gap = 14; // 아이템 간 간격
 
     const calculatePadding = () => {
         if (containerRef.current) {
@@ -82,6 +82,14 @@ const MyPinList = ({ list }: { list: Pin[] }) => {
         touchStartRef.current = null;
     };
 
+    /* .container 스타일 설정(휴지통 아이콘 고정에 필요) */
+    useEffect(() => {
+        const container = document.querySelector('.container');
+        if (container) {
+            (container as HTMLElement).style.position = 'relative';
+        }
+    }, []);
+
     return (
         <>
         <div className={styles.mypin_list}>
@@ -100,10 +108,11 @@ const MyPinList = ({ list }: { list: Pin[] }) => {
                     </a>
                 )}
             </div>
+            
             <ul
                 className={styles.list}
                 ref={containerRef}
-                style={{padding: `0 ${padding}px`,'--checkbox': hasCheckedItems ? 'block' : 'none'} as React.CSSProperties}
+                style={{padding: `0 ${padding}px`,'--checkbox': hasCheckedItems ? 'block' : 'none', gap: gap} as React.CSSProperties}
             >
                 {list.map((pin, index) => (
                     <li
@@ -130,7 +139,7 @@ const MyPinList = ({ list }: { list: Pin[] }) => {
                 ))}
             </ul>
         </div>
-        <div className={styles.mypin_delete}>
+        <div className={`${styles.mypin_delete} ${hasCheckedItems ? styles.visible : styles.hidden}`}>
             <Link className={styles.delete} href={""}><Icon id={"trash"} /></Link>
         </div>
         </>

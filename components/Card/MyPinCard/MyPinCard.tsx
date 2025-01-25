@@ -1,6 +1,6 @@
 'use client';
 
-import style from '@/components/Card/MyPinCard/MyPinCard.module.scss';
+import styles from '@/components/Card/MyPinCard/MyPinCard.module.scss';
 import Icon from '@/components/Icon/Icon';
 import Image from 'next/image';
 
@@ -33,24 +33,24 @@ const MyPinCard = ({
     <div
       className={
         !checked
-          ? style.SelectablePinCard
-          : `${style.SelectablePinCard} ${style.Selected}`
+          ? styles.MyPinCard
+          : `${styles.MyPinCard} ${styles.Selected}`
       }
     >
-      <div className="img" onClick={handleImgClick} onTouchEnd={handleImgClick}>
+      <div className={styles.image_wrapper} onClick={handleImgClick} onTouchEnd={handleImgClick}>
         <Image
-          className={style.image}
+          className={styles.image}
           src={url}
           alt={alt}
           width={120}
           height={160}
         />
       </div>
-      <div className={style.PinCard_text}>
-        <h2 className={style.location}>{location}</h2>
-        <p className={style.address}>{address}</p>
+      <div className={styles.PinCard_text}>
+        <h2 className={styles.location}>{location}</h2>
+        <p className={styles.address}>{address}</p>
       </div>
-      <label className={style.checkButton} onClick={(e) => {e.stopPropagation(); e.preventDefault()}}>
+      <label className={styles.checkButton} onClick={(e) => {e.stopPropagation(); e.preventDefault()}}>
         <input
           type='checkbox'
           checked={checked}

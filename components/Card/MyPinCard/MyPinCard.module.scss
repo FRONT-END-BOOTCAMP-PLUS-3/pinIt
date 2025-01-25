@@ -1,4 +1,11 @@
-.SelectablePinCard {
+.MyPinCard {
+  @include card;
+
+  &.Selected {
+    border-radius: $border-radius-medium;
+    outline: 3px solid $check-blue;
+  }
+
   width: 112px;
   border-radius: $border-radius-medium;
   overflow: hidden;
@@ -41,9 +48,5 @@
     input {
       display: none;
     }
-  }
-
-  &.Selected {
-    outline: 3px solid $check-blue;
   }
 }
