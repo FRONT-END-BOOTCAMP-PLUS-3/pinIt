@@ -17,18 +17,8 @@ const SelectablePinCard = ({
   location: string;
   address: string;
   checked: boolean;
-  onClickCheckButton: React.ChangeEventHandler<HTMLInputElement>;
+  onClickCheckButton: React.ChangeEventHandler;
 }) => {
-  const handleImgClick = (e: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>) => {
-    e.stopPropagation();
-    e.preventDefault();
-    // 체크박스와 동일한 동작 수행
-    onClickCheckButton({
-      target: { checked: !checked },
-      currentTarget: { checked: !checked }, // 가짜 이벤트 생성
-    } as React.ChangeEvent<HTMLInputElement>);
-  };
-
   return (
     <div
       className={
@@ -37,20 +27,20 @@ const SelectablePinCard = ({
           : `${style.SelectablePinCard} ${style.Selected}`
       }
     >
-      <div className="img" onClick={handleImgClick} onTouchEnd={handleImgClick}>
+      <div className={style.image_wrapper}>
         <Image
           className={style.image}
           src={url}
           alt={alt}
-          width={120}
-          height={160}
+          fill={true}
+          sizes='(max-width: 768px) 33vw'
         />
       </div>
-      <div className={style.PinCard_text}>
+      <div className={style.text}>
         <h2 className={style.location}>{location}</h2>
         <p className={style.address}>{address}</p>
       </div>
-      <label className={style.checkButton} onClick={(e) => {e.stopPropagation(); e.preventDefault()}}>
+      <label className={style.icon}>
         <input
           type='checkbox'
           checked={checked}
