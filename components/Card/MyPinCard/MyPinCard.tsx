@@ -6,6 +6,7 @@ import Image from 'next/image';
 
 const MyPinCard = ({
   url = '/default_image.png',
+  width = 120,
   alt,
   location,
   address,
@@ -13,6 +14,7 @@ const MyPinCard = ({
   onClickCheckButton,
 }: {
   url?: string;
+  width?: number;
   alt: string;
   location: string;
   address: string;
@@ -28,6 +30,7 @@ const MyPinCard = ({
       currentTarget: { checked: !checked }, // 가짜 이벤트 생성
     } as React.ChangeEvent<HTMLInputElement>);
   };
+  const widthStyle = typeof width === 'number' && width > 100 ? `${width}px` : `${width.toFixed(10)}vw`; // px 또는 vw 처리
 
   return (
     <div
@@ -36,6 +39,7 @@ const MyPinCard = ({
           ? styles.MyPinCard
           : `${styles.MyPinCard} ${styles.Selected}`
       }
+      style={{'--card-width': widthStyle} as React.CSSProperties}
     >
       <div className={styles.image_wrapper} onClick={handleImgClick} onTouchEnd={handleImgClick}>
         <Image

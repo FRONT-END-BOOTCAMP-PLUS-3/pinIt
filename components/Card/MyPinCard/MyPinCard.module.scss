@@ -6,14 +6,15 @@
     outline: 3px solid $check-blue;
   }
 
-  width: 112px;
+  // width: 112px;
+  width: var(--card-width);
   border-radius: $border-radius-medium;
   overflow: hidden;
   position: relative;
 
   .image {
-    width: 112px;
-    height: 160px;
+    // width: 112px;
+    // height: 160px;
   }
 
   .PinCard_text {

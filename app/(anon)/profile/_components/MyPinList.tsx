@@ -15,37 +15,65 @@ interface Pin {
 }
 
 const MyPinList = ({ list }: { list: Pin[] }) => {
-    /* 양옆 패딩 관련 시작 */
+
+    /* MyPinCard 자동 너비 시작 */
     const containerRef = useRef<HTMLUListElement>(null);
-    const [padding, setPadding] = useState(0);
-    
-    const itemWidth = 112; // 각 li의 고정 너비
+    const [cardWidth, setCardWidth] = useState(112); // 초기값: 112px
     const gap = 14; // 아이템 간 간격
 
-    const calculatePadding = () => {
+    const calculateCardWidth = () => {
         if (containerRef.current) {
-            const containerWidth = containerRef.current.offsetWidth;
-            const itemsPerRow = Math.floor((containerWidth + gap) / (itemWidth + gap)); // 한 줄에 배치할 아이템 개수
-            const totalItemsWidth = itemsPerRow * itemWidth + (itemsPerRow - 1) * gap; // 아이템+간격 총 너비
-            const remainingSpace = containerWidth - totalItemsWidth; // 남는 여유 공간
+            const containerWidth = containerRef.current.offsetWidth; // ul 컨테이너의 너비
+            const itemsPerRow = Math.floor((containerWidth + gap) / (112 + gap)); // 한 줄에 들어갈 카드 개수
+            const totalGaps = (itemsPerRow - 1) * gap; // 모든 카드 간 간격의 합
+            const dynamicWidth = (containerWidth - totalGaps) / itemsPerRow; // 동적으로 계산된 카드 너비
 
-            if (remainingSpace >= gap) {
-               // 남는 공간이 gap 이상일 때만 padding 설정
-               setPadding(remainingSpace / 2);
+            // 112px에 가깝다면 고정, 아니라면 vw 단위로 설정
+            if (Math.abs(dynamicWidth - 112) <= 1) {
+                setCardWidth(112); // 112px 고정
             } else {
-              setPadding(0); // 여유 공간이 없을 경우 padding 0
+                const viewportWidth = ((dynamicWidth / window.innerWidth) * 100).toFixed(10); // 동적 너비를 vw로 변환
+                // console.log("Calculated viewportWidth:", viewportWidth);
+                setCardWidth(parseFloat(viewportWidth)); // vw 단위로 저장
             }
         }
     };
 
     useEffect(() => {
-        // 초기 렌더링 및 창 크기 변경 시 계산
-        calculatePadding();
-        window.addEventListener("resize", calculatePadding);
-        return () => window.removeEventListener("resize", calculatePadding);
+        calculateCardWidth(); // 초기 렌더링 시 계산
+        window.addEventListener("resize", calculateCardWidth); // 화면 크기 변경 시 재계산
+        return () => window.removeEventListener("resize", calculateCardWidth); // 이벤트 정리
     }, []);
-    /* 양옆 패딩 관련 끝 */
+    /* MyPinCard 자동 너비 끝 */
 
+
+
+    /* [<html>에 스크롤바 숨김 스타일 추가]
+    (MyPinCard 자동 너비 확인용, 스크롤바 유무에 따라 ul이 가운데에 위치하지 않을 수 있음) */
+    // useEffect(() => {
+    //     const style = document.createElement('style');
+    //     style.innerHTML = `
+    //         html {
+    //             overflow-y: scroll;
+    //             scrollbar-width: none; // Firefox
+    //             -ms-overflow-style: none; // IE
+    //         }
+
+    //         html::-webkit-scrollbar {
+    //             display: none; // Chrome, Safari
+    //         }
+    //     `;
+    //     document.head.appendChild(style);
+
+    //     // Cleanup: 컴포넌트가 언마운트될 때 스타일 제거
+    //     return () => {
+    //         document.head.removeChild(style);
+    //     };
+    // }, []);
+
+
+
+    /* 핀 항목 체크 시작 */
     // 체크 관련 const 변수
     const [isEditing, setIsEditing] = useState<boolean>(false);
     const [checkedItems, setCheckedItems] = useState<boolean[]>(Array(list.length).fill(false));
@@ -81,6 +109,9 @@ const MyPinList = ({ list }: { list: Pin[] }) => {
         }
         touchStartRef.current = null;
     };
+    /* 핀 항목 체크 끝 */
+
+
 
     /* .container 스타일 설정(휴지통 아이콘 고정에 필요) */
     useEffect(() => {
@@ -89,6 +120,7 @@ const MyPinList = ({ list }: { list: Pin[] }) => {
             (container as HTMLElement).style.position = 'relative';
         }
     }, []);
+
 
     return (
         <>
@@ -112,17 +144,17 @@ const MyPinList = ({ list }: { list: Pin[] }) => {
             <ul
                 className={styles.list}
                 ref={containerRef}
-                style={{padding: `0 ${padding}px`,'--checkbox': hasCheckedItems ? 'block' : 'none', gap: gap} as React.CSSProperties}
+                style={{'--checkbox': hasCheckedItems ? 'block' : 'none', gap: gap} as React.CSSProperties}
             >
                 {list.map((pin, index) => (
                     <li
-                        key={index}
-                        className={styles.list_item}
+                        key={index} className={styles.list_item}
                         onTouchStart={handleTouchStart(index)} // 모바일 터치 시작
                         onTouchEnd={handleTouchEnd(index)}
                     >
                         <MyPinCard
                             url={pin.url}
+                            width={cardWidth}
                             alt={pin.alt}
                             location={pin.location}
                             address={pin.address}
@@ -140,7 +172,7 @@ const MyPinList = ({ list }: { list: Pin[] }) => {
             </ul>
         </div>
         <div className={`${styles.mypin_delete} ${hasCheckedItems ? styles.visible : styles.hidden}`}>
-            <Link className={styles.delete} href={""}><Icon id={"trash"} /></Link>
+            <Link className={styles.delete} href={"/ab"}><Icon id={"trash"} /></Link>
         </div>
         </>
     );
