@@ -19,15 +19,18 @@
     position: absolute;
     top: 42px;
     left: 0;
+    background-color: $bg-white;
     box-shadow: 0 1px 6px rgba(0,0,0,0.3);
     border-radius: 5px;
+    z-index: 1;
 }
 
 .combo_box ul li {
     height: 42px;
+    width: max-content;
     line-height: 42px;
-    padding-left: 14px;
-    padding-right: 14px;
+    padding-left: 18px;
+    padding-right: 20px;
 }
 
 .combo_box ul li.on {
