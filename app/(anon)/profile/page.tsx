@@ -15,7 +15,7 @@ export default function Profile() {
 
     return (
         <>
-        <ProfileSummary />
+        <ProfileSummary identified={true} />
         <MyPinList list={PinCardList} />
         </>
     );

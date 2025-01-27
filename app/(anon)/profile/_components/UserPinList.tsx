@@ -1,9 +1,7 @@
 'use client';
 
-import styles from "./MyPinList.module.scss";
 import ProfilePinCard from "@/components/Card/ProfilePinCard/ProfilePinCard";
-import Icon from "@/components/Icon/Icon";
-import Link from "next/link";
+import styles from "./UserPinList.module.scss";
 import { useEffect, useRef, useState } from "react";
 
 interface Pin {
@@ -14,9 +12,9 @@ interface Pin {
     id: number;
 }
 
-const MyPinList = ({ list }: { list: Pin[] }) => {
+const UserPinList = ({ userName, list }: { userName: string, list: Pin[] }) => {
 
-    /* MyPinCard 자동 너비 시작 */
+    /* UserPinCard 자동 너비 시작 */
     const containerRef = useRef<HTMLUListElement>(null);
     const [cardWidth, setCardWidth] = useState(112); // 초기값: 112px
     const gap = 14; // 아이템 간 간격
@@ -44,7 +42,7 @@ const MyPinList = ({ list }: { list: Pin[] }) => {
         window.addEventListener("resize", calculateCardWidth); // 화면 크기 변경 시 재계산
         return () => window.removeEventListener("resize", calculateCardWidth); // 이벤트 정리
     }, []);
-    /* MyPinCard 자동 너비 끝 */
+    /* UserPinCard 자동 너비 끝 */
 
 
 
@@ -73,41 +71,6 @@ const MyPinList = ({ list }: { list: Pin[] }) => {
 
 
 
-    /* 핀 항목 체크 시작 */
-    // 체크 관련 const 변수
-    // const [isEditing, setIsEditing] = useState<boolean>(false);
-    const [checkedItems, setCheckedItems] = useState<boolean[]>(Array(list.length).fill(false));
-
-    // 체크된 항목 개수 및 첫 번째 체크된 Pin의 ID
-    const checkedCount = checkedItems.filter((item) => item).length;
-    // 체크된 Pin의 ID 가져오기
-    const checkedPinId = list[checkedItems.findIndex((item) => item)]?.id;
-    // 여러개 체크된 Pin의 ID 가져오기
-    const checkedPinIds = checkedItems.map(
-        (item, index) => (item ? list[index]?.id : null)) // 체크된 항목의 id만 추출
-        .filter((id) => id !== null);
-    // 체크된 item의 갯수 파악(체크박스 표시 유무에 필요)
-    const hasCheckedItems = checkedItems.some((item) => item);
-
-    // 선택된 요소가 1개 이상인 경우
-    const handleMultiChecked = (event: React.FormEvent): void  => {
-        event.preventDefault();
-        console.log("편집할 요소를 1개만 선택해주세요");
-    };
-    /* 핀 항목 체크 끝 */
-
-
-
-    /* 삭제 기능 */
-    const handleDelete = (index: number[]) => (event: React.FormEvent): void => {
-        event.preventDefault();
-        // 폼 데이터 처리 로직 작성
-        console.log(`Item ${index} deleted`);
-    };
-    /* 삭제 기능 */
-
-
-
     /* .container 스타일 설정(휴지통 아이콘 고정에 필요) */
     useEffect(() => {
         const container = document.querySelector('.container');
@@ -121,34 +84,16 @@ const MyPinList = ({ list }: { list: Pin[] }) => {
         <>
         <div className={styles.mypin_list}>
             <div className={styles.head}>
-                <h1 className={styles.title}>내가 올린 핀</h1>
-                {checkedCount === 1 && checkedPinId ? (
-                    <Link href={`/${checkedPinId}/edit`} className={`${styles.button} edit`}>
-                        <span>편집</span>
-                    </Link>
-                ) : (
-                    <Link href={``}
-                        className={`${styles.button} edit`}
-                        onClick={() => {
-                            if (checkedCount > 1 && checkedPinId) {
-                                handleMultiChecked({ preventDefault: () => {} } as React.FormEvent);
-                            };
-                        }}
-                    >
-                        <span>편집</span>
-                    </Link>
-                )}
+                <h1 className={styles.title}>{userName}님이 올린 핀</h1>
             </div>
             
             <ul
                 className={styles.list}
                 ref={containerRef}
-                style={{'--checkbox': hasCheckedItems ? 'block' : 'none', gap: gap} as React.CSSProperties}
+                style={{gap: gap} as React.CSSProperties}
             >
                 {list.map((pin, index) => (
-                    <li
-                        key={index} className={styles.list_item}
-                    >
+                    <li key={index} className={styles.list_item}>
                         <ProfilePinCard
                             id={pin.id}
                             url={pin.url}
@@ -156,24 +101,13 @@ const MyPinList = ({ list }: { list: Pin[] }) => {
                             alt={pin.alt}
                             location={pin.location}
                             address={pin.address}
-                            checked={checkedItems[index]}
-                            onClickCheckButton={() => {
-                                setCheckedItems((prev) => {
-                                    const newCheckedItems = [...prev];
-                                    newCheckedItems[index] = !newCheckedItems[index];
-                                    return newCheckedItems;
-                                });
-                            }}
                         />
                     </li>
                 ))}
             </ul>
         </div>
-        <div className={`${styles.mypin_delete} ${hasCheckedItems ? styles.visible : styles.hidden}`}>
-            <button className={styles.delete} onClick={handleDelete(checkedPinIds)}><Icon id={"trash"} /></button>
-        </div>
         </>
     );
 }
 
-export default MyPinList;
+export default UserPinList;
