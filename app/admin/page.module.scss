@@ -1,0 +1,83 @@
+.navigation {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+  padding: $spacing-small;
+  border-bottom: 1px solid $main-black-3;
+}
+
+.menuBar {
+  @include flexRow;
+}
+
+.menuItem > button {
+  @include flexRow;
+  gap: $spacing-small;
+  height: $spacing-large;
+  padding: 0 $spacing-small;
+  border-radius: $border-radius-medium;
+  background-color: transparent;
+  cursor: pointer;
+
+  span {
+    display: none;
+  }
+}
+
+.menuItem {
+  button:hover {
+    background-color: $main-black-4;
+  }
+}
+
+.listContainer_wrapper {
+  width: 100%;
+  overflow-x: auto;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.listContainer {
+  margin-bottom: 100px;
+  border-collapse: collapse;
+
+  white-space: nowrap;
+
+  .listHeader {
+    border-bottom: 1px solid $main-black-4;
+
+    th {
+      padding: 12px;
+      font-weight: normal;
+    }
+  }
+
+  .listItem {
+    border-bottom: 1px solid $main-black-4;
+    cursor: pointer;
+
+    th {
+      max-width: 160px;
+      padding: 12px;
+      font-weight: normal;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    &:hover {
+      background-color: $main-black-4;
+    }
+  }
+}
+
+@media (min-width: 520px) {
+  .menuItem > button {
+    span {
+      display: block;
+    }
+  }
+}

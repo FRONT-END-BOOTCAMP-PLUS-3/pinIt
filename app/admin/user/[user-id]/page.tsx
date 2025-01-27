@@ -3,7 +3,7 @@
 import style from '@/app/admin/user/[user-id]/page.module.scss';
 import Button from '@/components/Buttons/Button';
 import Confirmation from '@/components/Confirmation/Confirmation';
-import AccountRoleChecker from './_components/accountRoleChecker';
+import AccountRoleChecker from './_components/AccountRoleChecker';
 
 const EditUserPage = () => {
   return (
