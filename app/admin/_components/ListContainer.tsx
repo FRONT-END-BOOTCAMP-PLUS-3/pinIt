@@ -53,12 +53,6 @@ const ListContainer = () => {
       address: '제주 도두봉',
     },
     {
-      id: '3',
-      contents: '제주 도두봉 올라가는 길!',
-      location: '도두봉',
-      address: '제주 도두봉',
-    },
-    {
       id: '8',
       contents: '제주 도두봉 올라가는 길!',
       location: '도두봉',

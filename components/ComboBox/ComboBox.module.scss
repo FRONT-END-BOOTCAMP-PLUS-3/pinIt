@@ -1,26 +1,22 @@
 .combo_box {
     height: 24px;
     position: relative;
-    top: 8px;
 }
 
 .combo_box button {
+    line-height: 24px;
     text-align: left;
     font-weight: bold;
-    position: relative;
     background-color: transparent;
 }
 
 .combo_box button svg {
-    position: absolute;
-    top: 5px;
+    margin-bottom: -3px;
     margin-left: 10px;
-    background-color: #000;
 }
 
 .combo_box ul {
     position: absolute;
-    width: 100%;
     top: 42px;
     left: 0;
     box-shadow: 0 1px 6px rgba(0,0,0,0.3);
@@ -31,6 +27,7 @@
     height: 42px;
     line-height: 42px;
     padding-left: 14px;
+    padding-right: 14px;
 }
 
 .combo_box ul li.on {
