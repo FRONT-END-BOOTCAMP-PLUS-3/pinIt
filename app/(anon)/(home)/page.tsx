@@ -1,13 +1,16 @@
 'use client';
 
-import ThisWeekChallenge from './ThisWeekChallenge';
-import TotalPin from './TotalPin';
+import styles from './home.module.scss';
+import ThisWeekChallenge from './_components/ThisWeekChallenge';
+import TotalPin from './_components/TotalPin';
 
 const Home = () => {
   return (
     <>
-      <ThisWeekChallenge />
-      <TotalPin />
+      <div className={styles.homeContainer}>
+        <ThisWeekChallenge />
+        <TotalPin />
+      </div>
     </>
   );
 };

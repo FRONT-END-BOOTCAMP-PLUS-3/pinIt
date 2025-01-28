@@ -1,7 +1,7 @@
 'use client';
 
 import PinCard from '@/components/Card/PinCard/PinCard';
-import styles from './ThisWeekChallenge.module.scss';
+import styles from '../home.module.scss';
 
 const TotalPin = () => {
   const imageData = [
@@ -22,9 +22,9 @@ const TotalPin = () => {
 
   return (
     <>
-      <div>
+      <div className={styles.totalPinContainer}>
         <h2 className={styles.title}>전체 핀</h2>
-        <div className={styles.pinCardContainer}>
+        <div className={styles.card_container}>
           {imageData.map((img) => {
             return (
               <PinCard

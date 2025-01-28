@@ -1,7 +1,7 @@
 'use client';
 
 import RoundIconButton from '@/components/Buttons/RoundIconButton';
-import styles from './ThisWeekChallenge.module.scss';
+import styles from '../home.module.scss';
 import ImageCard from '@/components/Card/ImageCard/ImageCard';
 import Link from 'next/link';
 import ROUTES from '@/constants/routes';
@@ -46,7 +46,7 @@ const ThisWeekChallenge = () => {
             })}
             <RoundIconButton iconId={'right'} onClickIconButton={handleClick} />
           </div>
-          <Link href={'/'} className={styles.challengeAddBtn}>
+          <Link href={ROUTES.challenge.add} className={styles.challengeAddBtn}>
             + 챌린지 참여하기
           </Link>
         </div>
