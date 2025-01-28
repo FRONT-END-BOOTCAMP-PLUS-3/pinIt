@@ -12,6 +12,10 @@ import styles from './add.module.scss';
 
 const AddPage: React.FC = () => {
   const [isLocationSearchVisible, setIsLocationSearchVisible] = useState(false);
+  const [selectedLocation, setSelectedLocation] = useState<{
+    name: string;
+    address: string;
+  } | null>(null);
 
   const handleLocationInputClick = (): void => {
     setIsLocationSearchVisible(true);
@@ -21,10 +25,17 @@ const AddPage: React.FC = () => {
     setIsLocationSearchVisible(false);
   };
 
+  const handleSelectLocation = (location: {
+    name: string;
+    address: string;
+  }) => {
+    setSelectedLocation(location);
+    setIsLocationSearchVisible(false);
+  };
+
   const handleSubmit = (event: React.FormEvent): void => {
     event.preventDefault();
-    // 폼 데이터 처리 로직 작성
-    console.log('Form submitted');
+    // 폼 데이터 로직
   };
 
   return (
@@ -34,7 +45,10 @@ const AddPage: React.FC = () => {
         <PhotoUpload />
         <TextArea />
       </div>
-      <LocationInput onClick={handleLocationInputClick} />
+      <LocationInput
+        onClick={handleLocationInputClick}
+        selectedLocation={selectedLocation}
+      />
       <DatePicker />
       <TagSelector />
       <div className={styles.saveButton}>
@@ -42,7 +56,10 @@ const AddPage: React.FC = () => {
       </div>
       {isLocationSearchVisible && (
         <div className={styles['popup-overlay']}>
-          <LocationSearch onClose={handleCloseLocationSearch} />
+          <LocationSearch
+            onClose={handleCloseLocationSearch}
+            onSelectLocation={handleSelectLocation}
+          />
         </div>
       )}
     </form>
