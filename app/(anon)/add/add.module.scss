@@ -69,6 +69,13 @@
     .hiddenInput {
       display: none;
     }
+
+    .previewImage {
+      width: 100%; // 원하는 크기로 조절 가능
+      height: 100%;
+      border-radius: 7px;
+      object-fit: cover;
+    }
   }
 
   .textAreaContainer {
@@ -85,6 +92,7 @@
       border-radius: $border-radius-medium;
       transition: border-color 0.2s ease;
       outline: none; /* 포커스 시 파란선 제거 */
+      font-family: $font-family;
 
       &:focus {
         border-color: $main-black-1;
@@ -121,6 +129,8 @@
   margin-top: 30px;
 
   input[type='date'] {
+    font-family: $font-family;
+
     width: 100%;
     padding: 10px 0px;
     border: none;
