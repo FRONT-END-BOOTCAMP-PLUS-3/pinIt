@@ -7,6 +7,12 @@
   border-bottom: 1px solid $main-black-3;
 }
 
+.navigation.sub {
+  margin-top: $spacing-xsmall;
+  padding: $spacing-medium $spacing-small;
+  border-bottom: 0;
+}
+
 .menuBar {
   @include flexRow;
 }
@@ -31,6 +37,52 @@
   }
 }
 
+.scroll_wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.scroll_wrapper {
+  .scroll_header {
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+    width: 100%;
+    position: sticky;
+    top: 0;
+    background: transparent; /* 배경색을 테이블과 동일하게 설정 */
+    height: 8px; /* 스크롤바의 높이 */
+  }
+  
+  .scroll_content {
+    width: var(--scroll-width); /* 테이블과 동일한 너비 */
+    height: 1px; /* 보이지 않도록 설정 */
+  }
+
+  /* 스크롤바의 너비 및 높이 */
+  .scroll_header::-webkit-scrollbar {
+    height: 4px; /* 가로 스크롤바 높이 */
+  }
+
+  /* 스크롤바 트랙 */
+  .scroll_header::-webkit-scrollbar-track {
+    background: transparent; /* 트랙 배경색 */
+    border-radius: 4px;  /* 트랙 둥근 모서리 */
+  }
+
+  /* 스크롤바 썸(드래그 가능한 막대) */
+  .scroll_header::-webkit-scrollbar-thumb {
+    background-color: #888; /* 썸 배경색 */
+    border-radius: 4px;     /* 썸 둥근 모서리 */
+  }
+
+  /* 스크롤바 썸 - 호버 상태 */
+  .scroll_header::-webkit-scrollbar-thumb:hover {
+    background-color: #555; /* 썸 호버 시 색상 */
+  }
+}
+
+
 .listContainer_wrapper {
   width: 100%;
   overflow-x: auto;
@@ -41,6 +93,7 @@
 }
 
 .listContainer {
+  width: 100%;
   margin-bottom: 100px;
   border-collapse: collapse;
 
@@ -59,7 +112,7 @@
     border-bottom: 1px solid $main-black-4;
     cursor: pointer;
 
-    th {
+    th,td {
       max-width: 160px;
       padding: 12px;
       font-weight: normal;
@@ -68,10 +121,18 @@
       text-overflow: ellipsis;
     }
 
+    td {
+      text-align: center;
+    }
+
     &:hover {
       background-color: $main-black-4;
     }
   }
+}
+
+.create_button {
+  text-align: center;
 }
 
 @media (min-width: 520px) {

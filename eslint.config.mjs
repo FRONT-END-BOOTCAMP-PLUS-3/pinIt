@@ -14,6 +14,11 @@ const eslintConfig = [
   {
     ignores: ['node_modules/**', '.next/**', 'public/**'], // 무시할 경로 설정
   },
+  {
+    rules: {
+      '@typescript-eslint/no-explicit-any': 'off', // any타입 에러 이슈 제거
+    },
+  },
 ];
 
 export default eslintConfig;

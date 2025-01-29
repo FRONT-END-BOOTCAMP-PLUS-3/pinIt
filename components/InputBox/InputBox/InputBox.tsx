@@ -19,7 +19,7 @@ const InputBox: React.FC<InputBoxProps> = ({
       <input
         type='text'
         placeholder={placeholder}
-        value={value}
+        defaultValue={value}
         readOnly={readOnly} // readOnly 지원
       />
     </div>
