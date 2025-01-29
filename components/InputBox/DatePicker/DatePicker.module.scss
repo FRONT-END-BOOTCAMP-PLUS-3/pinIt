@@ -1,0 +1,45 @@
+//////////////////////////////////
+// 공통으로 쓰는 스타일
+
+.title {
+  font-size: $font-size-xlarge;
+}
+
+.datepicker {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  margin-top: 30px;
+
+  input {
+    width: 100%;
+    padding: 10px 0px;
+    background-color: transparent;
+    -webkit-tap-highlight-color: transparent;
+    box-shadow: none;
+    border: none;
+    border-bottom: 1px solid $input-before;
+    outline: none;
+
+    &:focus {
+      border-color: $main-black-1;
+      border-width: $border-width-thin;
+    }
+
+    &:not(:placeholder-shown) {
+      border-bottom: 1px solid $main-black-1; // 텍스트가 있는 경우 색상 변경
+    }
+
+    &:hover {
+      border-color: $main-black-1;
+      border-width: $border-width-thin;
+    }
+  }
+
+  &.selected {
+    input[type='date'] {
+      border-bottom: 1px solid $main-black-1; // 날짜가 선택되었을 때 색상 변경
+    }
+  }
+}
