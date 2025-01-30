@@ -1,0 +1,82 @@
+.mypin_list {
+    padding: 0 $global-side-padding;
+
+    .head {
+        position: relative;
+        height: 30px;
+        line-height: 30px;
+    }
+
+    .title {
+        position: absolute;
+        left: 0;
+        font-size: $font-size-large;
+        font-weight: $font-weight-bold;
+    }
+
+    .button {
+        position: absolute;
+        right: 0;
+    }
+
+    .list {
+        display: flex;
+        flex-wrap: wrap;
+        margin-top: 10px;
+
+        li.list_item svg {
+            display: var(--checkbox, none); // CSS 변수로 display 제어
+        }
+
+        img {
+            object-fit: cover;
+            object-position: center;
+        }
+    }
+}
+
+.mypin_delete {
+    position: absolute;
+    bottom: 116px;
+    right: 16px;
+    text-align: right;
+    padding-right: $global-side-padding;
+
+    /* 휴지통 표시/숨김 관련 설정 시작 */
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+
+    .delete {
+        position: relative;
+        background: #000;
+        display: inline-block;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+
+        svg {
+            position: absolute;
+            top: calc(50% - 1px);
+            left: 50%;
+            transform: translate(-50%,-50%);
+        }
+    }
+
+    &.visible {
+        opacity: 1;
+        transform: translateY(0);
+        pointer-events: auto;
+    }
+
+    &.hidden {
+        opacity: 0;
+        transform: translateY(20px);
+        pointer-events: none;
+    }
+    /* 휴지통 표시/숨김 관련 설정 끝 */
+
+    @media (max-width: 75vh) {
+        position: fixed; // 모바일 환경에서 휴지통이 현재 보이는 화면 오른쪽 아래에 위치하도록 설정
+    }
+}
