@@ -1,38 +1,38 @@
 .mypin_list {
     padding: 0 $global-side-padding;
-}
 
-.mypin_list .head {
-    position: relative;
-    height: 30px;
-    line-height: 30px;
-}
+    .head {
+        position: relative;
+        height: 30px;
+        line-height: 30px;
+    }
 
-.mypin_list .title {
-    position: absolute;
-    left: 0;
-    font-size: $font-size-large;
-    font-weight: bold;
-}
+    .title {
+        position: absolute;
+        left: 0;
+        font-size: $font-size-large;
+        font-weight: $font-weight-bold;
+    }
 
-.mypin_list .button {
-    position: absolute;
-    right: 0;
-}
+    .button {
+        position: absolute;
+        right: 0;
+    }
 
-.mypin_list .list {
-    display: flex;
-    flex-wrap: wrap;
-    margin-top: 10px;
-}
+    .list {
+        display: flex;
+        flex-wrap: wrap;
+        margin-top: 10px;
 
-.mypin_list .list li.list_item svg {
-    display: var(--checkbox, none); // CSS 변수로 display 제어
-}
+        li.list_item svg {
+            display: var(--checkbox, none); // CSS 변수로 display 제어
+        }
 
-.mypin_list .list img {
-    object-fit: cover;
-    object-position: center;
+        img {
+            object-fit: cover;
+            object-position: center;
+        }
+    }
 }
 
 .mypin_delete {
@@ -46,6 +46,22 @@
     opacity: 0;
     transform: translateY(20px);
     transition: opacity 0.5s ease, transform 0.5s ease;
+
+    .delete {
+        position: relative;
+        background: #000;
+        display: inline-block;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+
+        svg {
+            position: absolute;
+            top: calc(50% - 1px);
+            left: 50%;
+            transform: translate(-50%,-50%);
+        }
+    }
 
     &.visible {
         opacity: 1;
@@ -63,20 +79,4 @@
     @media (max-width: 75vh) {
         position: fixed; // 모바일 환경에서 휴지통이 현재 보이는 화면 오른쪽 아래에 위치하도록 설정
     }
-}
-
-.mypin_delete .delete {
-    position: relative;
-    background: #000;
-    display: inline-block;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-}
-
-.mypin_delete .delete svg {
-    position: absolute;
-    top: calc(50% - 1px);
-    left: 50%;
-    transform: translate(-50%,-50%);
 }
