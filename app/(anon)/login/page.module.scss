@@ -1,0 +1,19 @@
+.login {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  gap: $spacing-small;
+
+  .logo {
+    width: auto;
+  }
+
+  .loginButton {
+    min-width: 300px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+  }
+}
