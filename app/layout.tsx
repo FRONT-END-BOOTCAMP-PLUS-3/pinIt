@@ -1,7 +1,8 @@
 'use client';
 
 import UserNavigation from '@/components/Navigation/UserNavigation/UserNavigation';
-import './globals.scss';
+// import './globals.scss';
+import '@/app/globals.scss';
 import HEADER_CONFIG from '@/constants/headerConfig'; // 상수 가져오기
 import { usePathname } from 'next/navigation';
 import HeaderWithIcon from '@/components/Header/HeaderWithIcon/HeaderWithIcon';
@@ -52,10 +53,17 @@ export default function RootLayout({
   return (
     <html lang='ko'>
       <head>
-        <link rel='manifest' href='/manifest.json' />
+        <link rel='/manifest' href='/manifest.json' />
       </head>
       <body>
-        <div className='container'>
+        <div
+          className='container'
+          style={
+            pathname === '/login'
+              ? { backgroundColor: '#292526' }
+              : { backgroundColor: '#ffffff' }
+          }
+        >
           <div>
             {renderHeader()}
             <div style={{ marginTop: '60px' }}>{children}</div>
