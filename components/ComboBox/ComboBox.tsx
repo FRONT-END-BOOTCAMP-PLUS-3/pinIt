@@ -1,12 +1,11 @@
 "use client";
 
-import React, { JSX, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Icon from "../Icon/Icon";
 import styles from "./ComboBox.module.scss";
 
-interface ComboBoxOptions {
+interface ComboBoxOption {
     optionName: string;
-    optionComponent?: JSX.Element;
     /* 챌린지 주제 관련 옵션 */
     optionPeriodStart?: string;
     optionPeriodEnd?: string;
@@ -15,32 +14,49 @@ interface ComboBoxOptions {
 }
 
 interface ComboBoxProps {
-  options: ComboBoxOptions[];
-  onSelect: (option: ComboBoxOptions) => void;
+  options: ComboBoxOption[];
+  onSelect: (option: ComboBoxOption, index: number) => void;
   sub?: boolean;
+  localStorageKey: string;
 }
 
-const ComboBox: React.FC<ComboBoxProps> = ({ options, onSelect, sub = false }) => {
-    const [selected, setSelected] = useState(options[0]);
+const ComboBox: React.FC<ComboBoxProps> = ({ options, onSelect, sub = false, localStorageKey }) => {
+    // localStorage에서 저장된 selectedOptionIndex 가져오기
+    const savedOptionIndex = localStorage.getItem(localStorageKey);
+
+    // 초기 선택 상태 설정
+    const initialSelectedOption = savedOptionIndex && !isNaN(parseInt(savedOptionIndex))
+        ? options[parseInt(savedOptionIndex)]
+        : options[0];
+
+    const [selected, setSelected] = useState(initialSelectedOption);
     const [isOpened, setIsOpened] = useState(false);
 
     const handleToggle = () => {
         setIsOpened(prevState => !prevState);
     };
 
-    const handleClick = (option: ComboBoxOptions) => {
+    const handleClick = (option: ComboBoxOption, index: number) => {
         setSelected(option);
         setIsOpened(false);
-        onSelect(option);
+        onSelect(option, index);
     }
+
+    useEffect(() => {
+        // selectedOption이 변경될 때마다 localStorage에 저장
+        const selectedIndex = options.indexOf(selected);
+        if (selectedIndex !== -1) {
+            localStorage.setItem(localStorageKey, selectedIndex.toString());
+        }
+    }, [selected, options, localStorageKey]);
 
     return (
         <div className={`${styles.combo_box} ${sub ? styles.sub : ""}`}>
             <button type="button" onClick={handleToggle}>
                 <span className={styles.ellipsis_box}>
                     <span>
-                        {selected.optionName}
-                        {selected.optionPeriodStart && selected.optionPeriodEnd && (
+                        {selected?.optionName}
+                        {selected?.optionPeriodStart && selected?.optionPeriodEnd && (
                             <strong>({selected.optionPeriodStart} ~ {selected.optionPeriodEnd})</strong>
                         )}
                     </span>
@@ -48,9 +64,9 @@ const ComboBox: React.FC<ComboBoxProps> = ({ options, onSelect, sub = false }) =
                 </span>
             </button>
             <ul className={styles.toggle_list} style={{display: isOpened ? "block" : "none"}}>
-                {options.map(option => (
-                    <li key={option.optionName} onClick={() => handleClick(option)}
-                    className={`${selected.optionName === option.optionName ? styles.on : ""}`}>
+                {options.map((option, index) => (
+                    <li key={option.optionName} onClick={() => handleClick(option, index)}
+                    className={`${selected?.optionName === option.optionName ? styles.on : ""}`}>
                         <span className={styles.ellipsis_box}>
                         <span>
                         {option.optionName}
