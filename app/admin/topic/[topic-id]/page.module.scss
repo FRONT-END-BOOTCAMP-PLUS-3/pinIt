@@ -1,0 +1,24 @@
+//////////////////////////////////
+// 공통으로 쓰는 스타일
+
+.title {
+  font-size: $font-size-xlarge;
+}
+
+.pageTitle {
+  font-size: $font-size-xxlarge;
+  margin-bottom: $spacing-medium;
+}
+
+.inputContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  margin-top: 30px;
+}
+
+.saveButton {
+  margin: 30px auto 80px auto;
+  width: fit-content;
+}

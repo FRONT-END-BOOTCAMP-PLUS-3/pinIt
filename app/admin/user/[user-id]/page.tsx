@@ -1,43 +1,27 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import style from '@/app/admin/user/[user-id]/page.module.scss';
 import Button from '@/components/Buttons/Button';
 import Confirmation from '@/components/Confirmation/Confirmation';
+import AccountRoleChecker from './_components/AccountRoleChecker';
+import ProfileSummary from '@/app/(anon)/profile/_components/ProfileSummary';
 
 const EditUserPage = () => {
-  const role = false;
-  const createdDate = '2025-01-01';
-
   return (
     <div className={style.editUser}>
-      <div>프로필 박스</div>
-      <div className={style.accountRoleChecker}>
-        {role ? (
-          <p>관리자 계정</p>
-        ) : (
-          <>
-            <p>일반 계정</p>
-            <button>관리자 권한 부여</button>
-          </>
-        )}
-      </div>
-      <p>{createdDate + ' 생성'}</p>
-
-      <Button
-        label='계정 삭제하기'
-        onClickButton={() => {
-          console.log('hi');
-        }}
-      />
-      {!role && (
+      {/* <div>프로필 박스</div> */}
+      <ProfileSummary />
+      <AccountRoleChecker />
+      <div className={style.button}>
         <Button
-          label='관리자 권한 부여'
+          icon='trash'
+          label='계정 삭제하기'
           onClickButton={() => {
             console.log('hi');
           }}
         />
-      )}
-
+      </div>
       <Confirmation
         text={'hi'}
         opened={false}

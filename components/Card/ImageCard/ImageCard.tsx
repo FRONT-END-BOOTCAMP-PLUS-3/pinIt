@@ -2,16 +2,21 @@
 
 import style from '@/components/Card/ImageCard/ImageCard.module.scss';
 import Image from 'next/image';
+import ROUTES from '@/constants/routes';
+import Link from 'next/link';
 
 const ImageCard = ({
   url = '/default_image.png',
   alt,
+  pinId,
 }: {
   url?: string;
   alt: string;
+  pinId: string;
 }) => {
+  const pinDetailUrl = ROUTES.pin.detail.replace('[pin-id]', pinId);
   return (
-    <div className={style.imageCard}>
+    <Link href={pinDetailUrl} className={style.imageCard}>
       <Image
         className={style.image}
         src={url}
@@ -19,7 +24,7 @@ const ImageCard = ({
         width={112}
         height={160}
       />
-    </div>
+    </Link>
   );
 };
 
