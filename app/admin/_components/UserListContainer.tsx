@@ -1,7 +1,9 @@
 'use client';
 
 import style from '@/app/admin/page.module.scss';
-import { useEffect, useRef } from 'react';
+import HorizontalScrollHook from './HorizontalScrollHook';
+import { useRouter } from 'next/navigation';
+import ROUTES from '@/constants/routes';
 
 const UserListContainer = () => {
     const mockData = [
@@ -22,44 +24,17 @@ const UserListContainer = () => {
         },
     ];
 
-    const scrollWrapperRef = useRef<HTMLDivElement>(null);
-    const scrollContentTopRef = useRef<HTMLDivElement>(null);
-    const scrollContentBottomRef = useRef<HTMLDivElement>(null);
-    const scrollHeaderTopRef = useRef<HTMLDivElement>(null);
-    const scrollHeaderBottomRef = useRef<HTMLDivElement>(null);
-    const tableWrapperRef = useRef<HTMLDivElement>(null);
+    const {
+      scrollWrapperRef,
+      scrollContentTopRef,
+      scrollContentBottomRef,
+      scrollHeaderTopRef,
+      scrollHeaderBottomRef,
+      tableWrapperRef,
+      syncScroll,
+    } = HorizontalScrollHook(); // 리스트 가로 스크롤 설정 훅 사용
 
-    useEffect(() => {
-        const updateWidth = () => {
-        const tableWidth = tableWrapperRef.current?.scrollWidth || 0;
-        scrollContentTopRef.current?.style.setProperty('--scroll-width', `${tableWidth}px`);
-        scrollContentBottomRef.current?.style.setProperty('--scroll-width', `${tableWidth}px`);
-        };
-    
-        updateWidth(); // 초기값 설정
-        window.addEventListener('resize', updateWidth); // 리사이즈 이벤트 바인딩
-    
-        return () => {
-        window.removeEventListener('resize', updateWidth); // 이벤트 제거
-        };
-    }, []);
-
-    const syncScroll = (source: "scroll_top" | "scroll_bottom" | "table") => {
-        if (scrollHeaderTopRef.current && tableWrapperRef.current) {
-        if (source === "scroll_top") {
-            tableWrapperRef.current.scrollLeft = scrollHeaderTopRef.current.scrollLeft;
-        } else {
-            scrollHeaderTopRef.current.scrollLeft = tableWrapperRef.current.scrollLeft;
-        }
-        }
-        if (scrollHeaderBottomRef.current && tableWrapperRef.current) {
-        if (source === "scroll_bottom") {
-            tableWrapperRef.current.scrollLeft = scrollHeaderBottomRef.current.scrollLeft;
-        } else {
-            scrollHeaderBottomRef.current.scrollLeft = tableWrapperRef.current.scrollLeft;
-        }
-        }
-    };
+    const router = useRouter(); // onClick 또는 onClickEvent를 통한 페이지 이동에 필요
 
     return (
       <div className={style.scroll_wrapper} ref={scrollWrapperRef}>
@@ -84,6 +59,12 @@ const UserListContainer = () => {
                   className={style.listItem}
                   onClick={() => {
                     console.log('hi');
+                    // 템플릿 리터럴(문자열 내에서 변수를 삽입)
+                    /* RouteConfig에 설정된 속성명을 불러온 다음
+                    (userDetail: '/admin/user/[user-id]')
+                    속성에 지정된 경로 문자열을 동적으로 교체
+                    ('/admin/user/[user-id]'→'/admin/user/[map에서 전달받은 item.id]') */
+                    router.push(ROUTES.admin.userDetail.replace('[user-id]', item.id));
                   }}
                 >
                   {Object.values(item).map((details, index) => (

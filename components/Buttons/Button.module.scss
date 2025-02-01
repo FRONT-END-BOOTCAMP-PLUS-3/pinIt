@@ -12,6 +12,19 @@
   display: inline-block;
   text-align: center;
 
+  svg {
+    vertical-align: -8px;
+    margin-right: 6px;
+  }
+
+  &.disabled {
+    background-color: $hover-white;
+
+    span {
+      color: white;
+    }
+  }
+
   // 마우스를 클릭했을 때 효과
   &:hover {
     background-color: $hover-white; // 더 어두운 회색 배경

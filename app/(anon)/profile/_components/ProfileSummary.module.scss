@@ -7,33 +7,33 @@
     column-gap: 12px;
     -webkit-column-gap: 12px;
     -moz-column-gap: 12px;
-    margin-left: $global-side-padding;
-    margin-right: $global-side-padding;
     margin-bottom: $spacing-medium;
     border-bottom: $border-width-thin solid $main-black-3;
 }
 
-.user_info .name {
-    position: relative;
-    display: block;
-    height: 24px;
-    line-height: 24px;
-}
+.user_info {
+    .name {
+        position: relative;
+        display: block;
+        height: 24px;
+        line-height: 24px;
 
-.user_info .name h1 {
-    display: inline-block;
-    font-size: $font-size-large;
-    font-weight: bold;
-}
+        h1 {
+            display: inline-block;
+            font-size: $font-size-large;
+            font-weight: bold;
+        }
 
-.user_info .name svg {
-    position: absolute;
-    top: 2px;
-}
+        svg {
+            position: absolute;
+            top: 2px;
+        }        
+    }
 
-.user_info span {
-    display: block;
-    font-size: $font-size-medium;
-    height: 24px;
-    line-height: 24px;
+    span {
+        display: block;
+        font-size: $font-size-medium;
+        height: 24px;
+        line-height: 24px;
+    }
 }

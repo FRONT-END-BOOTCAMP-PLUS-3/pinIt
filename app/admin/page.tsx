@@ -7,7 +7,8 @@ import PinListContainer from './_components/PinListContainer';
 import ChallengePinContainer from './_components/ChallengePinContainer';
 import ChallengeTopicContainer from './_components/ChallengeTopicContainer';
 import UserListContainer from './_components/UserListContainer';
-import { JSX, useState } from 'react';
+import { JSX } from 'react';
+import ComboBoxOptionSelect from './_components/ComboBoxOptionSelect';
 
 interface ComboBoxOption {
   optionName: string;
@@ -22,12 +23,20 @@ const options: ComboBoxOption[] = [
 ];
 
 export default function Admin() {
-  const [selectedOption, setSelectedOption] = useState<ComboBoxOption>(options[0]);
+  /* ComboBox 옵션 설정 시작 */
+
+  // 선택했던 옵션을 저장하기 위한 고유한 키 이름
+  const OPTION_KEY = 'adminMainOptionIndex';
+  // 다른 페이지로 이동 후 되돌아오거나, admin 페이지를 다시 접속할 때 선택했던 ComboBox 옵션 기억
+  // (onSelect={handleOptionSelect}로 사용)
+  const { selectedOption, handleOptionSelect } = ComboBoxOptionSelect(options, OPTION_KEY);
+
+  /* ComboBox 옵션 설정 끝 */
 
   return (
     <div className={style.Admin}>
       <div className={style.navigation}>
-        <ComboBox options={options} onSelect={setSelectedOption} />
+        <ComboBox options={options} onSelect={handleOptionSelect} localStorageKey={OPTION_KEY} />
         <MenuBar />
       </div>
       {selectedOption.optionComponent}

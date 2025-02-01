@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styles from './DatePicker.module.scss';
 
 const DatePicker = (
@@ -8,24 +8,19 @@ const DatePicker = (
     title = '제목',
     value,
     placeholder,
-    readOnly = false
+    readOnly = false,
+    onChange,
   }:
   {
     title: string,
     value?: string,
     placeholder:string,
-    readOnly?: boolean
+    readOnly?: boolean,
+    onChange?: (date: string) => void,
   }) => {
-  const [selectedDate, setSelectedDate] = useState<string>(''); // 입력된 날짜 상태
-  const [inputType, setInputType] = useState<'text' | 'date'>('text'); // input 타입 상태 관리
-
-  // 전달받은 value가 있을 때, 그 값을 selectedDate로 설정
-  useEffect(() => {
-    if (value) {
-      setInputType('date'); // 전달받은 값이 있으면 input type을 date로 설정
-      setSelectedDate(value);
-    }
-  }, [value]);
+  const [inputType, setInputType] = useState<'text' | 'date'>(
+    value ? 'date' : 'text'
+  );
 
   const handleFocus = () => {
     setInputType('date'); // 클릭 시 date 타입으로 변경
@@ -45,18 +40,19 @@ const DatePicker = (
       inputDate = inputDate.slice(0, 10);
     }
 
-    setSelectedDate(inputDate);
+    // 상위 컴포넌트로 전달
+    onChange?.(inputDate);
   };
 
   return (
-    <div className={`${styles.datepicker} ${selectedDate ? styles.selected : ''}`}>
+    <div className={`${styles.datepicker} ${value ? styles.selected : ''}`}>
       <h3 className={styles.title}>{title}</h3>
       <div>
         <input
           id="date-picker"
           type={inputType} // 클릭 시 date, 포커스 해제 시 text
           placeholder={placeholder}
-          value={selectedDate}
+          value={value}
           max="9999-12-31" // 4자리 연도 제한
           onFocus={handleFocus} // 클릭 시 type="date"로 변경
           onBlur={handleBlur} // 값이 없으면 다시 type="text"
