@@ -5,19 +5,28 @@ import AddressSection from './_components/AddressSection';
 import MapSection from './_components/MapSection';
 import styles from './addLocation.module.scss';
 
-const AddLocationPage: React.FC = () => {
-  const [placeName, setPlaceName] = useState('로딩중..');
-  const [address, setAddress] = useState('주소 불러오는 중');
+interface AddLocationPageProps {
+  onLocationSelect: (location: { name: string; address: string }) => void;
+}
 
-  const handleAddressChange = (newPlaceName: string, newAddress: string) => {
-    setPlaceName(newPlaceName);
-    setAddress(newAddress);
+const AddLocationPage: React.FC<AddLocationPageProps> = () => {
+  const [selectedLocation, setSelectedLocation] = useState<{
+    name: string;
+    address: string;
+  } | null>(null);
+
+  const handleSelectLocation = (placeName: string, address: string) => {
+    const locationData = { name: placeName, address };
+    setSelectedLocation(locationData);
   };
 
   return (
     <div className={styles.addLocationContainer}>
-      <MapSection onAddressChange={handleAddressChange} />
-      <AddressSection placeName={placeName} address={address} />
+      <MapSection onAddressChange={handleSelectLocation} />
+      <AddressSection
+        placeName={selectedLocation?.name || '로딩중'}
+        address={selectedLocation?.address || '주소 검색 중...'}
+      />
     </div>
   );
 };

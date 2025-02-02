@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import PhotoUpload from './_components/PhotoUpload';
 import TextArea from './_components/TextArea';
 import LocationInput from './_components/LocationInput';
@@ -12,6 +12,7 @@ import styles from './add.module.scss';
 
 const AddPage: React.FC = () => {
   const [isLocationSearchVisible, setIsLocationSearchVisible] = useState(false);
+
   const [selectedLocation, setSelectedLocation] = useState<{
     name: string;
     address: string;
@@ -37,6 +38,15 @@ const AddPage: React.FC = () => {
     event.preventDefault();
     // 폼 데이터 로직
   };
+
+  // ✅ sessionStorage에서 장소 정보 가져오기
+  useEffect(() => {
+    const storedLocation = sessionStorage.getItem('selectedLocation');
+    if (storedLocation) {
+      setSelectedLocation(JSON.parse(storedLocation));
+      sessionStorage.removeItem('selectedLocation'); // ✅ 사용 후 삭제
+    }
+  }, []);
 
   return (
     <form className={styles.form} onSubmit={handleSubmit}>
