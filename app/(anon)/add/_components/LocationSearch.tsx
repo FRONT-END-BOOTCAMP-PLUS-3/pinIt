@@ -55,7 +55,7 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
   const fetchLocations = async (keyword: string) => {
     if (!keyword) return;
 
-    const REST_API_KEY = process.env.NEXT_PUBLIC_KAKAOMAP_KEY;
+    const REST_API_KEY = process.env.NEXT_PUBLIC_KAKAOMAP_API_KEY;
     let allLocations: Location[] = [];
     let page = 1;
     let isEnd = false;
