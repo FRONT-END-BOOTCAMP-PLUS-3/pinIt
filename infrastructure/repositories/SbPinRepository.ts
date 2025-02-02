@@ -1,4 +1,4 @@
-import { PinCreate } from '@/domain/entities/PinCreate';
+import { PinCreate } from '@/domain/entities/pin/CreatePin';
 import { PinRepository } from '@/domain/repositories/PinRepository';
 import { createClient } from '@/utils/supabase/server';
 import { randomUUID } from 'crypto';
@@ -11,8 +11,8 @@ export default class SbPinRepository implements PinRepository {
       .insert([
         {
           id: randomUUID(),
-          place_name: data.place_name,
-          capture_date: data.capture_date,
+          place_name: data.placeName,
+          capture_date: data.captureDate,
           address: data.address,
           latitude: data.latitude,
           longitude: data.longitude,
@@ -21,7 +21,7 @@ export default class SbPinRepository implements PinRepository {
           counted_like: 0,
           created_at: new Date(),
           image: data.image,
-          user_id: data.user_id,
+          user_id: data.userId,
         },
       ])
       .select();

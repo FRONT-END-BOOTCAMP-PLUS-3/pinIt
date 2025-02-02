@@ -5,11 +5,11 @@ type UUID = string;
 export interface PinCreate {
   image: string;
   description: string;
-  place_name: string;
+  placeName: string;
   address: string;
-  capture_date: Date;
+  captureDate: Date;
   tags: string[];
   latitude: number;
   longitude: number;
-  user_id: UUID;
+  userId: UUID;
 }
