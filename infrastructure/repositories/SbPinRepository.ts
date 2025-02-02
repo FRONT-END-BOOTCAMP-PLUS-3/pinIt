@@ -3,7 +3,7 @@ import { PinRepository } from '@/domain/repositories/PinRepository';
 import { createClient } from '@/utils/supabase/server';
 import { randomUUID } from 'crypto';
 
-export default class SbPinRepository implements PinRepository {
+export class SbPinRepository implements PinRepository {
   async createPin(data: PinCreate): Promise<void> {
     const supabase = await createClient();
     const { error } = await supabase
