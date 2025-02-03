@@ -1,4 +1,4 @@
-import { Like } from '@/domain/entities/like/Like';
+import { Like } from '@/domain/entities/Like';
 import { LikeRepository } from '@/domain/repositories/LikeRepository';
 import { createClient } from '@/utils/supabase/server';
 
