@@ -1,4 +1,5 @@
 import { CreatePin } from '@/domain/entities/pin/CreatePin';
+import { Pin } from '@/domain/entities/pin/Pin';
 import { PinRepository } from '@/domain/repositories/PinRepository';
 import { createClient } from '@/utils/supabase/server';
 import { randomUUID } from 'crypto';
@@ -28,5 +29,18 @@ export class SbPinRepository implements PinRepository {
     if (error) {
       throw new Error(error.message);
     }
+  }
+  async showPin(): Promise<Pin[]> {
+    const supabase = await createClient();
+    const { data, error } = await supabase
+      .from('pin')
+      .select('*')
+      .order('create_at', { ascending: false });
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    return data || [];
   }
 }
