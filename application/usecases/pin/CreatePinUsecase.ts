@@ -1,10 +1,9 @@
-import { CreatePin } from '@/domain/entities/pin/CreatePin';
 import { PinRepository } from '@/domain/repositories/PinRepository';
+import { CreatePinDto } from './dto/CreatePinDto';
 
-export const createPin = async (
+export const createPinUsecase = async (
   pinRepository: PinRepository,
-  data: CreatePin,
+  data: CreatePinDto,
 ): Promise<void> => {
-  // PinRepository와 Pin데이블에 추가할 데이터를 인자로 받으면 됨
   await pinRepository.createPin(data); // 레포지토리로 전달
 };

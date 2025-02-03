@@ -1,3 +1,5 @@
+type UUID = string;
+
 export interface CreatePinDto {
   placeName: string;
   captureDate: Date;
@@ -7,4 +9,5 @@ export interface CreatePinDto {
   tags: string[];
   description: string;
   image: string;
+  userId: UUID;
 }

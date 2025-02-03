@@ -1,4 +1,4 @@
-import { Like } from '../entities/like/Like';
+import { Like } from '../entities/Like';
 
 export interface LikeRepository {
   showLike: () => Promise<Like[]>;

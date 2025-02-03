@@ -1,11 +1,11 @@
-import { CreatePin } from '@/domain/entities/pin/CreatePin';
-import { Pin } from '@/domain/entities/pin/Pin';
+import { CreatePinDto } from '@/application/usecases/pin/dto/CreatePinDto';
+import { Pin } from '@/domain/entities/Pin';
 import { PinRepository } from '@/domain/repositories/PinRepository';
 import { createClient } from '@/utils/supabase/server';
 import { randomUUID } from 'crypto';
 
 export class SbPinRepository implements PinRepository {
-  async createPin(data: CreatePin): Promise<void> {
+  async createPin(data: CreatePinDto): Promise<void> {
     const supabase = await createClient();
     const { error } = await supabase
       .from('pin')
