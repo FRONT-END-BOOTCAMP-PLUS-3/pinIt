@@ -10,7 +10,7 @@ import Button from '@/components/Buttons/Button';
 import LocationSearch from './_components/LocationSearch';
 import { createPin } from './_api/creatPin';
 import styles from './add.module.scss';
-import { uploadImageToSupabase } from '@/utils/supabase/storage';
+import { uploadImageToStorage } from '@/utils/supabase/storage';
 
 const AddPage: React.FC = () => {
   const [isLocationSearchVisible, setIsLocationSearchVisible] = useState(false);
@@ -81,7 +81,7 @@ const AddPage: React.FC = () => {
 
       // 이미지 업로드 처리
       if (imageFile) {
-        imageUrl = await uploadImageToSupabase(imageFile); // Supabase 업로드 후 URL 반환
+        imageUrl = await uploadImageToStorage(imageFile); // Supabase 업로드 후 URL 반환
       }
 
       const pinData = {
