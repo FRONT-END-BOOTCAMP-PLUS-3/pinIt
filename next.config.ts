@@ -14,6 +14,9 @@ const nextConfig = {
   sassOptions: {
     prependData: `@use "@/styles/_variables.scss" as *; @use "@/styles/_mixins.scss" as *;`,
   },
+  images: {
+    domains: ['hasyhjbsevkfzieejdyp.supabase.co'],
+  },
 };
 
 export default nextPWA(nextConfig);
