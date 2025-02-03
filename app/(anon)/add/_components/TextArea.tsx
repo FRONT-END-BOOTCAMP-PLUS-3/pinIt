@@ -1,14 +1,17 @@
 'use client';
 
-import React, { useState } from 'react';
 import styles from '../add.module.scss';
 
-const TextArea: React.FC = () => {
-  const [text, setText] = useState('');
+interface TextAreaProps {
+  value: string;
+  onChange: (text: string) => void; // ✅ 부모로 텍스트 전달
+}
+
+const TextArea: React.FC<TextAreaProps> = ({ value, onChange }) => {
   const maxLength = 100;
 
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setText(event.target.value);
+    onChange(event.target.value); // ✅ 부모로 입력된 텍스트 전달
   };
 
   return (
@@ -17,11 +20,11 @@ const TextArea: React.FC = () => {
         placeholder='사진과 함께 이야기를 적어주세요!'
         maxLength={maxLength}
         rows={3}
-        value={text}
+        value={value}
         onChange={handleChange}
       />
       <span className={styles.characterCount}>
-        {text.length}/{maxLength}
+        {value.length}/{maxLength}
       </span>
     </div>
   );
