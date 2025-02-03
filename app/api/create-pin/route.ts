@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createPin } from '@/application/usecases/pin/CreatePinUsecase';
+import { createPinUsecase } from '@/application/usecases/pin/CreatePinUsecase';
 import { SbPinRepository } from '@/infrastructure/repositories/SbPinRepository';
 import { CreatePinDto } from '@/application/usecases/pin/dto/CreatePinDto';
 import { PinRepository } from '@/domain/repositories/PinRepository';
@@ -16,7 +16,7 @@ export async function POST(req: NextRequest) {
     const pinRepository: PinRepository = new SbPinRepository();
 
     // 핀 생성 실행
-    await createPin(pinRepository, { ...data, userId });
+    await createPinUsecase(pinRepository, { ...data, userId });
 
     return NextResponse.json({ message: '핀 생성 완료' }, { status: 201 });
   } catch (error) {

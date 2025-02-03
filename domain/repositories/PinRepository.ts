@@ -1,5 +1,7 @@
-import { PinCreate } from '../entities/pin/CreatePin';
+import { CreatePinDto } from '@/application/usecases/pin/dto/CreatePinDto';
+import { Pin } from '../entities/Pin';
 
 export interface PinRepository {
-  createPin: (data: PinCreate) => Promise<void>;
+  createPin: (data: CreatePinDto) => Promise<void>;
+  showPin: () => Promise<Pin[]>;
 }
