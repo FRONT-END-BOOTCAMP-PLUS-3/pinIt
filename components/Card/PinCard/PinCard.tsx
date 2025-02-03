@@ -2,7 +2,6 @@
 
 import HeartIconButton from '@/components/Buttons/HeartIconButton';
 import style from '@/components/Card/PinCard/PinCard.module.scss';
-import Image from 'next/image';
 
 const PinCard = ({
   url = '/default_image.png',
@@ -22,11 +21,10 @@ const PinCard = ({
   return (
     <div className={style.PinCard}>
       <div className={style.image_wrapper}>
-        <Image
+        <img
           className={style.image}
           src={url}
           alt={alt}
-          fill={true}
           sizes='(max-width: 768px) 33vw'
         />
       </div>

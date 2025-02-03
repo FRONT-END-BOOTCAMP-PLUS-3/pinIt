@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { SbPinRepository } from '@/infrastructure/repositories/SbPinRepository';
 import { SbLikeRepository } from '@/infrastructure/repositories/SbLikeRepository';
-import { showPinList } from '@/application/usecases/pin/ShowPinListUsecase';
+import { showPinListUsecase } from '@/application/usecases/pin/ShowPinListUsecase';
 import { getUserIdFromSupabase } from '@/utils/supabase/getUserIdFromSupabase';
 
 // GET 요청 핸들러
@@ -17,7 +17,11 @@ export async function GET() {
     const likeRepository = new SbLikeRepository();
 
     // 핀 리스트 가져오기
-    const pins = await showPinList(pinRepository, likeRepository, userId);
+    const pins = await showPinListUsecase(
+      pinRepository,
+      likeRepository,
+      userId,
+    );
 
     return NextResponse.json(pins, { status: 200 });
   } catch (error) {

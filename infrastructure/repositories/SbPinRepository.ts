@@ -1,31 +1,26 @@
-import { CreatePinDto } from '@/application/usecases/pin/dto/CreatePinDto';
 import { Pin } from '@/domain/entities/Pin';
 import { PinRepository } from '@/domain/repositories/PinRepository';
 import { createClient } from '@/utils/supabase/server';
-import { randomUUID } from 'crypto';
 
 export class SbPinRepository implements PinRepository {
-  async createPin(data: CreatePinDto): Promise<void> {
+  async createPin(data: Pin): Promise<void> {
     const supabase = await createClient();
-    const { error } = await supabase
-      .from('pin')
-      .insert([
-        {
-          id: randomUUID(),
-          place_name: data.placeName,
-          capture_date: data.captureDate,
-          address: data.address,
-          latitude: data.latitude,
-          longitude: data.longitude,
-          tags: data.tags,
-          description: data.description,
-          count_like: 0,
-          create_at: new Date(),
-          image: data.image,
-          user_id: data.userId,
-        },
-      ])
-      .select();
+
+    // 입력받은 data를 DB에 저장하기 위해 스네이크케이스로 변환
+    const formattedData = {
+      place_name: data.placeName,
+      capture_date: data.captureDate,
+      address: data.address,
+      latitude: data.latitude,
+      longitude: data.longitude,
+      tags: data.tags,
+      description: data.description,
+      image: data.image,
+      user_id: data.userId,
+    };
+    // null로 받은 애들은 그냥 안보내줘도 됨 (안보내주면 DB에서 자동으로 기본값을 사용해서 저장함)
+
+    const { error } = await supabase.from('pin').insert(formattedData).select();
     if (error) {
       throw new Error(error.message);
     }
@@ -41,6 +36,22 @@ export class SbPinRepository implements PinRepository {
       throw new Error(error.message);
     }
 
-    return data || [];
+    // DB에서 받은 data를 사용하기 위해 카멜케이스로 변환
+    const formattedData = data.map((pin) => ({
+      id: pin.id,
+      placeName: pin.place_name,
+      captureDate: pin.capture_date,
+      address: pin.address,
+      latitude: pin.latitude,
+      longitude: pin.longitude,
+      tags: pin.tags,
+      description: pin.description,
+      image: pin.image,
+      countLike: pin.count_like,
+      createAt: pin.create_at,
+      userId: pin.user_id,
+    }));
+
+    return formattedData || [];
   }
 }
