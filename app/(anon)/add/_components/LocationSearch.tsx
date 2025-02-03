@@ -9,13 +9,20 @@ import ROUTES from '@/constants/routes';
 
 interface LocationSearchProps {
   onClose: () => void;
-  onSelectLocation: (location: { name: string; address: string }) => void;
+  onSelectLocation: (location: {
+    name: string;
+    address: string;
+    latitude: number;
+    longitude: number;
+  }) => void;
 }
 
 interface Location {
   id: string;
   name: string;
   address: string;
+  latitude: number;
+  longitude: number;
 }
 
 const LocationSearch: React.FC<LocationSearchProps> = ({
@@ -47,7 +54,12 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
 
   // 장소 선택 시 부모 컴포넌트에 전달
   const handleSelectLocation = (location: Location) => {
-    onSelectLocation({ name: location.name, address: location.address });
+    onSelectLocation({
+      name: location.name,
+      address: location.address,
+      latitude: location.latitude,
+      longitude: location.longitude,
+    });
     onClose(); // 팝업 닫기
   };
 
@@ -84,10 +96,14 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
             id: string;
             place_name: string;
             road_address_name?: string;
+            x: string; // 경도 (longitude)
+            y: string; // 위도 (latitude)
           }) => ({
             id: place.id,
             name: place.place_name,
             address: place.road_address_name || '주소 정보 없음',
+            latitude: parseFloat(place.y),
+            longitude: parseFloat(place.x),
           }),
         );
 
