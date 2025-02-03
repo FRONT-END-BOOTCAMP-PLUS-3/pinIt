@@ -1,6 +1,6 @@
 import { browserClient } from '@/utils/supabase/client';
 
-export const uploadImageToSupabase = async (file: File): Promise<string> => {
+export const uploadImageToStorage = async (file: File): Promise<string> => {
   const supabase = await browserClient();
   const filePath = `uploads/${Date.now()}_${file.name.split('.').pop()}`; // ✅ 고유한 파일명 생성
 

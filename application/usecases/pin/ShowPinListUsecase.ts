@@ -9,7 +9,7 @@ const extractTwoWords = (address: string): string => {
 };
 
 // showPinList유즈케이스
-export const showPinList = async (
+export const showPinListUsecase = async (
   pinRepository: PinRepository,
   likeRepository: LikeRepository,
   userId: string,

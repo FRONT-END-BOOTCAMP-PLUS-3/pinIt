@@ -14,6 +14,13 @@ export class SbLikeRepository implements LikeRepository {
       throw new Error(error.message);
     }
 
-    return data || [];
+    // DB에서 받은 data를 사용하기 위해 카멜케이스로 변환
+    const formattedData = data.map((pin) => ({
+      userId: pin.user_id,
+      pinId: pin.pin_id,
+      createdAt: pin.created_at,
+    }));
+
+    return formattedData || [];
   }
 }
