@@ -19,10 +19,7 @@ export class SbChallengeTopicRepository implements ChallengeTopicRepository {
     const supabase = await createClient();
     const today = new Date().getTime();
 
-    const { data: challengeTopics, error } = await supabase
-      .from('challenge_topic')
-      .select('*');
-    // SQL 필터링 안댐 ㅜㅜ
+    const { data, error } = await supabase.from('challenge_topic').select('*');
     // .lte('end_date', today) // end_date <= today
     // .gte('start_date', today) // start_date >= today
     // .order('start_date', { ascending: false })
@@ -32,9 +29,18 @@ export class SbChallengeTopicRepository implements ChallengeTopicRepository {
       throw new Error(error.message);
     }
 
-    const ongoingChallenge = challengeTopics.find((topic) => {
-      const startTime = new Date(topic.start_date).getTime();
-      const endTime = new Date(topic.end_date).getTime();
+    const formattedData = data.map((challengeTopics) => ({
+      id: challengeTopics.id,
+      topic: challengeTopics.topic,
+      createAt: challengeTopics.create_at,
+      startDate: challengeTopics.start_date,
+      endDate: challengeTopics.end_date,
+      adminId: challengeTopics.admin_id,
+    }));
+
+    const ongoingChallenge = formattedData.find((data) => {
+      const startTime = new Date(data.startDate).getTime();
+      const endTime = new Date(data.endDate).getTime();
       return startTime <= today && today <= endTime;
     });
 

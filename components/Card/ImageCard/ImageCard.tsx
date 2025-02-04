@@ -23,6 +23,7 @@ const ImageCard = ({
         alt={alt}
         width={112}
         height={160}
+        priority
       />
     </Link>
   );
