@@ -1,6 +1,6 @@
 'use client';
 
-import styles from '../add.module.scss';
+import styles from '../pinForm.module.scss';
 
 interface TextAreaProps {
   value: string;

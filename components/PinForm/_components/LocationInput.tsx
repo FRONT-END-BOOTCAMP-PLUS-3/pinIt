@@ -2,7 +2,7 @@
 
 import React from 'react';
 import InputBox from '@/components/InputBox/InputBox/InputBox';
-import styles from '../add.module.scss';
+import styles from '../pinForm.module.scss';
 
 interface LocationInputProps {
   onClick: () => void;

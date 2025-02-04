@@ -65,7 +65,7 @@ const TitleSection: React.FC<{ title: TitleProps }> = ({ title }) => {
             {isMenuOpen && (
               <div className={styles.dropdownMenu}>
                 <button className={styles.menuItem}>
-                  <Icon id='write' width={20} color='#292526' /> 편집
+                  <Icon id='write' width={20} color='#292526' /> 수정
                 </button>
                 <button className={styles.menuItem} onClick={handleDelete}>
                   <Icon id='trash' width={20} color='#292526' /> 삭제
