@@ -1,6 +1,4 @@
-import { PinDetail } from '@/application/usecases/pin/dto/PinDetailDto';
-
-export const deletePin = async (pinId: string): Promise<PinDetail> => {
+export const deletePin = async (pinId: string): Promise<void> => {
   if (!pinId) {
     throw new Error('pinId가 필요합니다.');
   }
@@ -10,6 +8,7 @@ export const deletePin = async (pinId: string): Promise<PinDetail> => {
     headers: { 'Content-Type': 'application/json' },
   });
 
-  const result: PinDetail = await response.json();
-  return result;
+  if (!response.ok) {
+    throw new Error('❌ 핀 삭제 요청 실패');
+  }
 };

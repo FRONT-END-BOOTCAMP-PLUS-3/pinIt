@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Icon from '@/components/Icon/Icon';
 import styles from '../pinDetail.module.scss';
 import Confirmation from '@/components/Confirmation/Confirmation';
@@ -19,17 +20,27 @@ const TitleSection: React.FC<{ title: TitleProps }> = ({ title }) => {
   const formattedDate = title.captureDate.split('T')[0]; // YYYY-MM-DD 형식으로 변환
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [deletePopupOpen, setDeletePopupOpen] = useState(false);
+  const router = useRouter(); // Next.js 라우터
 
   const toggleMenu = () => setIsMenuOpen((prev) => !prev);
 
-  // 삭제 버튼 클릭 시 팝업 오픈
+  // 삭제 확인 모달 열기
   const handleDelete = () => {
     setDeletePopupOpen(true);
   };
 
-  // 모달 닫기 함수
-  const closeModal = () => {
-    setDeletePopupOpen(false);
+  // 삭제 실행
+  const handleConfirmDelete = async () => {
+    try {
+      await deletePin(title.pinId);
+      alert('✅ 핀이 성공적으로 삭제되었습니다.');
+      router.push('/'); // 삭제 성공 시 홈으로 이동
+    } catch (error) {
+      console.error('🚨 핀 삭제 실패:', error);
+      alert('❌ 핀 삭제에 실패했습니다.');
+    } finally {
+      setDeletePopupOpen(false);
+    }
   };
 
   return (
@@ -39,11 +50,8 @@ const TitleSection: React.FC<{ title: TitleProps }> = ({ title }) => {
         <Confirmation
           text='정말 삭제하시겠습니까?'
           opened={deletePopupOpen}
-          onClickConfirmation={() => {
-            deletePin(title.pinId);
-            closeModal();
-          }}
-          modalClose={closeModal}
+          onClickConfirmation={handleConfirmDelete}
+          modalClose={() => setDeletePopupOpen(false)}
         />
       )}
 
