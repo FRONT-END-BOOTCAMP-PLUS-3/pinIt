@@ -6,12 +6,10 @@ import TotalPin from './_components/TotalPin';
 
 const Home = () => {
   return (
-    <>
-      <div className={styles.homeContainer}>
-        <ThisWeekChallenge />
-        <TotalPin />
-      </div>
-    </>
+    <div className={styles.homeContainer}>
+      <ThisWeekChallenge />
+      <TotalPin />
+    </div>
   );
 };
 

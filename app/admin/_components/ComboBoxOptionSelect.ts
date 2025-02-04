@@ -21,13 +21,16 @@ interface ComboBoxOption {
 const ComboBoxOptionSelect = (options: ComboBoxOption[], OPTION_KEY: string) => {
   // localStorage에서 이전에 선택된 옵션의 index를 OPTION_KEY 매개변수를 통해 가져오기
   const savedOptionIndex = localStorage.getItem(OPTION_KEY);
+
   // localStorage에 저장된 키를 옵션 인덱스 값으로 지정(없으면 '0'으로 지정하고 OPTION_KEY로 키값 지정해서 localStorage에 저장)
   const initialSelectedOption = savedOptionIndex && !isNaN(parseInt(savedOptionIndex))
-    ? options[parseInt(savedOptionIndex)]
-    : options[0]; // 없으면 기본 첫 번째 옵션 설정
+    ? parseInt(savedOptionIndex)
+    : 0; // 없으면 기본 첫 번째 옵션 설정
+    const initialSelectedOptionIndex = initialSelectedOption;
 
   // 챌린지 주제에 맞는 리스트를 선택해서 보여주기 위한 설정 (useState로 옵션 값 저장 및 설정)
-  const [selectedOption, setSelectedOption] = useState<ComboBoxOption>(initialSelectedOption);
+  const [selectedOption, setSelectedOption] = useState<ComboBoxOption>(options[initialSelectedOption]);
+  const [selectedOptionIndex, setSelectedOptionIndex] = useState<number>(initialSelectedOptionIndex); // index 상태 추가
 
   /* 선택된 옵션이 변경될 때마다 localStorage에 저장 */
   const handleOptionSelect = 
@@ -35,12 +38,13 @@ const ComboBoxOptionSelect = (options: ComboBoxOption[], OPTION_KEY: string) => 
     (option: ComboBoxOption, index: number) => {
     // onSelect를 통해 option을 선택한 옵션의 내용으로 출력해준다.
     setSelectedOption(option);
+    setSelectedOptionIndex(index);
     // index를 localStorage에 저장(OPTION_KEY를 값에 대한 키로 함)
     localStorage.setItem(OPTION_KEY, index.toString());
   };
 
   // 함수 2개(옵션에 대한 데이터, 옵션의 index)를 export한다.
-  return { selectedOption, handleOptionSelect };
+  return { selectedOption, handleOptionSelect, selectedOptionIndex };
 }
 
 export default ComboBoxOptionSelect;
