@@ -7,13 +7,13 @@ import styles from '../home.module.scss';
 import { ShowPinList } from '@/application/usecases/pin/dto/ShowPinListDto';
 
 const TotalPin = () => {
-  const [imageData, setImageData] = useState<ShowPinList[]>([]);
+  const [pinData, setPinData] = useState<ShowPinList[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const data = await showPinList();
-        setImageData(data);
+        setPinData(data);
       } catch (error) {
         console.error('🚨 핀 데이터 불러오기 실패:', error);
       }
@@ -30,15 +30,16 @@ const TotalPin = () => {
       <div className={styles.totalPinContainer}>
         <h2 className={styles.title}>전체 핀</h2>
         <div className={styles.card_container}>
-          {imageData.map((img, idx) => {
+          {pinData.map((pin, idx) => {
             return (
               <PinCard
                 key={idx}
-                alt={img.placeName} // alt로 placeName 사용
-                url={img.image}
-                location={img.placeName}
-                address={img.address}
-                liked={img.isLiked}
+                id={pin.id}
+                alt={pin.placeName} // alt로 placeName 사용
+                url={pin.image}
+                location={pin.placeName}
+                address={pin.address}
+                liked={pin.isLiked}
                 onClickLikeButton={handleClick}
               />
             );

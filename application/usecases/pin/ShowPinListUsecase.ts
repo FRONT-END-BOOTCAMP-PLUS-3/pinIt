@@ -29,6 +29,7 @@ export const showPinListUsecase = async (
       (like) => like.pinId === pin.id && like.userId === userId,
     );
     return {
+      id: pin.id || ' ',
       placeName: pin.placeName,
       address: extractTwoWords(pin.address), // 두 단어만 유지
       image: pin.image,
