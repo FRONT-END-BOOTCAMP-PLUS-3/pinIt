@@ -28,6 +28,7 @@ const PinDetailPage: React.FC = () => {
     description: '',
     tags: [] as string[],
     hasPermission: false,
+    pinId: '',
   });
   const [address, setAddress] = useState('');
   const [map, setMap] = useState({ latitude: 0, longitude: 0 });
@@ -56,6 +57,7 @@ const PinDetailPage: React.FC = () => {
           description: data.description,
           tags: data.tags,
           hasPermission: data.hasPermission,
+          pinId: pinId,
         });
         setAddress(data.address);
         setMap({ latitude: data.latitude, longitude: data.longitude });
