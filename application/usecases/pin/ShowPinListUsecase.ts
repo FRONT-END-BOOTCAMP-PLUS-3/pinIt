@@ -1,6 +1,7 @@
 import { LikeRepository } from '@/domain/repositories/LikeRepository';
 import { PinRepository } from '@/domain/repositories/PinRepository';
 import { ShowPinList } from './dto/ShowPinListDto';
+import { getUserIdFromSupabase } from '@/utils/supabase/getUserIdFromSupabase';
 
 // 주소에서 두 단어만 추출하는 함수
 const extractTwoWords = (address: string): string => {
@@ -12,8 +13,10 @@ const extractTwoWords = (address: string): string => {
 export const showPinListUsecase = async (
   pinRepository: PinRepository,
   likeRepository: LikeRepository,
-  userId: string,
 ): Promise<ShowPinList[]> => {
+  // 사용자 아이디 받아오기
+  const userId = await getUserIdFromSupabase();
+
   // 모든 핀 리스트 가져오기
   const pins = await pinRepository.showPin();
 
@@ -26,6 +29,7 @@ export const showPinListUsecase = async (
       (like) => like.pinId === pin.id && like.userId === userId,
     );
     return {
+      id: pin.id || ' ',
       placeName: pin.placeName,
       address: extractTwoWords(pin.address), // 두 단어만 유지
       image: pin.image,

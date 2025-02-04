@@ -3,8 +3,10 @@
 import HeartIconButton from '@/components/Buttons/HeartIconButton';
 import style from '@/components/Card/PinCard/PinCard.module.scss';
 import Image from 'next/image';
+import Link from 'next/link';
 
 const PinCard = ({
+  id,
   url = '/default_image.png',
   alt,
   location,
@@ -12,6 +14,7 @@ const PinCard = ({
   liked,
   onClickLikeButton,
 }: {
+  id: string;
   url?: string;
   alt: string;
   location: string;
@@ -20,7 +23,7 @@ const PinCard = ({
   onClickLikeButton: React.MouseEventHandler;
 }) => {
   return (
-    <div className={style.PinCard}>
+    <Link href={`/${id}`} passHref className={style.PinCard}>
       <div className={style.image_wrapper}>
         <Image
           className={style.image}
@@ -51,7 +54,7 @@ const PinCard = ({
           />
         )}
       </div>
-    </div>
+    </Link>
   );
 };
 
