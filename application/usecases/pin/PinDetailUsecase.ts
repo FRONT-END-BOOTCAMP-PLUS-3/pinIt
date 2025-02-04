@@ -29,9 +29,11 @@ export const pinDetailUsecase = async (
   // userId의 정보 가져오기
   const userProfile = await userRepository.getUserById(pin.userId);
 
-  // 편집/삭제 권한 여부 판단 (핀 작성자 == 로그인된 유저 아이디)
+  const loggedinId = await userRepository.getUserById(userId);
+
+  // 편집/삭제 권한 여부 판단 (핀 작성자 == 로그인된 유저 아이디 혹은 로그인된 유저 아이디가 관리자거나)
   const hasPermission =
-    userProfile?.id === userId || Boolean(userProfile?.admin);
+    userProfile?.id === userId || Boolean(loggedinId?.admin);
 
   // 상세 정보 반환
   return {
