@@ -5,23 +5,29 @@ import styles from '../home.module.scss';
 import ImageCard from '@/components/Card/ImageCard/ImageCard';
 import Link from 'next/link';
 import ROUTES from '@/constants/routes';
+import { useEffect, useState } from 'react';
+import { ThisWeekChallengedPinListDto } from '@/application/usecases/challenge/dto/ThisWeekChallengedPinListDto';
 
 const ThisWeekChallenge = () => {
-  const pinIdData = 'pin-id';
-  const imageData = [
-    {
-      id: 1,
-      title: 'Image 1',
-      imageUrl: '/headerLogo.png',
-    },
-    { id: 2, title: 'Image 2', imageUrl: '/headerLogo.png' },
-    { id: 3, title: 'Image 3', imageUrl: '/headerLogo.png' },
-    { id: 4, title: 'Image 4', imageUrl: '/headerLogo.png' },
-    { id: 5, title: 'Image 5', imageUrl: '/headerLogo.png' },
-  ];
+  const [thisWeekChallengedPinList, setThisWeekChallengedPinList] =
+    useState<ThisWeekChallengedPinListDto | null>(null);
+
+  useEffect(() => {
+    async function fetchThisWeekChallengedPinList() {
+      const response = await fetch('/api/fetch-this-week-challenged-pin-list');
+      if (!response.ok) {
+        console.log('이번 주 챌린지 주제가 없습니다.');
+        return null;
+      }
+      const data = await response.json();
+      setThisWeekChallengedPinList(data);
+    }
+
+    fetchThisWeekChallengedPinList();
+  }, []);
 
   const handleClick = () => {
-    console.log('h');
+    console.log('이번주 주제에 참여한 핀 리스트로 가기');
   };
   return (
     <>
@@ -34,13 +40,13 @@ const ThisWeekChallenge = () => {
         </div>
         <div className={styles.challengeContainer}>
           <div className={styles.imageCardContainer}>
-            {imageData.map((img) => {
+            {thisWeekChallengedPinList?.pins.map((pin) => {
               return (
                 <ImageCard
-                  key={img.id}
-                  alt={img.title}
-                  url={img.imageUrl}
-                  pinId={pinIdData}
+                  key={pin.id}
+                  alt={pin.placeName}
+                  url={pin.image}
+                  pinId={pin.id!}
                 />
               );
             })}
