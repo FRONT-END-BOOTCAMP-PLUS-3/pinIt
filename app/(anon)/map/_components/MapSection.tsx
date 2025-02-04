@@ -9,6 +9,13 @@ const MapSection = () => {
   const [keyword, setKeyword] = useState(''); // 입력된 검색 키워드
   const [locations, setLocations] = useState<Location[]>([]); // 검색 결과 리스트
 
+  const lists = [
+    { id: 1, name: '서울', address: '잠실' },
+    { id: 2, name: '서울', address: '강남' },
+    { id: 3, name: '서울', address: '홍대' },
+    { id: 4, name: '서울', address: '동대문' },
+  ];
+
   // 장소 검색 함수 (Kakao Map API 사용)
   const fetchLocations = async (keyword: string) => {
     if (!keyword) return;
@@ -80,7 +87,18 @@ const MapSection = () => {
           value={keyword}
           onChange={(e) => setKeyword(e.target.value)}
         />
-        <div>검색결과</div>
+        <ul
+          className={`${styles.searchDrop} ${lists.length > 0 ? '' : styles.hidden}`}
+        >
+          {lists.map((list) => {
+            return (
+              <li key={list.id} className={styles.locationItem}>
+                <strong className={styles.locationName}>{list.name}</strong>
+                <p className={styles.locationAddress}>{list.address}</p>
+              </li>
+            );
+          })}
+        </ul>
       </div>
       <ViewMap searchList={setLocations} />
     </div>
