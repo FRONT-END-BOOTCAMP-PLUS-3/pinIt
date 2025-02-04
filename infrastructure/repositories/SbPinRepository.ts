@@ -54,4 +54,32 @@ export class SbPinRepository implements PinRepository {
 
     return formattedData || [];
   }
+  async getPinById(pinId: string): Promise<Pin> {
+    const supabase = await createClient();
+    const { data, error } = await supabase
+      .from('pin')
+      .select('*')
+      .eq('id', pinId)
+      .single(); // 단일 데이터 조회
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    // DB에서 받은 데이터를 카멜케이스로 변환하여 반환
+    return {
+      id: data.id,
+      placeName: data.place_name,
+      captureDate: data.capture_date,
+      address: data.address,
+      latitude: data.latitude,
+      longitude: data.longitude,
+      tags: data.tags,
+      description: data.description,
+      image: data.image,
+      countLike: data.count_like,
+      createAt: data.create_at,
+      userId: data.user_id,
+    };
+  }
 }

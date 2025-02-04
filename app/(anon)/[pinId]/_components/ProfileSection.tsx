@@ -1,29 +1,40 @@
+'use client';
+
 import styles from '../pinDetail.module.scss';
 import HeartIconButton from '@/components/Buttons/HeartIconButton';
 
-const ProfileSection: React.FC = () => {
+interface ProfileProps {
+  nickname: string;
+  profileImg: string;
+  isLiked: boolean;
+  countLike: number;
+}
+
+const ProfileSection: React.FC<{ profile: ProfileProps }> = ({ profile }) => {
   const handleLikeButtonClick = () => {
     console.log('Like button clicked');
-    // 여기서 좋아요 상태를 관리하는 로직 추가
+    // 좋아요 상태 관리 로직 추가 가능
   };
 
   return (
     <div className={styles.profileSection}>
       <div className={styles.profile}>
-        <span className={styles.profileImage}></span>
-        <span className={styles.profileName}>안녕하세요</span>
+        <span className={styles.profileImage}>
+          <img src={profile.profileImg} alt='프로필 이미지' />
+        </span>
+        <span className={styles.profileName}>{profile.nickname}</span>
       </div>
       <div className={styles.likeInfo}>
         <span className={styles.likeButton}>
           <HeartIconButton
             heartColor={'#292526'}
-            liked={false}
+            liked={profile.isLiked}
             w={20}
             h={20}
             onClickLikeButton={handleLikeButtonClick}
           />
         </span>
-        <span>128</span>
+        <span>{profile.countLike}</span>
       </div>
     </div>
   );
