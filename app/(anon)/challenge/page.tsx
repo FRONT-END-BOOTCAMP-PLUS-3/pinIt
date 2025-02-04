@@ -74,6 +74,7 @@ const Challenge = () => {
         {data?.map((item) => (
           <PinCard
             key={item.id}
+            id={item.id}
             url={item.url}
             alt={item.location}
             location={item.location}
