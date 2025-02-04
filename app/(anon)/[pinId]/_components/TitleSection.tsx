@@ -34,7 +34,7 @@ const TitleSection: React.FC<{ title: TitleProps }> = ({ title }) => {
     try {
       await deletePin(title.pinId);
       alert('✅ 핀이 성공적으로 삭제되었습니다.');
-      router.push('/'); // 삭제 성공 시 홈으로 이동
+      router.back(); // 삭제 성공 시 홈으로 이동
     } catch (error) {
       console.error('🚨 핀 삭제 실패:', error);
       alert('❌ 핀 삭제에 실패했습니다.');
