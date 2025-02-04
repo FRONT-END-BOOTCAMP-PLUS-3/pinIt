@@ -29,10 +29,15 @@ export const pinDetailUsecase = async (
   // userId의 정보 가져오기
   const userProfile = await userRepository.getUserById(pin.userId);
 
+  // 편집/삭제 권한 여부 판단 (핀 작성자 == 로그인된 유저 아이디)
+  const hasPermission =
+    userProfile?.id === userId || Boolean(userProfile?.admin);
+
   // 상세 정보 반환
   return {
     image: pin.image,
     nickname: userProfile?.nickname || '사용자',
+    userId: userProfile?.id || '',
     profileImg: userProfile?.profileImg || '/default-profile-img.jpg', // userId의 프로필 이미지
     isLiked: isLiked,
     countLike: pin.countLike ?? 0, // null이면 0으로 설정
@@ -43,5 +48,6 @@ export const pinDetailUsecase = async (
     address: pin.address,
     latitude: pin.latitude,
     longitude: pin.longitude,
+    hasPermission: hasPermission,
   };
 };
