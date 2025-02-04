@@ -17,6 +17,7 @@ const PinDetailPage: React.FC = () => {
   const [pinImage, setPinImage] = useState<string>('/logo_main.png');
   const [profile, setProfile] = useState({
     nickname: '',
+    userId: '',
     profileImg: '/default-profile-img.jpg',
     isLiked: false,
     countLike: 0,
@@ -26,6 +27,8 @@ const PinDetailPage: React.FC = () => {
     captureDate: '',
     description: '',
     tags: [] as string[],
+    hasPermission: false,
+    pinId: '',
   });
   const [address, setAddress] = useState('');
   const [map, setMap] = useState({ latitude: 0, longitude: 0 });
@@ -43,6 +46,7 @@ const PinDetailPage: React.FC = () => {
         setPinImage(data.image);
         setProfile({
           nickname: data.nickname,
+          userId: data.userId,
           profileImg: data.profileImg,
           isLiked: data.isLiked,
           countLike: data.countLike,
@@ -52,6 +56,8 @@ const PinDetailPage: React.FC = () => {
           captureDate: new Date(data.captureDate).toISOString(),
           description: data.description,
           tags: data.tags,
+          hasPermission: data.hasPermission,
+          pinId: pinId,
         });
         setAddress(data.address);
         setMap({ latitude: data.latitude, longitude: data.longitude });
