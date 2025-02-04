@@ -4,7 +4,7 @@ import { DeletePin } from '@/application/usecases/pin/dto/DeletePinDto';
 import { getUserIdFromSupabase } from '@/utils/supabase/getUserIdFromSupabase';
 
 // pinId로 삭제하기
-export const pinDetailUsecase = async (
+export const deletePinUsecase = async (
   pinRepository: PinRepository,
   userRepository: UserRepository,
   pinId: string, // 삭제할 핀 ID 받아오기
