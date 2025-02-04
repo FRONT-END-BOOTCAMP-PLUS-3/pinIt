@@ -1,14 +1,15 @@
 .input_box {
   width: 100%;
+  border-bottom: 1px solid $input-before;
 
   input {
     width: 100%;
-    padding: 10px 0px;
+    padding-top: 10px;
+    padding-bottom: 10px;
     background-color: transparent;
     -webkit-tap-highlight-color: transparent;
     box-shadow: none;
     border: none;
-    border-bottom: 1px solid $input-before;
     outline: none;
 
     &:focus {
@@ -23,6 +24,23 @@
     &:hover {
       border-color: $main-black-1;
       border-width: $border-width-thin;
+    }
+  }
+
+  &.iconAdded {
+    input {
+      width: calc(100% - 30px);
+    }
+
+    button {
+      line-height: 10px;
+      position: absolute;
+      transform: translateY(4px);
+      background-color: $bg-white;
+  
+      &:hover {
+        background-color: $bg-white;
+      }
     }
   }
 }

@@ -1,5 +1,6 @@
 .navigation {
   display: flex;
+  position: relative;
   flex-flow: row nowrap;
   justify-content: space-between;
   align-items: center;
@@ -128,6 +129,43 @@
     &:hover {
       background-color: $main-black-4;
     }
+  }
+
+  input[type='checkbox'] {
+    -webkit-appearance: auto;
+    -moz-appearance: auto;
+    appearance: auto;
+  }
+}
+
+
+
+
+.searchbox {
+  >div {
+    padding: 6px 0;
+  }
+
+  input {
+    padding-bottom: 6px !important;
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+
+  button {transform: translate(-8px,4px) !important;}
+}
+
+.sortbox {
+  padding: 10px 0;
+  border-bottom: 1px solid $main-black-3;
+  text-align: center;
+
+  li {
+    display: inline-block;
+    margin-left: 10px;
+
+    &:first-child {margin-left: 0; }
+    button { padding: 4px 20px 6px; }
   }
 }
 

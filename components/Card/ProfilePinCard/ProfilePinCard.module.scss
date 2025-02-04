@@ -1,5 +1,66 @@
 .MyPinCard {
-  @include card;
+  // @include card;
+  
+  /* card 공통설정 시작 */
+  display: flex;
+  flex-flow: column;
+  position: relative;
+  flex: 0 1 calc(100% / 3 - 0.5rem);
+  
+  .image_wrapper {
+    width: 100%;
+    min-width: 108px;
+    height: 0;
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+    padding-top: calc(160 / 108 * 100%);
+
+    .image {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  .text {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: baseline;
+    gap: 2px;
+    padding: 4px 4px 0;
+
+    .location {
+      width: 100%;
+      font-size: 16px;
+      font-weight: 500;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    .address {
+      font-size: 12px;
+      color: #787676;
+    }
+  }
+
+  .icon {
+    background-color: transparent;
+    position: absolute;
+    top: calc(0.5rem);
+    right: calc(0.75rem);
+    z-index: 99;
+    cursor: pointer;
+  }
+
+  @media (min-width: 520px) {
+    flex: 0 1 calc(100% / 4 - 0.6rem);
+  }
+  /* card 공통설정 끝 */
+
 
   &.Selected {
     border-radius: $border-radius-medium;
