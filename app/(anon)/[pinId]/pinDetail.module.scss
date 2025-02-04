@@ -59,8 +59,63 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
+  .titleContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; // 양쪽 정렬 (좌: 제목, 우: 메뉴)
+    width: 100%;
+    position: relative;
+    overflow: visible;
+  }
+
   .pinTitle {
     font-size: $font-size-xxlarge;
+    white-space: nowrap; // 텍스트 한 줄 유지
+    overflow: hidden; // 넘칠 경우 숨김
+    text-overflow: ellipsis; // 말줄임표 적용
+    flex: 1; // 가능한 최대 공간을 차지
+    min-width: 0; // flex 속성일 때 ellipsis 적용 보장
+  }
+
+  .menuWrapper {
+    position: relative;
+    display: inline-block;
+  }
+
+  .menu {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+  }
+
+  .dropdownMenu {
+    position: absolute;
+    top: 24px; // 아이콘 아래 배치
+    right: 0;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
+    display: flex;
+    flex-direction: column;
+    min-width: 100px;
+    z-index: 999;
+  }
+
+  .menuItem {
+    background: none;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 12px;
+    gap: 10px;
+    cursor: pointer;
+    text-align: left;
+    width: 100%;
+    &:hover {
+      background: #f5f5f5;
+    }
   }
   .pinDate {
     font-size: $font-size-medium;
