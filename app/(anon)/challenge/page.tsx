@@ -5,39 +5,19 @@ import PinCard from '@/components/Card/PinCard/PinCard';
 import ComboBox, { ComboBoxOption } from './_component/ComboBox';
 import { ChallengeTopic } from '@/domain/entities/ChallengeTopic';
 import { useEffect, useState } from 'react';
-
-interface PinCardData {
-  id: string;
-  url: string;
-  location: string;
-  address: string;
-  clicked: boolean;
-}
+import { ShowPinList } from '@/application/usecases/pin/dto/ShowPinListDto';
 
 const Challenge = () => {
-  const data: PinCardData[] = [
-    {
-      id: 'dfeqf',
-      url: '/default_image.png',
-      location: '남산타워',
-      address: '서울시 용산구',
-      clicked: false,
-    },
-    {
-      id: 'afad0f1',
-      url: '/default_image.png',
-      location: '남산타워',
-      address: '서울시 용산구',
-      clicked: true,
-    },
-  ];
-
   const [challengeTopicList, setChallengeTopicList] = useState<
     ChallengeTopic[]
   >([]);
-  const [comboBoxOptions, setComboBoxOptions] = useState<ComboBoxOption[]>();
-  const [selectedOption, setSelectedOption] = useState<ComboBoxOption>();
+  const [comboBoxOptions, setComboBoxOptions] = useState<ComboBoxOption[]>([]);
+  const [selectedOption, setSelectedOption] = useState<ComboBoxOption | null>(
+    null,
+  );
+  const [challengedPinData, setChallengedPinData] = useState<ShowPinList[]>([]);
 
+  // 챌린지 주제 리스트 가져오기
   useEffect(() => {
     async function fetchChallengeTopicList() {
       const response = await fetch('/api/challenge-topic-list');
@@ -53,8 +33,10 @@ const Challenge = () => {
     fetchChallengeTopicList();
   }, []);
 
+  // 챌린지 주제 콤보박스의 옵션 변경
   useEffect(() => {
     const formattedData = challengeTopicList.map((challengeTopic) => ({
+      id: challengeTopic.id,
       topic: challengeTopic.topic,
       startDate: challengeTopic.startDate,
       endDate: challengeTopic.endDate,
@@ -62,6 +44,29 @@ const Challenge = () => {
 
     setComboBoxOptions(formattedData);
   }, [challengeTopicList]);
+
+  // 선택된 챌린지 주제의 핀 리스트 가져오기
+  useEffect(() => {
+    async function fetchChallengedPinList() {
+      const response = await fetch('/api/show-challenged-pin-list', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+
+        body: JSON.stringify({ id: selectedOption?.id }),
+      });
+
+      if (!response.ok) {
+        console.log('해당 챌린지에 참여 중인 핀이 없습니다.');
+        setChallengedPinData([]);
+        return;
+      }
+
+      const data = await response.json();
+      setChallengedPinData(data);
+    }
+
+    fetchChallengedPinList();
+  }, [selectedOption]);
 
   return (
     <div className={style.Challenge}>
@@ -73,16 +78,15 @@ const Challenge = () => {
         />
       </div>
       <div className={style.pinCard_container}>
-        {data?.map((item) => (
+        {challengedPinData?.map((challengedPin) => (
           <PinCard
-            id={item.id}
-            key={item.id}
-            id={item.id}
-            url={item.url}
-            alt={item.location}
-            location={item.location}
-            address={item.address}
-            liked={item.clicked}
+            id={challengedPin.id}
+            key={challengedPin.id}
+            url={challengedPin.image}
+            alt={challengedPin.placeName}
+            location={challengedPin.placeName}
+            address={challengedPin.address}
+            liked={challengedPin.isLiked}
             onClickLikeButton={() => {
               console.log('클릭');
             }}
