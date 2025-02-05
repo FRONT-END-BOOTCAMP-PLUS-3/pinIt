@@ -22,7 +22,17 @@ interface ComboBoxProps {
 
 const ComboBox: React.FC<ComboBoxProps> = ({ options, onSelect, sub = false, localStorageKey }) => {
     // localStorage에서 저장된 selectedOptionIndex 가져오기
-    const savedOptionIndex = localStorage.getItem(localStorageKey);
+
+    // localStorage는 클라이언트 환경에서만 존재하며, 서버에서 렌더링할 때는 window 객체가 없으므로 사용할 수 없다.
+    // 따라서 useEffect를 사용해 클라이언트에서만 localStorage 접근
+    // useState로 setter 함수 통해서 저장함
+    const [savedOptionIndex, setSavedOptionIndex] = useState<string | null>(null);
+
+    useEffect(() => {
+        if (typeof window !== "undefined") {
+            setSavedOptionIndex(localStorage.getItem(localStorageKey));
+        }
+    }, [localStorageKey]);
 
     // 초기 선택 상태 설정
     const initialSelectedOption = savedOptionIndex && !isNaN(parseInt(savedOptionIndex))
