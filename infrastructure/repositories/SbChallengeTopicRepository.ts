@@ -5,14 +5,24 @@ import { createClient } from '@/utils/supabase/server';
 export class SbChallengeTopicRepository implements ChallengeTopicRepository {
   async findAll(): Promise<ChallengeTopic[]> {
     const supabase = await createClient();
-    const { data: challengeTopics, error } = await supabase
+    const { data, error } = await supabase
       .from('challenge_topic')
-      .select('*');
+      .select('*')
+      .order('start_date', { ascending: false });
 
     if (error) {
       throw new Error(error.message);
     }
-    return challengeTopics as ChallengeTopic[];
+
+    const formattedData = data.map((challengeTopic) => ({
+      id: challengeTopic.id,
+      topic: challengeTopic.topic,
+      createAt: challengeTopic.create_at,
+      startDate: challengeTopic.start_date,
+      endDate: challengeTopic.end_date,
+      adminId: challengeTopic.admin_id,
+    }));
+    return formattedData || [];
   }
 
   async findThisWeekChallengeTopic(): Promise<ChallengeTopic | null> {
