@@ -18,10 +18,21 @@ const LocationTab: React.FC<{ keyword: string }> = ({ keyword }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // ✅ sessionStorage에서 기존 검색 결과 로드
+    const savedPins = sessionStorage.getItem('searchedPins');
+    if (savedPins) {
+      setPins(JSON.parse(savedPins));
+      setLoading(false);
+    }
+
     const fetchPins = async () => {
       setLoading(true);
       const fetchedPins = await searchPinByLocation(keyword);
       setPins(fetchedPins);
+
+      // ✅ 검색 결과를 sessionStorage에 저장
+      sessionStorage.setItem('searchedPins', JSON.stringify(fetchedPins));
+      sessionStorage.setItem('searchedKeyword', keyword);
       setLoading(false);
     };
 
