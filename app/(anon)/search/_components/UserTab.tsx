@@ -24,7 +24,7 @@ const UserTab: React.FC = () => {
   return (
     <div className={styles.userTabContainer}>
       <ul className={styles.userList}>
-        {users.map(({ name, profileImg }) => (
+        {users.map(({ name }) => (
           <li key={name} className={styles.userItem}>
             <div className={styles.profileImg}></div>
             <span className={styles.userName}>{name}</span>
