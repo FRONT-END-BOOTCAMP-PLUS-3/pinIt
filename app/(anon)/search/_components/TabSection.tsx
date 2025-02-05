@@ -2,13 +2,14 @@
 import LocationTab from './LocationTab';
 import UserTab from './UserTab';
 
-const TabSection: React.FC<{ activeTab: 'location' | 'user' }> = ({
-  activeTab,
-}) => {
+const TabSection: React.FC<{
+  activeTab: 'location' | 'user';
+  keyword: string;
+}> = ({ activeTab, keyword }) => {
   return (
     <div>
-      {activeTab === 'location' && <LocationTab />}
-      {activeTab === 'user' && <UserTab />}
+      {activeTab === 'location' && <LocationTab keyword={keyword} />}
+      {activeTab === 'user' && <UserTab keyword={keyword} />}
     </div>
   );
 };

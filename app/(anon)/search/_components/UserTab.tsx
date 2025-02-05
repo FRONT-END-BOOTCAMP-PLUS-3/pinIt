@@ -20,7 +20,7 @@ const users = [
   { name: '닉네임', profileImg: 'https://via.placeholder.com/100' },
 ];
 
-const UserTab: React.FC = () => {
+const UserTab: React.FC<{ keyword: string }> = ({ keyword }) => {
   return (
     <div className={styles.userTabContainer}>
       <ul className={styles.userList}>
