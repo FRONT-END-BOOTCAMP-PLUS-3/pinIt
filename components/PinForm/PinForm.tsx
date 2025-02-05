@@ -80,6 +80,17 @@ const PinForm: React.FC<PinFormProps> = ({
     }
   }, []);
 
+  useEffect(() => {
+    if (initialData) {
+      setSelectedLocation({
+        name: initialData.placeName,
+        address: initialData.address,
+        latitude: initialData.latitude,
+        longitude: initialData.longitude,
+      });
+    }
+  }, [initialData]); // initialData 변경 시 selectedLocation 업데이트
+
   // 저장하기 버튼 클릭 시,
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -137,6 +148,7 @@ const PinForm: React.FC<PinFormProps> = ({
         <TextArea value={description} onChange={setDescription} />
       </div>
       <LocationInput
+        key={selectedLocation ? selectedLocation.name : 'default'}
         onClick={handleLocationInputClick}
         selectedLocation={selectedLocation}
       />

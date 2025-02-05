@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import Icon from '@/components/Icon/Icon';
 import styles from '../pinDetail.module.scss';
 import Confirmation from '@/components/Confirmation/Confirmation';
@@ -23,6 +23,11 @@ const TitleSection: React.FC<{ title: TitleProps }> = ({ title }) => {
   const router = useRouter(); // Next.js 라우터
 
   const toggleMenu = () => setIsMenuOpen((prev) => !prev);
+
+  const pathname = usePathname(); // 현재 경로 가져오기
+  const handleEdit = () => {
+    router.push(`${pathname}/edit`); // 현재 경로 뒤에 '/edit' 추가하여 이동
+  };
 
   // 삭제 확인 모달 열기
   const handleDelete = () => {
@@ -64,7 +69,7 @@ const TitleSection: React.FC<{ title: TitleProps }> = ({ title }) => {
             </span>
             {isMenuOpen && (
               <div className={styles.dropdownMenu}>
-                <button className={styles.menuItem}>
+                <button className={styles.menuItem} onClick={handleEdit}>
                   <Icon id='write' width={20} color='#292526' /> 수정
                 </button>
                 <button className={styles.menuItem} onClick={handleDelete}>
