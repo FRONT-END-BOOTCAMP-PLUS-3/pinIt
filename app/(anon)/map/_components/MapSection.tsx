@@ -3,18 +3,49 @@
 import ViewMap from './ViewMap';
 import styles from '../ViewMap.module.scss';
 import SearchInput from '@/components/InputBox/SearchInput/SearchInput';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import MapSearchList from './MapSearchList';
+
+export interface Location {
+  id: string;
+  name: string;
+  address: string;
+  latitude: number;
+  longitude: number;
+}
 
 const MapSection = () => {
+  const [isLocationSearchVisible, setIsLocationSearchVisible] = useState(false);
   const [keyword, setKeyword] = useState(''); // 입력된 검색 키워드
   const [locations, setLocations] = useState<Location[]>([]); // 검색 결과 리스트
+  const searchBoxRef = useRef<HTMLDivElement>(null); // searchBox 참조 생성
 
-  const lists = [
-    { id: 1, name: '서울', address: '잠실' },
-    { id: 2, name: '서울', address: '강남' },
-    { id: 3, name: '서울', address: '홍대' },
-    { id: 4, name: '서울', address: '동대문' },
-  ];
+  // useCallback을 사용하여 함수가 매 렌더링마다 재생성되지 않도록 설정
+  const handleCloseLocationSearch = useCallback(() => {
+    setIsLocationSearchVisible(false);
+  }, []);
+
+  const handleSelectLocation = () => {
+    setIsLocationSearchVisible(false);
+  };
+
+  // 외부 클릭 감지 이벤트 등록
+  useEffect(() => {
+    const handleOutsideClick = (event: MouseEvent) => {
+      if (
+        searchBoxRef.current &&
+        !searchBoxRef.current.contains(event.target as Node)
+      ) {
+        handleCloseLocationSearch(); // 외부 클릭 시 팝업 닫기
+      }
+    };
+
+    document.addEventListener('mousedown', handleOutsideClick);
+
+    return () => {
+      document.removeEventListener('mousedown', handleOutsideClick);
+    };
+  }, [handleCloseLocationSearch]);
 
   // 장소 검색 함수 (Kakao Map API 사용)
   const fetchLocations = async (keyword: string) => {
@@ -71,36 +102,35 @@ const MapSection = () => {
     }
   };
 
-  // 키워드 변경 시 fetchLocations 호출
   useEffect(() => {
-    const debounce = setTimeout(() => {
-      fetchLocations(keyword);
-    }, 300); // 입력 후 300ms 지연
+    if (keyword.trim() !== '') {
+      setIsLocationSearchVisible(true); // 검색어가 입력되면 리스트 보이도록 설정
+      const debounce = setTimeout(() => {
+        fetchLocations(keyword);
+      }, 300); // 300ms 지연
 
-    return () => clearTimeout(debounce); // 이전 타이머 정리
+      return () => clearTimeout(debounce); // 이전 타이머 정리
+    } else {
+      setIsLocationSearchVisible(false); // 검색어가 없으면 리스트 숨김
+    }
   }, [keyword]);
 
   return (
     <div className={styles.mapContainer}>
-      <div className={styles.searchInput}>
+      <div className={styles.searchInput} ref={searchBoxRef}>
         <SearchInput
           value={keyword}
           onChange={(e) => setKeyword(e.target.value)}
         />
-        <ul
-          className={`${styles.searchDrop} ${lists.length > 0 ? '' : styles.hidden}`}
-        >
-          {lists.map((list) => {
-            return (
-              <li key={list.id} className={styles.locationItem}>
-                <strong className={styles.locationName}>{list.name}</strong>
-                <p className={styles.locationAddress}>{list.address}</p>
-              </li>
-            );
-          })}
-        </ul>
+        {isLocationSearchVisible && (
+          <MapSearchList
+            searchList={locations}
+            onClose={handleCloseLocationSearch}
+            onSelectLocation={handleSelectLocation}
+          />
+        )}
       </div>
-      <ViewMap searchList={setLocations} />
+      <ViewMap />
     </div>
   );
 };
