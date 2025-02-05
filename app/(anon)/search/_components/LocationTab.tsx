@@ -3,7 +3,8 @@
 import { useEffect, useState } from 'react';
 import styles from '../searchPage.module.scss';
 import PinCard from '@/components/Card/PinCard/PinCard';
-import { searchPinByLocation } from '../_api/searchPinByLocation'; // API 함수 가져오기
+import { searchPinByLocation } from '../_api/searchPinByLocation';
+import Icon from '@/components/Icon/Icon';
 
 const LocationTab: React.FC<{ keyword: string }> = ({ keyword }) => {
   const [pins, setPins] = useState<
@@ -18,7 +19,6 @@ const LocationTab: React.FC<{ keyword: string }> = ({ keyword }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // ✅ sessionStorage에서 기존 검색 결과 로드
     const savedPins = sessionStorage.getItem('searchedPins');
     if (savedPins) {
       setPins(JSON.parse(savedPins));
@@ -29,8 +29,6 @@ const LocationTab: React.FC<{ keyword: string }> = ({ keyword }) => {
       setLoading(true);
       const fetchedPins = await searchPinByLocation(keyword);
       setPins(fetchedPins);
-
-      // ✅ 검색 결과를 sessionStorage에 저장
       sessionStorage.setItem('searchedPins', JSON.stringify(fetchedPins));
       sessionStorage.setItem('searchedKeyword', keyword);
       setLoading(false);
@@ -39,31 +37,32 @@ const LocationTab: React.FC<{ keyword: string }> = ({ keyword }) => {
     if (keyword.trim()) {
       fetchPins();
     }
-  }, [keyword]); // 키워드 변경 시 API 호출
+  }, [keyword]);
 
   return (
     <div className={styles.locationTabContainer}>
       {loading ? (
-        <p>검색어를 입력하세요.</p>
-      ) : (
+        <p className={styles.searchMessage}>검색어를 입력하세요.</p>
+      ) : pins.length > 0 ? (
         <div className={styles.pinCard_container}>
-          {pins.length > 0 ? (
-            pins.map((item) => (
-              <PinCard
-                key={item.id}
-                id={item.id}
-                url={item.url}
-                alt={item.location}
-                location={item.location}
-                address={item.address}
-                liked={item.clicked}
-                onClickLikeButton={() => console.log('클릭')}
-              />
-            ))
-          ) : (
-            <p>검색 결과가 없습니다.</p>
-          )}
+          {pins.map((item) => (
+            <PinCard
+              key={item.id}
+              id={item.id}
+              url={item.url}
+              alt={item.location}
+              location={item.location}
+              address={item.address}
+              liked={item.clicked}
+              onClickLikeButton={() => console.log('클릭')}
+            />
+          ))}
         </div>
+      ) : (
+        <p className={styles.searchMessage}>
+          <Icon id='banned' width={20} height={20} color='#777' /> 검색된 장소가
+          없습니다.
+        </p>
       )}
     </div>
   );

@@ -61,6 +61,7 @@
   align-items: center;
   flex-direction: column;
   width: 100%;
+  margin-top: 16px;
 
   .userList {
     display: block; /* 세로 리스트로 설정 */
@@ -112,5 +113,21 @@
         color: #666;
       }
     }
+  }
+}
+
+.searchMessage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+  color: #777;
+  padding: 8px 0;
+  gap: 8px;
+  background-color: transparent;
+
+  .icon {
+    width: 18px;
+    height: 18px;
   }
 }
