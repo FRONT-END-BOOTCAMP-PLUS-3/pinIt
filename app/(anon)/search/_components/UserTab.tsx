@@ -7,7 +7,7 @@ import { searchPinByUser } from '../_api/searchPinByUser';
 
 const UserTab: React.FC<{ keyword: string }> = ({ keyword }) => {
   const [users, setUsers] = useState<
-    { id: string; name: string; profileImg: string }[]
+    { id: string; nickname: string; profileImg: string }[]
   >([]);
   const [loading, setLoading] = useState(true);
 
@@ -32,14 +32,17 @@ const UserTab: React.FC<{ keyword: string }> = ({ keyword }) => {
         <ul className={styles.userList}>
           {users.length > 0 ? (
             users.map((user) => (
-              <li key={user.id} className={styles.userItem}>
-                <Link href={`/profile/${user.id}`}>
-                  <div className={styles.profileImg}>
-                    <img src={user.profileImg} alt='프로필 이미지' />
-                  </div>
-                  <span className={styles.userName}>{user.name}</span>
-                </Link>
-              </li>
+              <Link href={`/profile/${user.id}`} key={user.id}>
+                <li className={styles.userItem}>
+                  <img
+                    className={styles.profileImg}
+                    src={user.profileImg}
+                    alt='프로필 이미지'
+                  />
+
+                  <span className={styles.userName}>{user.nickname}</span>
+                </li>
+              </Link>
             ))
           ) : (
             <p>검색된 사용자가 없습니다.</p>

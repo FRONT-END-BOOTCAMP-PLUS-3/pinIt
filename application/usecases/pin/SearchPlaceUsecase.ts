@@ -10,7 +10,7 @@ const extractTwoWords = (address: string): string => {
 };
 
 // Search 유즈케이스 (키워드 검색 적용)
-export const SearchUsecase = async (
+export const searchPlaceUsecase = async (
   pinRepository: PinRepository,
   likeRepository: LikeRepository,
   keyword: string, // 검색 키워드 추가

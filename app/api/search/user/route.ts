@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { searchPlaceUsecase } from '@/application/usecases/pin/SearchPlaceUsecase';
-import { SbPinRepository } from '@/infrastructure/repositories/SbPinRepository';
-import { SbLikeRepository } from '@/infrastructure/repositories/SbLikeRepository';
+import { searchUserUsecase } from '@/application/usecases/pin/SearchUserUsecase';
+import { SbUserRepository } from '@/infrastructure/repositories/SbUserRepository';
 
 export async function GET(req: NextRequest) {
   try {
@@ -10,15 +9,10 @@ export async function GET(req: NextRequest) {
     const keyword = searchParams.get('name') || '';
 
     // 리포지토리 인스턴스 생성
-    const pinRepository = new SbPinRepository();
-    const likeRepository = new SbLikeRepository();
+    const userRepository = new SbUserRepository();
 
     // SearchUsecase 실행
-    const result = await searchPlaceUsecase(
-      pinRepository,
-      likeRepository,
-      keyword,
-    );
+    const result = await searchUserUsecase(userRepository, keyword);
 
     return NextResponse.json({ success: true, data: result });
   } catch (error) {

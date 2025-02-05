@@ -8,7 +8,7 @@ export const searchPinByUser = async (keyword: string) => {
     if (result.success) {
       return result.data.map((user: any) => ({
         id: user.id,
-        name: user.name,
+        nickname: user.nickname,
         profileImg: user.profileImg || '/default_profile.png', // 기본 이미지 설정
       }));
     } else {
