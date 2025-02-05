@@ -122,4 +122,27 @@ export class SbPinRepository implements PinRepository {
       throw new Error(error.message);
     }
   }
+  async updatePin(updateData: Pin): Promise<void> {
+    const supabase = await createClient();
+
+    const formattedData = {
+      place_name: updateData.placeName,
+      capture_date: updateData.captureDate,
+      address: updateData.address,
+      latitude: updateData.latitude,
+      longitude: updateData.longitude,
+      tags: updateData.tags,
+      description: updateData.description,
+      image: updateData.image,
+    };
+    console.log(formattedData);
+    const { error } = await supabase
+      .from('pin')
+      .update(formattedData)
+      .eq('id', updateData.id);
+
+    if (error) {
+      throw new Error(error.message);
+    }
+  }
 }

@@ -1,7 +1,7 @@
 'use client';
 
 import TagButton from '@/components/Buttons/TagButton';
-import styles from '../add.module.scss';
+import styles from '../pinForm.module.scss';
 
 const TAGS = [
   '🚶거리',
