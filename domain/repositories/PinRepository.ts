@@ -7,4 +7,5 @@ export interface PinRepository {
   getPinById: (pinId: string) => Promise<Pin>; // 핀 아이디로 튜플 검색
   deletePin: (pinId: string) => Promise<void>; // 핀 삭제
   updatePin: (updateData: Pin) => Promise<void>; // 핀 수정
+  searchPinsByKeyword: (keyword: string) => Promise<Pin[]>;
 }

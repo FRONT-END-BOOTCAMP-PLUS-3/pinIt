@@ -38,4 +38,53 @@ export class SbUserRepository implements UserRepository {
       createAt: data.create_at,
     };
   }
+  async showUser(): Promise<User[]> {
+    const supabase = await createClient();
+    const { data, error } = await supabase
+      .from('user')
+      .select('*')
+      .order('create_at', { ascending: false });
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    // DB에서 받은 data를 사용하기 위해 카멜케이스로 변환
+    const formattedData = data.map((user) => ({
+      id: user.id,
+      nickname: user.nickname,
+      email: user.email,
+      deleteDate: user.delete_date,
+      admin: user.admin,
+      profileImg: user.profile_img,
+      createAt: user.create_at,
+    }));
+
+    return formattedData || [];
+  }
+  async searchUsersByKeyword(keyword: string): Promise<User[]> {
+    if (!keyword.trim()) return []; // 빈 검색어 방지
+
+    const supabase = await createClient();
+    const { data, error } = await supabase
+      .from('user')
+      .select('*')
+      .or(`nickname.ilike.%${keyword}%`)
+      .order('create_at', { ascending: false });
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    // ✅ 검색된 데이터를 변환하여 반환
+    return data.map((user) => ({
+      id: user.id,
+      nickname: user.nickname,
+      email: user.email,
+      deleteDate: user.delete_date,
+      admin: user.admin,
+      profileImg: user.profile_img || '/default-profile.png', // 기본 프로필 이미지
+      createAt: user.create_at,
+    }));
+  }
 }
