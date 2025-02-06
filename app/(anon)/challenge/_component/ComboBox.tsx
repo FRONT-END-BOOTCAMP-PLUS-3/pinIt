@@ -5,6 +5,7 @@ import styles from './ComboBox.module.scss';
 import Icon from '@/components/Icon/Icon';
 
 export interface ComboBoxOption {
+  id: string;
   topic: string;
   startDate?: Date;
   endDate?: Date;
@@ -16,8 +17,8 @@ const ComboBox = ({
   setSelectedOption, // 선택된 옵션 바꾸기 (useState)
 }: {
   options: ComboBoxOption[] | undefined;
-  selectedOption: ComboBoxOption | undefined;
-  setSelectedOption: (option: ComboBoxOption | undefined) => void;
+  selectedOption: ComboBoxOption | null;
+  setSelectedOption: (option: ComboBoxOption | null) => void;
 }) => {
   const [isOpened, setIsOpened] = useState(false);
   const STORAGE_KEY = 'selectedComboBoxOption';
@@ -44,7 +45,11 @@ const ComboBox = ({
 
   return (
     <div className={`${styles.combo_box}`}>
-      <button type='button' onClick={handleOnClickComboBox}>
+      <button
+        type='button'
+        className={styles.button}
+        onClick={handleOnClickComboBox}
+      >
         <span className={styles.ellipsis_box}>
           <span>
             {selectedOption?.topic}{' '}

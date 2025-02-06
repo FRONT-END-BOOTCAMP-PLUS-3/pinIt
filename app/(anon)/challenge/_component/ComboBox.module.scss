@@ -2,7 +2,7 @@
   height: 24px;
   position: relative;
 
-  button {
+  .button {
     line-height: 24px;
     text-align: left;
     font-weight: bold;
@@ -22,7 +22,7 @@
     background-color: $bg-white;
     box-shadow: 0 1px 6px rgba(0, 0, 0, 0.3);
     border-radius: $border-radius-small;
-    z-index: 2;
+    z-index: 999;
     transform: translateY(-10px);
     visibility: hidden;
     transition:

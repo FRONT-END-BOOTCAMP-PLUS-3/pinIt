@@ -22,12 +22,20 @@ const Button = ({
   return (
     <button
       type='button'
-      className={`${!whiteColor && border ? styles.btn : ''}${whiteColor ? styles.btn_white : ''}${!border ? styles.btn_text_underline : ''}${disabled ? ' '+styles.disabled : ''}`}
+      className={`${!whiteColor && border ? styles.btn : ''}${whiteColor ? styles.btn_white : ''}${!border ? styles.btn_text_underline : ''}${disabled ? ' ' + styles.disabled : ''}`}
       onClick={onClickButton}
       onMouseEnter={() => !disabled && setIconHover(true)}
       onMouseLeave={() => !disabled && setIconHover(false)}
     >
-      {icon && <Icon id={icon} width={28} height={28} color={disabled ? 'white' : iconHover ? '#292526' : 'white'} />}<span>{label}</span>
+      {icon && (
+        <Icon
+          id={icon}
+          width={28}
+          height={28}
+          color={disabled ? 'white' : iconHover ? '#292526' : 'white'}
+        />
+      )}
+      <span>{label}</span>
     </button>
   );
 };
