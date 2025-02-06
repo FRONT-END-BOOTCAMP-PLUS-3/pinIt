@@ -6,15 +6,13 @@ import TextArea from './_components/TextArea';
 import LocationInput from './_components/LocationInput';
 import DatePicker from './_components/DatePicker';
 import TagSelector from './_components/TagSelector';
-import Button from '@/components/Buttons/Button';
 import LocationSearch from './_components/LocationSearch';
 import { uploadImageToStorage } from '@/utils/supabase/storage';
 import styles from './pinForm.module.scss';
+import Button from '../Buttons/Button';
 
 interface PinFormProps {
   isEdit?: boolean;
-  // isEdit가 true이면 initialData도 같이 추가로 넣어주고,
-  // IsEdit가 false이면 initialData는 필요 없음
   initialData?: {
     image: string;
     placeName: string;
@@ -25,7 +23,7 @@ interface PinFormProps {
     latitude: number;
     longitude: number;
   };
-  onSubmit: (formData: any) => void; // 저장하기 버튼 누를 시, 발생되는 이벤트 핸들러
+  onSubmit: (formData: any) => void;
 }
 
 const PinForm: React.FC<PinFormProps> = ({
@@ -55,6 +53,7 @@ const PinForm: React.FC<PinFormProps> = ({
   );
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
+  const [isFormValid, setIsFormValid] = useState(false); // ✅ 폼 검증 상태 추가
 
   // 이미지 초기화 용도
   const photoUploadRef = useRef<{ resetImage: () => void } | null>(null);
@@ -71,6 +70,25 @@ const PinForm: React.FC<PinFormProps> = ({
     setSelectedLocation(location);
     setIsLocationSearchVisible(false);
   };
+
+  // ✅ 모든 입력값이 채워져 있는지 확인하는 useEffect
+  useEffect(() => {
+    const isValid = Boolean(
+      (isEdit || imageFile) &&
+        selectedLocation &&
+        captureDate &&
+        selectedTags.length > 0 &&
+        description.trim(),
+    );
+    setIsFormValid(isValid);
+  }, [
+    selectedLocation,
+    captureDate,
+    selectedTags,
+    description,
+    imageFile,
+    isEdit,
+  ]);
 
   useEffect(() => {
     const storedLocation = sessionStorage.getItem('selectedLocation');
@@ -94,17 +112,7 @@ const PinForm: React.FC<PinFormProps> = ({
   // 저장하기 버튼 클릭 시,
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    if (
-      selectedLocation &&
-      captureDate &&
-      selectedTags &&
-      description &&
-      imageFile &&
-      loading
-    ) {
-      alert('모두 입력해주세요.');
-      return;
-    }
+    if (!isFormValid) return; // ✅ 폼이 유효하지 않으면 실행 X
 
     try {
       setLoading(true);
@@ -115,7 +123,7 @@ const PinForm: React.FC<PinFormProps> = ({
       }
 
       const pinData = {
-        image: imageUrl, // 업로드된 이미지 URL 사용
+        image: imageUrl,
         description,
         placeName: selectedLocation?.name || '',
         address: selectedLocation?.address || '',
@@ -155,12 +163,13 @@ const PinForm: React.FC<PinFormProps> = ({
       <DatePicker
         onChange={(date) => setCaptureDate(date)}
         initialDate={isEdit ? initialData?.captureDate : undefined}
-      />{' '}
+      />
       <TagSelector selectedTags={selectedTags} onChange={setSelectedTags} />
       <div className={styles.saveButton}>
         <Button
           label={loading ? '저장 중...' : '저장하기'}
           onClickButton={handleSubmit}
+          disabled={!isFormValid || loading}
         />
       </div>
       {isLocationSearchVisible && (
