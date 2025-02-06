@@ -6,6 +6,7 @@ import ListComponent from './ListComponent';
 import { PinListContainerProps } from './PinListContainerProps';
 import { showTotalPin } from '../_api/showTotalPin';
 import { TotalPinList } from '@/application/usecases/admin/pin/dto/TotalPinsListDto';
+import { deleteCheckedItems } from '../_api/deleteCheckedItems';
 
 const PinListContainer = ({
   searchKeyword,
@@ -16,20 +17,20 @@ const PinListContainer = ({
   const [data, setData] = useState<TotalPinList[]>([]); // API로 받아온 핀 목록
   const [filteredData, setFilteredData] = useState<TotalPinList[]>([]); // 검색된 데이터 저장
 
-  // API 호출해서 데이터 받아오기
-  useEffect(() => {
-    const fetchPins = async () => {
-      try {
-        const fetchedData = await showTotalPin();
-        const validData = fetchedData.filter((pin) => pin.id !== null);
-        setData(validData);
-        setFilteredData(validData); // 초기 상태로 전체 데이터 설정
-      } catch (error) {
-        console.error('핀 목록을 불러오는 중 오류 발생:', error);
-      }
-    };
+  // API 호출해서 데이터는 함수
+  const fetchPins = async () => {
+    try {
+      const fetchedData = await showTotalPin();
+      const validData = fetchedData.filter((pin) => pin.id !== null);
+      setData(validData);
+      setFilteredData(validData); // 초기 상태로 전체 데이터 설정
+    } catch (error) {
+      console.error('핀 목록을 불러오는 중 오류 발생:', error);
+    }
+  };
 
-    fetchPins();
+  useEffect(() => {
+    fetchPins(); // 컴포넌트 마운트 시 데이터 불러오기
   }, []);
 
   // searchKeyword에 따라 데이터 필터링
@@ -50,9 +51,13 @@ const PinListContainer = ({
 
   // trashClicked이벤트가 발생되면 API 호출해서 데이터 삭제하기
   useEffect(() => {
-    if (trashClicked) {
-      console.log('삭제할 항목:', checkedItems);
-      // 여기서 삭제 api 호출하기
+    if (trashClicked && checkedItems.length > 0) {
+      deleteCheckedItems(checkedItems);
+      deleteCheckedItems(checkedItems).then(() => {
+        setCheckedItems([]);
+        alert('✅ 핀 삭제가 완료되었습니다.');
+        fetchPins(); // 화면 갱신
+      });
     }
   }, [trashClicked]);
 

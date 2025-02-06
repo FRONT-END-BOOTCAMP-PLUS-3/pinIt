@@ -20,7 +20,7 @@ const UserListContainer = ({
   useEffect(() => {
     if (trashClicked) {
       console.log('삭제할 항목:', checkedItems);
-      // 여기서 삭제 api 호출하기
+      // user테이블은 유저를 삭제하는게 아니라 deleted_at?? 컬럼에 날짜 추가하기로 했습니다!
     }
   }, [trashClicked]);
 
