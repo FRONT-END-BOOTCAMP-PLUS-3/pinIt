@@ -5,7 +5,7 @@ import styles from './Button.module.scss';
 const Button = ({
   label,
   icon,
-  whiteColor = true,
+  whiteColor = false,
   border = true,
   disabled = false,
   onClickButton,
