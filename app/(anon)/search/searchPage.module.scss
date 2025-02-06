@@ -1,8 +1,5 @@
-.searchPageContainer {
-}
-
 .searchSectionContianer {
-  margin-bottom: 16px;
+  margin-bottom: 5px;
 }
 
 .tabButtonSectionContainer {
@@ -39,8 +36,7 @@
   }
 }
 
-.locationTabContainer,
-.topicTabContainer {
+.locationTabContainer {
   display: flex;
   flex-flow: column nowrap;
   width: 100%;
@@ -48,7 +44,14 @@
   margin-top: 16px;
 
   .pinCard_container {
-    @include cardContainer;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); // 기본적으로 3열 배치
+    gap: 14px;
+    width: 100%;
+
+    @media (min-width: 700px) {
+      grid-template-columns: repeat(4, 1fr); // 700px 이상일 때 4열 배치
+    }
   }
 }
 
@@ -58,6 +61,7 @@
   align-items: center;
   flex-direction: column;
   width: 100%;
+  margin-top: 16px;
 
   .userList {
     display: block; /* 세로 리스트로 설정 */
@@ -109,5 +113,21 @@
         color: #666;
       }
     }
+  }
+}
+
+.searchMessage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+  color: #777;
+  padding: 8px 0;
+  gap: 8px;
+  background-color: transparent;
+
+  .icon {
+    width: 18px;
+    height: 18px;
   }
 }

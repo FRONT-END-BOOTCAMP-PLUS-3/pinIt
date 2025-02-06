@@ -40,7 +40,7 @@ const HEADER_CONFIG: Array<{ path: RegExp; config: PageConfig }> = [
   },
   {
     path: /^\/admin$/,
-    config: { header: 'HeaderWithIcon', hasNavigation: true },
+    config: { header: 'Header', hasNavigation: true },
   },
   {
     path: /^\/admin\/topic\/create$/,

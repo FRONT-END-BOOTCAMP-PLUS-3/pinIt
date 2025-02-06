@@ -1,36 +1,66 @@
+'use client';
+
+import { useEffect, useState } from 'react';
+import Link from 'next/link';
 import styles from '../searchPage.module.scss';
+import { searchPinByUser } from '../_api/searchPinByUser';
+import Icon from '@/components/Icon/Icon'; // ✅ 아이콘 추가
 
-const users = [
-  { name: '안녕', profileImg: 'https://via.placeholder.com/100' },
-  { name: '하세여', profileImg: 'https://via.placeholder.com/100' },
-  { name: '저는', profileImg: 'https://via.placeholder.com/100' },
-  { name: '아현입니다', profileImg: 'https://via.placeholder.com/100' },
-  { name: 'ㅎ', profileImg: 'https://via.placeholder.com/100' },
+const UserTab: React.FC<{ keyword: string }> = ({ keyword }) => {
+  const [users, setUsers] = useState<
+    { id: string; nickname: string; profileImg: string }[]
+  >([]);
+  const [loading, setLoading] = useState(true);
 
-  { name: '안녕하세요', profileImg: 'https://via.placeholder.com/100' },
+  useEffect(() => {
+    const savedUsers = sessionStorage.getItem('searchedUsers');
+    const savedKeyword = sessionStorage.getItem('searchedKeyword');
 
-  { name: '하잉', profileImg: 'https://via.placeholder.com/100' },
+    if (savedUsers && savedKeyword === keyword) {
+      setUsers(JSON.parse(savedUsers));
+      setLoading(false);
+      return;
+    }
 
-  { name: '하하', profileImg: 'https://via.placeholder.com/100' },
+    const fetchUsers = async () => {
+      setLoading(true);
+      const fetchedUsers = await searchPinByUser(keyword);
+      setUsers(fetchedUsers);
+      sessionStorage.setItem('searchedUsers', JSON.stringify(fetchedUsers));
+      sessionStorage.setItem('searchedKeyword', keyword);
+      setLoading(false);
+    };
 
-  {
-    name: 'ㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎ',
-    profileImg: 'https://via.placeholder.com/100',
-  },
-  { name: '닉네임', profileImg: 'https://via.placeholder.com/100' },
-];
+    if (keyword.trim()) {
+      fetchUsers();
+    }
+  }, [keyword]);
 
-const UserTab: React.FC = () => {
   return (
     <div className={styles.userTabContainer}>
-      <ul className={styles.userList}>
-        {users.map(({ name, profileImg }) => (
-          <li key={name} className={styles.userItem}>
-            <div className={styles.profileImg}></div>
-            <span className={styles.userName}>{name}</span>
-          </li>
-        ))}
-      </ul>
+      {loading ? (
+        <p className={styles.searchMessage}>검색어를 입력하세요.</p>
+      ) : users.length > 0 ? (
+        <ul className={styles.userList}>
+          {users.map((user) => (
+            <Link href={`/profile/${user.id}`} key={user.id}>
+              <li className={styles.userItem}>
+                <img
+                  className={styles.profileImg}
+                  src={user.profileImg}
+                  alt='프로필 이미지'
+                />
+                <span className={styles.userName}>{user.nickname}</span>
+              </li>
+            </Link>
+          ))}
+        </ul>
+      ) : (
+        <p className={styles.searchMessage}>
+          <Icon id='banned' width={20} height={20} color='#777' /> 검색된
+          사용자가 없습니다.
+        </p>
+      )}
     </div>
   );
 };

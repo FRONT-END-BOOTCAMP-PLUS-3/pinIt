@@ -122,4 +122,55 @@ export class SbPinRepository implements PinRepository {
       throw new Error(error.message);
     }
   }
+  async updatePin(updateData: Pin): Promise<void> {
+    const supabase = await createClient();
+
+    const formattedData = {
+      place_name: updateData.placeName,
+      capture_date: updateData.captureDate,
+      address: updateData.address,
+      latitude: updateData.latitude,
+      longitude: updateData.longitude,
+      tags: updateData.tags,
+      description: updateData.description,
+      image: updateData.image,
+    };
+    console.log(formattedData);
+    const { error } = await supabase
+      .from('pin')
+      .update(formattedData)
+      .eq('id', updateData.id);
+
+    if (error) {
+      throw new Error(error.message);
+    }
+  }
+  async searchPinsByKeyword(keyword: string): Promise<Pin[]> {
+    const supabase = await createClient();
+
+    const { data, error } = await supabase
+      .from('pin')
+      .select('*')
+      .or(`place_name.ilike.%${keyword}%,address.ilike.%${keyword}%`)
+      .order('create_at', { ascending: false });
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    return data.map((pin) => ({
+      id: pin.id,
+      placeName: pin.place_name,
+      captureDate: pin.capture_date,
+      address: pin.address,
+      latitude: pin.latitude,
+      longitude: pin.longitude,
+      tags: pin.tags,
+      description: pin.description,
+      image: pin.image,
+      countLike: pin.count_like,
+      createAt: pin.create_at,
+      userId: pin.user_id,
+    }));
+  }
 }

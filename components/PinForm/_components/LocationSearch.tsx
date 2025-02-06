@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useRef, useEffect, useState } from 'react';
-import styles from '../add.module.scss';
+import styles from '../pinForm.module.scss';
 import SearchInput from '@/components/InputBox/SearchInput/SearchInput';
 import Icon from '@/components/Icon/Icon';
 import Link from 'next/link';
