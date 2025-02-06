@@ -171,3 +171,22 @@
     }
   }
 }
+
+.sortButton {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  background: #f8f9fa;
+  cursor: pointer;
+  transition: all 0.2s;
+  border-radius: 50px;
+}
+
+.sortButton:hover {
+  background: #e9ecef;
+}
+
+.selected {
+  font-weight: bold;
+  color: #fff;
+  background: $main-black-1; // ✅ 선택된 옵션 강조
+}

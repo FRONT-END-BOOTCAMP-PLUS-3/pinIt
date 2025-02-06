@@ -8,6 +8,8 @@ interface ListComponentProps<T> {
   setCheckedItems?: React.Dispatch<React.SetStateAction<string[]>>;
   checkedItems?: string[];
   routePath: string;
+  sortOption?: string; // 정렬 방법 (ex: "최신순", "제목 오름차순")
+  sortKey?: keyof T; // 정렬 기준이 될 키값 (ex: )
 }
 
 const ListComponent = <T extends { id: string }>({
@@ -15,6 +17,8 @@ const ListComponent = <T extends { id: string }>({
   setCheckedItems,
   checkedItems = [],
   routePath,
+  sortOption = '최신순',
+  sortKey,
 }: ListComponentProps<T>) => {
   const router = useRouter();
 
@@ -34,6 +38,16 @@ const ListComponent = <T extends { id: string }>({
     }
   };
 
+  // 정렬 기준으로 데이터 정렬 (sortKey가 있을 때만 정렬)
+  const sortedData = sortKey
+    ? [...data].sort((a, b) => {
+        if (sortOption === '제목 오름차순') {
+          return String(a[sortKey]).localeCompare(String(b[sortKey]));
+        }
+        return 0; // 최신순(기본값)일 경우 원본 데이터 유지
+      })
+    : data;
+
   return (
     <div className={style.listContainer_wrapper}>
       <table className={style.listContainer}>
@@ -51,7 +65,7 @@ const ListComponent = <T extends { id: string }>({
           </tr>
         </thead>
         <tbody>
-          {data.map((item) => (
+          {sortedData.map((item) => (
             <tr key={item.id} className={style.listItem}>
               <td>
                 <input

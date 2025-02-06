@@ -5,6 +5,7 @@ import ComboBox from '@/components/ComboBox/ComboBox';
 import ListComponent from './ListComponent';
 import { useEffect, useState } from 'react';
 import ROUTES from '@/constants/routes';
+import { PinListContainerProps } from './PinListContainerProps';
 
 const options = [
   {
@@ -16,13 +17,13 @@ const options = [
       {
         id: '1',
         contents: '제주 도두봉 올라가는 길!',
-        location: '도두봉',
+        placeName: '도두봉',
         address: '제주 도두봉',
       },
       {
         id: '2',
         contents: '남산 타워에서 찍었어요',
-        location: '남산타워',
+        placeName: '남산타워',
         address: '서울시 용산구',
       },
     ],
@@ -36,24 +37,29 @@ const options = [
       {
         id: '3',
         contents: '한강 공원에서 산책',
-        location: '한강 공원',
+        placeName: '한강 공원',
         address: '서울시 강남구',
       },
       {
         id: '4',
         contents: '서울 성곽길 트레킹',
-        location: '서울 성곽길',
+        placeName: '서울 성곽길',
         address: '서울 종로구',
       },
     ],
   },
 ];
 
-const ChallengePinContainer = () => {
+const ChallengePinContainer = ({
+  searchKeyword,
+  sortOption, // nickname을 정렬할 기준(기본값은 최신순 정렬)
+  trashClicked,
+}: PinListContainerProps) => {
   const STORAGE_KEY = 'challengePinOptionIndex';
+  const [selectedOption, setSelectedOption] = useState<string>(options[0].id); // 선택된 주제
   const [checkedItems, setCheckedItems] = useState<string[]>([]);
-  const [selectedOption, setSelectedOption] = useState<string>(options[0].id);
 
+  ///////////주제 선택 콤보박스 관련 내용//////////////
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const savedSelectedOption = sessionStorage.getItem(STORAGE_KEY);
@@ -70,8 +76,14 @@ const ChallengePinContainer = () => {
     setSelectedOption(optionId);
     sessionStorage.setItem(STORAGE_KEY, optionId);
   };
+  //////////////////////////////////////////
 
-  console.log(checkedItems);
+  useEffect(() => {
+    if (trashClicked) {
+      console.log('삭제할 항목:', checkedItems);
+      // 여기서 삭제 api 호출하기
+    }
+  }, [trashClicked]);
 
   return (
     <>
@@ -89,6 +101,8 @@ const ChallengePinContainer = () => {
         setCheckedItems={setCheckedItems}
         checkedItems={checkedItems}
         routePath={ROUTES.pin.detail}
+        sortOption={sortOption} // 정렬 방법 전달
+        sortKey='placeName' // 정렬 기준이 될 키 전달
       />
     </>
   );
