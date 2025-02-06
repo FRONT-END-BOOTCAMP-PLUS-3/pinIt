@@ -4,33 +4,61 @@ import styles from '../ViewMap.module.scss';
 import Link from 'next/link';
 import ROUTES from '@/constants/routes';
 import Image from 'next/image';
+import HeartIconButton from '@/components/Buttons/HeartIconButton';
 
 const PinList = ({
-  item,
+  id,
+  url = '/default_image.png',
+  alt,
+  location,
+  address,
+  description,
+  liked,
+  onClickLikeButton,
 }: {
-  item: {
-    title: string;
-    location: string;
-    description: string;
-    imageUrl: string;
-  };
+  id: string;
+  url?: string;
+  alt: string;
+  location: string;
+  address: string;
+  description: string;
+  liked: boolean;
+  onClickLikeButton: React.MouseEventHandler;
 }) => {
   return (
     <li>
       <Link href={'/'} className={styles.pinItem}>
         <div className={styles.text}>
-          <h3>{item.title}</h3>
-          <h4>{item.location}</h4>
-          <p>{item.description}</p>
+          <h3>{location}</h3>
+          <h4>{address}</h4>
+          <p>{description}</p>
         </div>
-        {/* <img src={item.imageUrl} className={styles.image} /> */}
-        <Image
-          className={styles.image}
-          src={item.imageUrl}
-          alt={item.title}
-          width={80}
-          height={80}
-        />
+        <div className={styles.imageWrapper}>
+          <Image
+            className={styles.image}
+            src={url}
+            alt={alt}
+            width={80}
+            height={80}
+          />
+          <div className={styles.heart}>
+            {liked ? (
+              <HeartIconButton
+                liked={true}
+                w={16}
+                h={16}
+                onClickLikeButton={onClickLikeButton}
+              />
+            ) : (
+              <HeartIconButton
+                liked={false}
+                w={16}
+                h={16}
+                onClickLikeButton={onClickLikeButton}
+              />
+            )}
+          </div>
+        </div>
       </Link>
     </li>
   );

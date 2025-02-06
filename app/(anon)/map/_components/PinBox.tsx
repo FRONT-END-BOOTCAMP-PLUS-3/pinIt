@@ -3,6 +3,8 @@
 import { useEffect, useRef, useState } from 'react';
 import styles from '../ViewMap.module.scss';
 import PinList from './PinList';
+import { showNearByPinList } from '../_api/showNearByPinList';
+import { ShowNearByPinList } from '@/application/usecases/map/dto/ShowNearByPinListDto';
 
 export const MIN_Y = 60; // Bottom Sheet가 최대로 올라갔을 때의 Y값
 
@@ -22,6 +24,7 @@ const PinBox = () => {
     },
     isListAreaTouched: false, // 사용자가 box 내부의 스크롤 가능한 콘텐츠를 터치했는지 여부
   });
+  const [pinData, setPinData] = useState<ShowNearByPinList[]>([]);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -29,13 +32,13 @@ const PinBox = () => {
     }
   }, []);
 
-  const handleTouchStart = (e: TouchEvent) => {
-    if (!box.current) return;
-    const touchY = e.touches[0].clientY; // 처음으로 터치한 손가락의 정보.손가락이 터치된 y좌표
-    touchEvent.current.touchStart.boxY = box.current.getBoundingClientRect().y;
-    // box.current는 useRef로 생성된 box의 DOM요소, getBoundingClientRect().y는 현재 box의 y좌표(화면에서의 위치) -> box의 현제 위치를 저장, touchmove에서 이 값을 기준으로 얼마나 움직였는지 계산
-    touchEvent.current.touchStart.touchY = touchY; // 사용자가 터치한 손가락의 y좌표 저장, touchmove에서 터치 이동량을 계산하는 데 사용
-  };
+  // const handleTouchStart = (e: TouchEvent) => {
+  //   if (!box.current) return;
+  //   const touchY = e.touches[0].clientY; // 처음으로 터치한 손가락의 정보.손가락이 터치된 y좌표
+  //   touchEvent.current.touchStart.boxY = box.current.getBoundingClientRect().y;
+  //   // box.current는 useRef로 생성된 box의 DOM요소, getBoundingClientRect().y는 현재 box의 y좌표(화면에서의 위치) -> box의 현제 위치를 저장, touchmove에서 이 값을 기준으로 얼마나 움직였는지 계산
+  //   touchEvent.current.touchStart.touchY = touchY; // 사용자가 터치한 손가락의 y좌표 저장, touchmove에서 터치 이동량을 계산하는 데 사용
+  // };
 
   useEffect(() => {
     const canUserMoveBox = (e: TouchEvent) => {
@@ -188,78 +191,21 @@ const PinBox = () => {
     setIsOpen((prev) => !prev);
   };
 
-  const items = [
-    {
-      title: '남산타워',
-      location: '서울 용산구',
-      description:
-        '눈 덮인 남산타워에 다녀왔어요! 여기 팔각정 앞이 바로 포토존입니다!',
-      imageUrl: '/headerLogo.png',
-    },
-    {
-      title: '남산타워',
-      location: '서울 용산구',
-      description:
-        '눈 덮인 남산타워에 다녀왔어요! 여기 팔각정 앞이 바로 포토존입니다!',
-      imageUrl: '/headerLogo.png',
-    },
-    {
-      title: '남산타워',
-      location: '서울 용산구',
-      description:
-        '눈 덮인 남산타워에 다녀왔어요! 여기 팔각정 앞이 바로 포토존입니다!',
-      imageUrl: '/headerLogo.png',
-    },
-    {
-      title: '남산타워',
-      location: '서울 용산구',
-      description:
-        '눈 덮인 남산타워에 다녀왔어요! 여기 팔각정 앞이 바로 포토존입니다!',
-      imageUrl: '/headerLogo.png',
-    },
-    {
-      title: '남산타워',
-      location: '서울 용산구',
-      description:
-        '눈 덮인 남산타워에 다녀왔어요! 여기 팔각정 앞이 바로 포토존입니다!',
-      imageUrl: '/headerLogo.png',
-    },
-    {
-      title: '남산타워',
-      location: '서울 용산구',
-      description:
-        '눈 덮인 남산타워에 다녀왔어요! 여기 팔각정 앞이 바로 포토존입니다!',
-      imageUrl: '/headerLogo.png',
-    },
-    {
-      title: '남산타워',
-      location: '서울 용산구',
-      description:
-        '눈 덮인 남산타워에 다녀왔어요! 여기 팔각정 앞이 바로 포토존입니다!',
-      imageUrl: '/headerLogo.png',
-    },
-    {
-      title: '남산타워',
-      location: '서울 용산구',
-      description:
-        '눈 덮인 남산타워에 다녀왔어요! 여기 팔각정 앞이 바로 포토존입니다!',
-      imageUrl: '/headerLogo.png',
-    },
-    {
-      title: '남산타워',
-      location: '서울 용산구',
-      description:
-        '눈 덮인 남산타워에 다녀왔어요! 여기 팔각정 앞이 바로 포토존입니다!',
-      imageUrl: '/headerLogo.png',
-    },
-    {
-      title: '남산타워',
-      location: '서울 용산구',
-      description:
-        '눈 덮인 남산타워에 다녀왔어요! 여기 팔각정 앞이 바로 포토존입니다!',
-      imageUrl: '/headerLogo.png',
-    },
-  ];
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await showNearByPinList();
+        setPinData(data);
+      } catch (error) {
+        console.error('🚨 핀 데이터 불러오기 실패:', error);
+      }
+    };
+    fetchData();
+  }, []);
+
+  const handleClick = () => {
+    console.log('h');
+  };
 
   return (
     <div className={styles.pinListContainer} ref={box}>
@@ -270,8 +216,18 @@ const PinBox = () => {
           <div className={styles.dragHandle} />
         </div>
         <ul className={styles.pinList} ref={list}>
-          {items.map((item, index) => (
-            <PinList key={index} item={item} />
+          {pinData.map((pin, index) => (
+            <PinList
+              key={index}
+              id={pin.id}
+              url={pin.image}
+              alt={pin.placeName}
+              location={pin.placeName}
+              address={pin.address}
+              description={pin.description}
+              liked={pin.isLiked}
+              onClickLikeButton={handleClick}
+            />
           ))}
         </ul>
       </div>
