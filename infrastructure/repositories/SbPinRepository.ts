@@ -173,4 +173,14 @@ export class SbPinRepository implements PinRepository {
       userId: pin.user_id,
     }));
   }
+  async deletePins(pinIds: string[]): Promise<void> {
+    if (pinIds.length === 0) return;
+
+    const supabase = await createClient();
+    const { error } = await supabase.from('pin').delete().in('id', pinIds);
+
+    if (error) {
+      throw new Error(error.message);
+    }
+  }
 }
