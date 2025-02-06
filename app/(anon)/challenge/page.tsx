@@ -6,6 +6,7 @@ import ComboBox, { ComboBoxOption } from './_component/ComboBox';
 import { ChallengeTopic } from '@/domain/entities/ChallengeTopic';
 import { useEffect, useState } from 'react';
 import { ShowPinList } from '@/application/usecases/pin/dto/ShowPinListDto';
+import Link from 'next/link';
 
 const Challenge = () => {
   const [challengeTopicList, setChallengeTopicList] = useState<
@@ -70,13 +71,11 @@ const Challenge = () => {
 
   return (
     <div className={style.Challenge}>
-      <div className={style.title}>
-        <ComboBox
-          options={comboBoxOptions}
-          selectedOption={selectedOption}
-          setSelectedOption={setSelectedOption}
-        />
-      </div>
+      <ComboBox
+        options={comboBoxOptions}
+        selectedOption={selectedOption}
+        setSelectedOption={setSelectedOption}
+      />
       <div className={style.pinCard_container}>
         {challengedPinData?.map((challengedPin) => (
           <PinCard
@@ -93,6 +92,9 @@ const Challenge = () => {
           />
         ))}
       </div>
+      <Link href={'/challenge/add'} className={style.link}>
+        <span>챌린지 등록하기</span>
+      </Link>
     </div>
   );
 };
