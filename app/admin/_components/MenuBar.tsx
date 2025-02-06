@@ -3,14 +3,17 @@
 import style from '@/app/admin/page.module.scss';
 import Icon from '@/components/Icon/Icon';
 
-const MenuBar = ({setMenubarSelected, checkedItems}: {setMenubarSelected: React.Dispatch<React.SetStateAction<string | null>>; checkedItems: string[];}) => {
+const MenuBar = ({
+  setMenubarSelected,
+}: {
+  setMenubarSelected: React.Dispatch<React.SetStateAction<string | null>>;
+}) => {
   const menus = ['search', 'sort', 'trash'];
 
   const handleMenuClick = (item: string) => {
     setMenubarSelected((prev) => (prev === item ? null : item));
-    console.log(checkedItems);
   };
-  
+
   return (
     <ul className={style.menuBar}>
       {menus.map((item) => (
