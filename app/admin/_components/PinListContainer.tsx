@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react';
 import ROUTES from '@/constants/routes';
 import ListComponent from './ListComponent';
 import { PinListContainerProps } from './PinListContainerProps';
+import { showTotalPin } from '../_api/showTotalPin';
+import { TotalPinList } from '@/application/usecases/admin/pin/dto/TotalPinsListDto';
 
 const PinListContainer = ({
   searchKeyword,
@@ -11,7 +13,23 @@ const PinListContainer = ({
   trashClicked,
 }: PinListContainerProps) => {
   const [checkedItems, setCheckedItems] = useState<string[]>([]);
+  const [data, setData] = useState<TotalPinList[]>([]); // API로 받아온 핀 목록
 
+  // API 호출해서 데이터 받아오기
+  useEffect(() => {
+    const fetchPins = async () => {
+      try {
+        const data = await showTotalPin();
+        setData(data.filter((pin) => pin.id !== null));
+      } catch (error) {
+        console.error('핀 목록을 불러오는 중 오류 발생:', error);
+      }
+    };
+
+    fetchPins();
+  }, []);
+
+  // trashClicked이벤트가 발생되면 API 호출해서 데이터 삭제하기
   useEffect(() => {
     if (trashClicked) {
       console.log('삭제할 항목:', checkedItems);
@@ -19,35 +37,14 @@ const PinListContainer = ({
     }
   }, [trashClicked]);
 
-  const mockData = [
-    {
-      id: '1',
-      placeName: '도두봉',
-      contents: '제주 도두봉 올라가는 길!',
-      address: '제주 도두봉',
-    },
-    {
-      id: '2',
-      placeName: '남산타워',
-      contents: '남산 타워에서 찍었어요',
-      address: '서울시 용산구',
-    },
-    {
-      id: '3',
-      placeName: '올림픽공원',
-      contents: '서울 올림픽공원 방문',
-      address: '서울 송파구',
-    },
-  ];
-
   return (
     <ListComponent
-      data={mockData}
+      data={data}
       setCheckedItems={setCheckedItems}
       checkedItems={checkedItems}
       routePath={ROUTES.pin.detail}
       sortOption={sortOption} // 정렬 방법 전달
-      sortKey='placeName' // 정렬 기준이 될 키 전달
+      sortKey='id' // 정렬 기준이 될 키 전달
     />
   );
 };
