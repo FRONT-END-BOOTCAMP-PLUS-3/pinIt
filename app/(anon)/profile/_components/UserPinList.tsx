@@ -3,17 +3,43 @@
 import ProfilePinCard from "@/components/Card/ProfilePinCard/ProfilePinCard";
 import styles from "./UserPinList.module.scss";
 import { useEffect, useRef, useState } from "react";
+import { showUserPinList } from "../_api/showUserPinList";
+// import { PinDto } from "@/application/usecases/profile/dto/PinDto";
 
-interface Pin {
-    url: string;
-    alt: string;
-    location: string;
-    address: string;
-    id: number;
+interface PinDto {
+  userId: string,
+  userName: string,
+  userEmail: string,
+  id: string,
+  placeName: string,
+  address: string, // 두 단어만 유지
+  image: string,
 }
 
-const UserPinList = ({ userName, list }: { userName: string, list: Pin[] }) => {
+const UserPinList = ({ userId, userName }: { userId?: string; userName?: string }) => {
+    /* 핀 리스트 불러오기 시작 */
+    const [list, setList] = useState<PinDto[]>([]);
 
+    useEffect(()=>{
+        const fetchData = async () => {
+            // userId가 undefined거나 null일 경우 실행하지 않고 다시 돌아감
+            if (!userId || userId.trim() === "") return;
+
+            try {
+                if (!userId) {
+                    console.error("🚨 User ID is missing.");
+                    return;
+                }
+                const data = await showUserPinList(userId); // userId 전달
+                setList(data);
+            } catch (error) {
+                console.error('🚨 핀 데이터 불러오기 실패:', error);
+            }
+        };
+        fetchData();
+    }, [userId]);
+    /* 핀 리스트 불러오기 끝 */
+    
     /* UserPinCard 자동 너비 시작 */
     const containerRef = useRef<HTMLUListElement>(null);
     const [cardWidth, setCardWidth] = useState(112); // 초기값: 112px
@@ -70,7 +96,6 @@ const UserPinList = ({ userName, list }: { userName: string, list: Pin[] }) => {
     // }, []);
 
 
-
     /* .container 스타일 설정(휴지통 아이콘 고정에 필요) */
     useEffect(() => {
         const container = document.querySelector('.container');
@@ -96,10 +121,9 @@ const UserPinList = ({ userName, list }: { userName: string, list: Pin[] }) => {
                     <li key={index} className={styles.list_item}>
                         <ProfilePinCard
                             id={pin.id}
-                            url={pin.url}
+                            url={pin.image}
                             width={cardWidth}
-                            alt={pin.alt}
-                            location={pin.location}
+                            location={pin.address}
                             address={pin.address}
                         />
                     </li>

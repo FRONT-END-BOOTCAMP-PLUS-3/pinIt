@@ -8,7 +8,7 @@ const extractTwoWords = (address: string): string => {
   return words.slice(0, 2).join(' ');
 };
 
-export const myPinListUsecase = async (
+export const userPinListUsecase = async (
     pinRepository: PinRepository,
     userRepository: UserRepository,
     userId: string,

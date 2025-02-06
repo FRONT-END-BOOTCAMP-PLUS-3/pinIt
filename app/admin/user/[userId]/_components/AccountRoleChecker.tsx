@@ -1,6 +1,6 @@
 'use client';
 
-import style from '@/app/admin/user/[user-id]/page.module.scss';
+import style from '@/app/admin/user/[userId]/page.module.scss';
 
 const AccountRoleChecker = () => {
   const role = false;

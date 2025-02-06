@@ -1,20 +1,47 @@
 'use client';
 
+import { useEffect, useRef, useState } from "react";
+// import { Profile } from "@/application/usecases/profile/dto/ProfileDto";
+import { showMyPinList } from "../_api/showMyPinList";
 import styles from "./MyPinList.module.scss";
 import ProfilePinCard from "@/components/Card/ProfilePinCard/ProfilePinCard";
 import Icon from "@/components/Icon/Icon";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
 
-interface Pin {
-    url: string;
-    alt: string;
-    location: string;
-    address: string;
-    id: number;
+interface PinDto {
+  userId: string,
+  userName: string,
+  userEmail: string,
+  id: string,
+  placeName: string,
+  address: string, // 두 단어만 유지
+  image: string,
 }
 
-const MyPinList = ({ list }: { list: Pin[] }) => {
+const MyPinList = ({ userId }: { userId?: string }) => {
+    /* 핀 리스트 불러오기 시작 */
+    const [list, setList] = useState<PinDto[]>([]);
+
+    useEffect(()=>{
+        // userId가 undefined거나 null일 경우 실행하지 않고 다시 돌아감
+        if (!userId || userId.trim() === "") return;
+
+        const fetchData = async () => {
+            try {
+                if (!userId) {
+                    console.error("🚨 User ID is missing.");
+                    return;
+                }
+
+                const data = await showMyPinList(userId); // userId 전달
+                setList(data);
+            } catch (error) {
+                console.error('🚨 핀 데이터 불러오기 실패:', error);
+            }
+        };
+        fetchData();
+    }, [userId]);
+    /* 핀 리스트 불러오기 끝 */
 
     /* MyPinCard 자동 너비 시작 */
     const containerRef = useRef<HTMLUListElement>(null);
@@ -76,7 +103,11 @@ const MyPinList = ({ list }: { list: Pin[] }) => {
     /* 핀 항목 체크 시작 */
     // 체크 관련 const 변수
     // const [isEditing, setIsEditing] = useState<boolean>(false);
-    const [checkedItems, setCheckedItems] = useState<boolean[]>(Array(list.length).fill(false));
+    const [checkedItems, setCheckedItems] = useState<boolean[]>([]);
+    // useEffect를 활용하여 myPinList 길이가 변경될 때 checkedItems 초기화
+    useEffect(() => {
+        setCheckedItems(Array(list.length).fill(false)); 
+    }, [list]);
 
     // 체크된 항목 개수 및 첫 번째 체크된 Pin의 ID
     const checkedCount = checkedItems.filter((item) => item).length;
@@ -94,12 +125,21 @@ const MyPinList = ({ list }: { list: Pin[] }) => {
         event.preventDefault();
         console.log("편집할 요소를 1개만 선택해주세요");
     };
+
+    // onClick 이벤트 (checkedItems가 undefined인 경우가 ProfilePinCard의 체크박스가 uncontrolled되는 문제 해결)
+    const handleCheck = (index: number) => {
+        setCheckedItems((prev) => {
+            const newCheckedItems = prev.length ? [...prev] : Array(list.length).fill(false);
+            newCheckedItems[index] = !newCheckedItems[index];
+            return newCheckedItems;
+        });
+    };
     /* 핀 항목 체크 끝 */
 
 
 
     /* 삭제 기능 */
-    const handleDelete = (index: number[]) => (event: React.FormEvent): void => {
+    const handleDelete = (index: string[]) => (event: React.FormEvent): void => {
         event.preventDefault();
         // 폼 데이터 처리 로직 작성
         console.log(`Item ${index} deleted`);
@@ -145,28 +185,23 @@ const MyPinList = ({ list }: { list: Pin[] }) => {
                 ref={containerRef}
                 style={{'--checkbox': hasCheckedItems ? 'block' : 'none', gap: gap} as React.CSSProperties}
             >
-                {list.map((pin, index) => (
+                {Array.isArray(list) && list.length > 0 && (
+                list.map((pin, index) => (
                     <li
                         key={index} className={styles.list_item}
                     >
                         <ProfilePinCard
                             id={pin.id}
-                            url={pin.url}
+                            url={pin.image}
                             width={cardWidth}
-                            alt={pin.alt}
-                            location={pin.location}
+                            location={pin.placeName}
                             address={pin.address}
-                            checked={checkedItems[index]}
-                            onClickCheckButton={() => {
-                                setCheckedItems((prev) => {
-                                    const newCheckedItems = [...prev];
-                                    newCheckedItems[index] = !newCheckedItems[index];
-                                    return newCheckedItems;
-                                });
-                            }}
+                            checked={checkedItems[index] || false} // 렌더링 시 checked 값에 undefined 방지 처리
+                            onClickCheckButton={() => handleCheck(index)}
                         />
                     </li>
-                ))}
+                ))
+            )}
             </ul>
         </div>
         <div className={`${styles.mypin_delete} ${hasCheckedItems ? styles.visible : styles.hidden}`}>

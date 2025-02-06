@@ -9,16 +9,14 @@ const ProfilePinCard = ({
   id,
   url = '/default_image.png',
   width = 120,
-  alt,
   location,
   address,
   checked,
   onClickCheckButton,
 }: {
-  id?: number;
+  id?: string;
   url?: string;
   width?: number;
-  alt: string;
   location: string;
   address: string;
   checked?: boolean;
@@ -51,7 +49,7 @@ const ProfilePinCard = ({
           <Image
             className={styles.image}
             src={url}
-            alt={alt}
+            alt={address+"에서 촬영한 "+location}
             width={120}
             height={160}
           />
@@ -63,7 +61,7 @@ const ProfilePinCard = ({
             <Image
               className={styles.image}
               src={url}
-              alt={alt}
+              alt={address+"에서 촬영한 "+location}
               width={120}
               height={160}
             />
