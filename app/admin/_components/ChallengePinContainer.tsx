@@ -71,6 +71,8 @@ const ChallengePinContainer = () => {
     sessionStorage.setItem(STORAGE_KEY, optionId);
   };
 
+  console.log(checkedItems);
+
   return (
     <>
       <div className={`${style.navigation} ${style.sub}`}>

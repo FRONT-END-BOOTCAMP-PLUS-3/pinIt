@@ -8,8 +8,8 @@ import ChallengePinContainer from './_components/ChallengePinContainer';
 import ChallengeTopicContainer from './_components/ChallengeTopicContainer';
 import UserListContainer from './_components/UserListContainer';
 import { useEffect, useState } from 'react';
-import InputBox from '@/components/InputBox/InputBox/InputBox';
 import Button from '@/components/Buttons/Button';
+import SearchInput from '@/components/InputBox/SearchInput/SearchInput';
 
 const comboBoxOptions = [
   {
@@ -66,7 +66,12 @@ export default function Admin() {
       </div>
       {menubarSelected === 'search' && (
         <div className={style.searchbox}>
-          <InputBox rightIcon='save' placeholder='검색어를 입력하세요.' />
+          <SearchInput
+            value={''}
+            onChange={function (e: React.ChangeEvent<HTMLInputElement>): void {
+              throw new Error('Function not implemented.');
+            }}
+          />
         </div>
       )}
       {menubarSelected === 'sort' && (
