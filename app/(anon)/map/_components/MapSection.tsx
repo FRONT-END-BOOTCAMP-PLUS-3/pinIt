@@ -14,10 +14,19 @@ export interface Location {
   longitude: number;
 }
 
+export interface SelectedLocation {
+  name: string;
+  address: string;
+  latitude: number;
+  longitude: number;
+}
+
 const MapSection = () => {
   const [isLocationSearchVisible, setIsLocationSearchVisible] = useState(false);
   const [keyword, setKeyword] = useState(''); // 입력된 검색 키워드
   const [locations, setLocations] = useState<Location[]>([]); // 검색 결과 리스트
+  const [selectedLocation, setSelectedLocation] =
+    useState<SelectedLocation | null>(null); // 선택한 장소 정보
   const searchBoxRef = useRef<HTMLDivElement>(null); // searchBox 참조 생성
 
   // useCallback을 사용하여 함수가 매 렌더링마다 재생성되지 않도록 설정
@@ -25,7 +34,11 @@ const MapSection = () => {
     setIsLocationSearchVisible(false);
   }, []);
 
-  const handleSelectLocation = () => {
+  const handleSelectLocation = (location: SelectedLocation) => {
+    // 선택된 장소 정보 가져오기
+    setSelectedLocation(location);
+
+    // 검색한 장소들 중 하나 선택하면 드롭 박스 닫힘
     setIsLocationSearchVisible(false);
   };
 
@@ -74,7 +87,7 @@ const MapSection = () => {
 
         const data = await response.json();
 
-        // 현재 페이지의 데이터 추가
+        // 키워드에 맞는 장소 리스트 받아오기
         const newLocations = data.documents.map(
           (place: {
             id: string;
@@ -130,7 +143,7 @@ const MapSection = () => {
           />
         )}
       </div>
-      <ViewMap />
+      <ViewMap selectedLocation={selectedLocation} />
     </div>
   );
 };

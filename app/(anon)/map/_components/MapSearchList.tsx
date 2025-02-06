@@ -1,17 +1,11 @@
 'use client';
 
 import styles from '../ViewMap.module.scss';
-import { useEffect, useRef } from 'react';
-import { Location } from './MapSection';
+import { Location, SelectedLocation } from './MapSection';
 
 interface LocationSearchProps {
   onClose: () => void;
-  onSelectLocation: (location: {
-    name: string;
-    address: string;
-    latitude: number;
-    longitude: number;
-  }) => void;
+  onSelectLocation: (location: SelectedLocation) => void;
   searchList: Location[]; // 검색 결과 리스트 (배열)
 }
 
@@ -20,7 +14,7 @@ const MapSearchList: React.FC<LocationSearchProps> = ({
   onSelectLocation,
   searchList,
 }) => {
-  const handleSelectLocation = (location: Location) => {
+  const handleSelectLocation = (location: SelectedLocation) => {
     onSelectLocation({
       name: location.name,
       address: location.address,

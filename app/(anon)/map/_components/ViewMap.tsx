@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import styles from '../ViewMap.module.scss';
 import RoundIconButton from '@/components/Buttons/RoundIconButton';
+import { SelectedLocation } from './MapSection';
 
 declare global {
   interface Window {
@@ -10,8 +11,13 @@ declare global {
   }
 }
 
-const ViewMap = () => {
+interface ViewMapProps {
+  selectedLocation: SelectedLocation | null;
+}
+
+const ViewMap: React.FC<ViewMapProps> = ({ selectedLocation }) => {
   const mapRef = useRef<any>(null);
+  const markerRef = useRef<any>(null);
   const [lat, setLat] = useState<number | null>(null); // GPS로 현재 위치 설정
   const [lng, setLng] = useState<number | null>(null);
   const jsApiKey = process.env.NEXT_PUBLIC_KAKAOMAP_JS_KEY;
@@ -60,14 +66,29 @@ const ViewMap = () => {
         });
 
         marker.setMap(map);
+        markerRef.current = marker;
       });
     };
 
     kakaoMapScript.addEventListener('load', onLoadKakaoAPI); // 스크립트가 완전히 로드된 후 onLoadKakaoAPI 실행
   }, [lat, lng, jsApiKey]);
 
+  // 검색된 장소로 지도 이동
+  useEffect(() => {
+    if (!mapRef.current || !selectedLocation) return;
+
+    const { latitude, longitude } = selectedLocation;
+    const newCenter = new window.kakao.maps.LatLng(latitude, longitude);
+
+    mapRef.current.setCenter(newCenter);
+
+    // 기존 마커 삭제
+    if (markerRef.current) {
+      markerRef.current.setMap(null);
+    }
+  });
+
   const setCenter = () => {
-    console.log('click');
     if (!mapRef.current) return;
 
     // 버튼 클릭 시 현재 위치로 센터 설정
