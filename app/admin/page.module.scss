@@ -190,3 +190,10 @@
   color: #fff;
   background: $main-black-1; // ✅ 선택된 옵션 강조
 }
+
+.topicContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}

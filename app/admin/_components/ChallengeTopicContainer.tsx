@@ -4,6 +4,10 @@ import { useEffect, useState } from 'react';
 import ListComponent from './ListComponent';
 import ROUTES from '@/constants/routes';
 import { PinListContainerProps } from './PinListContainerProps';
+import Link from 'next/link';
+import style from '@/app/admin/page.module.scss';
+import Icon from '@/components/Icon/Icon';
+import Button from '@/components/Buttons/Button';
 
 // 이건 데이터 내용대로 바꾸세요
 interface ChallengeTopicData {
@@ -32,14 +36,19 @@ const ChallengeTopicContainer = ({
   ];
 
   return (
-    <ListComponent
-      data={mockData}
-      setCheckedItems={setCheckedItems}
-      checkedItems={checkedItems}
-      routePath={ROUTES.admin.topic.detail}
-      sortOption={sortOption} // 정렬 방법 전달
-      sortKey='topic' // 정렬 기준이 될 키 전달
-    />
+    <div className={style.topicContainer}>
+      <ListComponent
+        data={mockData}
+        setCheckedItems={setCheckedItems}
+        checkedItems={checkedItems}
+        routePath={ROUTES.admin.topic.detail}
+        sortOption={sortOption}
+        sortKey='topic'
+      />
+      <Link href={ROUTES.admin.topic.create} passHref>
+        <Button icon='create' label='새 주제 추가' />
+      </Link>
+    </div>
   );
 };
 
