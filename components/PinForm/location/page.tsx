@@ -5,18 +5,25 @@ import AddressSection from './_components/AddressSection';
 import MapSection from './_components/MapSection';
 import styles from './addLocation.module.scss';
 
+// Location 타입 정의
+interface Location {
+  name: string;
+  address: string;
+  latitude: number;
+  longitude: number;
+}
+
 interface AddLocationPageProps {
-  onLocationSelect: (location: { name: string; address: string }) => void;
+  onLocationSelect: (location: Location) => void;
 }
 
 const AddLocationPage: React.FC<AddLocationPageProps> = () => {
-  const [selectedLocation, setSelectedLocation] = useState<{
-    name: string;
-    address: string;
-  } | null>(null);
+  const [selectedLocation, setSelectedLocation] = useState<Location | null>(
+    null,
+  );
 
-  const handleSelectLocation = (placeName: string, address: string) => {
-    const locationData = { name: placeName, address };
+  const handleSelectLocation = (location: Location) => {
+    const locationData: Location = location;
     setSelectedLocation(locationData);
   };
 
