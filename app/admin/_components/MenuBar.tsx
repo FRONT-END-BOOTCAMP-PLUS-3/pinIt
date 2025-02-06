@@ -3,14 +3,22 @@
 import style from '@/app/admin/page.module.scss';
 import Icon from '@/components/Icon/Icon';
 
-const MenuBar = ({setMenubarSelected, checkedItems}: {setMenubarSelected: React.Dispatch<React.SetStateAction<string | null>>; checkedItems: string[];}) => {
+const MenuBar = ({
+  setMenubarSelected,
+  onTrashClick,
+}: {
+  setMenubarSelected: React.Dispatch<React.SetStateAction<string | null>>;
+  onTrashClick: () => void;
+}) => {
   const menus = ['search', 'sort', 'trash'];
 
   const handleMenuClick = (item: string) => {
     setMenubarSelected((prev) => (prev === item ? null : item));
-    console.log(checkedItems);
+    if (item === 'trash') {
+      onTrashClick(); // ✅ `trash` 클릭 시 `onTrashClick` 호출
+    }
   };
-  
+
   return (
     <ul className={style.menuBar}>
       {menus.map((item) => (
