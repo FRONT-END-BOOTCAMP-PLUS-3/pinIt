@@ -38,6 +38,11 @@ const ListComponent = <T extends { id: string }>({
     }
   };
 
+  const handleListItemClicked = (id: string) => {
+    const modifiedPath = routePath.replace(/\/[^/]+$/, `/${id}`);
+    router.push(modifiedPath);
+  };
+
   // 정렬 기준으로 데이터 정렬 (sortKey가 있을 때만 정렬)
   const sortedData = sortKey
     ? [...data].sort((a, b) => {
@@ -75,12 +80,7 @@ const ListComponent = <T extends { id: string }>({
                 />
               </td>
               {Object.values(item).map((details, index) => (
-                <td
-                  key={index}
-                  onClick={() =>
-                    router.push(routePath.replace('[id]', item.id))
-                  }
-                >
+                <td key={index} onClick={() => handleListItemClicked(item.id)}>
                   {details as string}
                 </td>
               ))}
