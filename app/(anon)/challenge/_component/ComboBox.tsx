@@ -57,8 +57,7 @@ const ComboBox = ({
               <strong>
                 (
                 {new Date(selectedOption.startDate).toISOString().split('T')[0]}{' '}
-                ~{' '}
-                {new Date(selectedOption.startDate).toISOString().split('T')[0]}
+                ~ {new Date(selectedOption.endDate).toISOString().split('T')[0]}
                 )
               </strong>
             )}
