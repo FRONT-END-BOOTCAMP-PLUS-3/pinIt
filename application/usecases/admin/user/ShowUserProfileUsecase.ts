@@ -1,6 +1,5 @@
 import { UserRepository } from '@/domain/repositories/UserRepository';
 import { UserDto } from './dto/UserDto';
-import { checkIsAdmin } from '@/hooks/chekcIsAdmin';
 import { getUserIdFromSupabase } from '@/utils/supabase/getUserIdFromSupabase';
 
 export const showUserProfileUsecase = async (
@@ -13,7 +12,17 @@ export const showUserProfileUsecase = async (
   if (!loggedinUser.admin) {
     throw new Error('권한이 없습니다.');
   }
-  const userListData = await userRepository.getUserById(userId);
+  const data = await userRepository.getUserById(userId);
 
-  return userListData;
+  const userData = {
+    id: data.id!,
+    nickname: data.nickname,
+    email: data.email,
+    deleteDate: data.deleteDate,
+    admin: data.admin!,
+    profileImg: data.profileImg,
+    createAt: data.createAt!,
+  };
+
+  return userData;
 };

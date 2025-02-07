@@ -3,9 +3,9 @@
 import style from '@/app/(anon)/challenge/add/page.module.scss';
 import Button from '@/components/Buttons/Button';
 import MyPinsContainer from '../_component/MyPinsContainer';
+import ChallengeAddPageTitle from '../_component/ChallengeAddPageTitle';
 import { useState } from 'react';
 import { MyPinDto } from '@/application/usecases/challenge/dto/MyPinDto';
-import ChallengeAddPageTitle from '../_component/ChallengeAddPageTitle';
 import { ChallengeTopicDto } from '@/application/usecases/challenge/dto/ChallengeTopicDto';
 import { useRouter } from 'next/navigation';
 

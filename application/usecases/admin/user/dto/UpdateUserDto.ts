@@ -1,11 +1,11 @@
 type UUID = string;
 
-export interface UserDto {
+export interface UpdateUserDto {
   id: UUID;
   nickname: string;
   email: string;
-  deleteDate: Date | null;
-  admin: boolean | string;
+  deleteDate: Date;
+  admin: boolean;
   profileImg: string;
   createAt: Date;
 }
