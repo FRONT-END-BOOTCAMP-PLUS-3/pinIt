@@ -27,7 +27,6 @@ const ViewMap: React.FC<ViewMapProps> = ({ selectedLocation }) => {
 
   useEffect(() => {
     if (selectedLocation && mapRef.current) {
-      console.log('📌 선택한 장소로 지도 이동:', selectedLocation);
       setTimeout(() => {
         fetchPin(mapRef.current.getBounds()); // 지도 이동 후 fetchPin 실행
       }, 500);
