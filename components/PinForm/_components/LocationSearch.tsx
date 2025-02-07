@@ -4,8 +4,7 @@ import React, { useRef, useEffect, useState } from 'react';
 import styles from '../pinForm.module.scss';
 import SearchInput from '@/components/InputBox/SearchInput/SearchInput';
 import Icon from '@/components/Icon/Icon';
-import Link from 'next/link';
-import ROUTES from '@/constants/routes';
+import AddLocation from './AddLocation/AddLocation';
 
 interface LocationSearchProps {
   onClose: () => void;
@@ -29,10 +28,11 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
   onClose,
   onSelectLocation,
 }) => {
-  const searchBoxRef = useRef<HTMLDivElement>(null); // searchBox 참조 생성
+  const searchBoxRef = useRef<HTMLDivElement>(null);
   const [isHovered, setIsHovered] = useState(false);
-  const [keyword, setKeyword] = useState(''); // 입력된 검색 키워드
-  const [locations, setLocations] = useState<Location[]>([]); // 검색 결과 리스트
+  const [keyword, setKeyword] = useState('');
+  const [locations, setLocations] = useState<Location[]>([]);
+  const [showAddLocationPopUp, setShowAddLocationPopUp] = useState(false);
 
   // 외부 클릭 감지 이벤트 등록
   useEffect(() => {
@@ -41,18 +41,17 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
         searchBoxRef.current &&
         !searchBoxRef.current.contains(event.target as Node)
       ) {
-        onClose(); // 외부 클릭 시 팝업 닫기
+        onClose();
       }
     };
 
     document.addEventListener('mousedown', handleOutsideClick);
-
     return () => {
       document.removeEventListener('mousedown', handleOutsideClick);
     };
   }, [onClose]);
 
-  // 장소 선택 시 부모 컴포넌트에 전달
+  // 장소 선택 시 부모 컴포넌트로 전달
   const handleSelectLocation = (location: Location) => {
     onSelectLocation({
       name: location.name,
@@ -60,10 +59,23 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
       latitude: location.latitude,
       longitude: location.longitude,
     });
-    onClose(); // 팝업 닫기
+    onClose();
   };
 
-  // 장소 검색 함수 (Kakao Map API 사용)
+  // 🔹 AddLocation 팝업에서 선택된 위치를 부모로 전달
+  const handleSelectLocationFromPopup = (location: {
+    name: string;
+    address: string;
+    latitude: number;
+    longitude: number;
+  }) => {
+    console.log(location);
+    onSelectLocation(location);
+    setShowAddLocationPopUp(false); // 팝업 닫기
+    onClose(); // 전체 LocationSearch 닫기
+  };
+
+  // 🔹 장소 검색 함수 (Kakao Map API 사용)
   const fetchLocations = async (keyword: string) => {
     if (!keyword) return;
 
@@ -90,14 +102,13 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
 
         const data = await response.json();
 
-        // 현재 페이지의 데이터 추가
         const newLocations = data.documents.map(
           (place: {
             id: string;
             place_name: string;
             road_address_name?: string;
-            x: string; // 경도 (longitude)
-            y: string; // 위도 (latitude)
+            x: string;
+            y: string;
           }) => ({
             id: place.id,
             name: place.place_name,
@@ -107,9 +118,9 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
           }),
         );
 
-        allLocations = [...allLocations, ...newLocations]; // 기존 데이터에 추가
-        isEnd = data.meta.is_end; // 마지막 페이지인지 확인
-        page++; // 다음 페이지 요청
+        allLocations = [...allLocations, ...newLocations];
+        isEnd = data.meta.is_end;
+        page++;
       }
 
       setLocations(allLocations);
@@ -118,32 +129,31 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
     }
   };
 
-  // 키워드 변경 시 fetchLocations 호출
+  // 🔹 키워드 변경 시 fetchLocations 호출
   useEffect(() => {
     const debounce = setTimeout(() => {
       fetchLocations(keyword);
-    }, 300); // 입력 후 300ms 지연
+    }, 300);
 
-    return () => clearTimeout(debounce); // 이전 타이머 정리
+    return () => clearTimeout(debounce);
   }, [keyword]);
-
-  const handleMouseEnter = () => setIsHovered(true);
-  const handleMouseLeave = () => setIsHovered(false);
 
   return (
     <div className={styles.locationSearchContainer}>
       <div ref={searchBoxRef} className={styles.searchBox}>
-        {/* SearchInput 컴포넌트에 검색 키워드 전달 */}
+        {/* 검색 입력창 */}
         <SearchInput
           value={keyword}
-          onChange={(e) => setKeyword(e.target.value)} // 키워드 업데이트
+          onChange={(e) => setKeyword(e.target.value)}
         />
+
+        {/* 현재 위치 버튼 */}
         <div className={styles.currentLocation}>
-          <Link
-            href={ROUTES.add.location}
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
+          <button
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
             className={styles.link}
+            onClick={() => setShowAddLocationPopUp(true)} // 팝업 열기
           >
             <span className={styles.gpsIcon}>
               <Icon
@@ -154,8 +164,9 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
               />
             </span>
             현재 위치로 찾기
-          </Link>
+          </button>
         </div>
+
         {/* 검색 결과 리스트 */}
         <ul className={styles.locationList}>
           {locations.map((location) => (
@@ -169,6 +180,19 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
             </li>
           ))}
         </ul>
+        {/* ✅ AddLocation 팝업 */}
+        {showAddLocationPopUp && (
+          <div className={styles.modalOverlay}>
+            <div className={styles.modalContent}>
+              <AddLocation
+                onLocationSearchPopupClose={() =>
+                  setShowAddLocationPopUp(false)
+                }
+                onLocationSelect={handleSelectLocationFromPopup} // 팝업 닫을 때 부모로 전달
+              />
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
