@@ -87,4 +87,45 @@ export class SbUserRepository implements UserRepository {
       createAt: user.create_at,
     }));
   }
+
+  async deleteUsersById(userIds: string[]): Promise<void> {
+    if (userIds.length === 0) throw new Error('No userId in parameter');
+
+    const supabase = await createClient();
+    const currentTime = new Date().toISOString();
+
+    const { error } = await supabase
+      .from('user')
+      .update({ delete_date: currentTime })
+      .in('id', userIds)
+      .select('*')
+      .order('create_at', { ascending: false });
+
+    if (error) {
+      throw new Error(`Failed to delete users: ${error.message}`);
+    }
+  }
+
+  async updateUser(user: User): Promise<void> {
+    const supabase = await createClient();
+
+    const formattedData = {
+      id: user.id,
+      nickname: user.nickname,
+      email: user.email,
+      delete_date: user.deleteDate,
+      admin: user.admin,
+      profile_img: user.profileImg,
+      create_at: user.createAt,
+    };
+
+    const { error } = await supabase
+      .from('user')
+      .update(formattedData)
+      .eq('id', user.id);
+
+    if (error) {
+      throw new Error(error.message);
+    }
+  }
 }
