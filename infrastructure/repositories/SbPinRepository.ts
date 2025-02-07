@@ -82,7 +82,35 @@ export class SbPinRepository implements PinRepository {
       userId: data.user_id,
     };
   }
-
+  async findPinsByUserId(userId: string): Promise<Pin[]> {
+    const supabase = await createClient();
+    const { data, error } = await supabase
+      .from('pin')
+      .select('*')
+      .eq('user_id', userId)  // user_id로 필터링
+      .order('create_at', { ascending: false });  // 최신 순으로 정렬
+  
+    if (error) {
+      throw new Error(error.message);
+    }
+  
+    const formattedData = data.map((pin) => ({
+      id: pin.id,
+      placeName: pin.place_name,
+      captureDate: pin.capture_date,
+      address: pin.address,
+      latitude: pin.latitude,
+      longitude: pin.longitude,
+      tags: pin.tags,
+      description: pin.description,
+      image: pin.image,
+      countLike: pin.count_like,
+      createAt: pin.create_at,
+      userId: pin.user_id,
+    }));
+  
+    return formattedData || [];
+  }
   async findPinsByIdOrderByLike(pinId: string[] | []): Promise<Pin[]> {
     if (pinId.length === 0) return [];
 
@@ -182,5 +210,34 @@ export class SbPinRepository implements PinRepository {
     if (error) {
       throw new Error(error.message);
     }
+  }
+
+  async getPinsByUserId(userId: string): Promise<Pin[]> {
+    const supabase = await createClient();
+
+    const { data, error } = await supabase
+      .from('pin')
+      .select('*')
+      .eq('user_id', userId)
+      .order('create_at', { ascending: false });
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    return data.map((pin) => ({
+      id: pin.id,
+      placeName: pin.place_name,
+      captureDate: pin.capture_date,
+      address: pin.address,
+      latitude: pin.latitude,
+      longitude: pin.longitude,
+      tags: pin.tags,
+      description: pin.description,
+      image: pin.image,
+      countLike: pin.count_like,
+      createAt: pin.create_at,
+      userId: pin.user_id,
+    }));
   }
 }

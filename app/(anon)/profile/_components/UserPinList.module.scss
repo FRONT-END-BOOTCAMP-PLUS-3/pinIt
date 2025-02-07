@@ -22,6 +22,10 @@
         flex-wrap: wrap;
         margin-top: 10px;
 
+        .nodata {
+            margin: 20px auto;
+        }
+
         li.list_item svg {
             display: var(--checkbox, none); // CSS 변수로 display 제어
         }

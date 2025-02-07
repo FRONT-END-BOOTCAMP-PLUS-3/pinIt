@@ -19,8 +19,11 @@ interface ComboBoxOption {
 
 // ComboBox 옵션 선택 기능 & 선택했던 옵션 기억 기능 훅
 const ComboBoxOptionSelect = (options: ComboBoxOption[], OPTION_KEY: string) => {
+  // localStrage는 브라우저 저장소이기 때문에 브라우저가 아니면 정의되지 않음
+  // 따라서 접속환경이 브라우저인지 여부 체크
   const isBrowser = typeof window !== "undefined";
   // localStorage에서 이전에 선택된 옵션의 index를 OPTION_KEY 매개변수를 통해 가져오기
+  // (브라우저가 아니면 옵션의 index를 0번으로 지정함)
   const savedOptionIndex = isBrowser ? localStorage.getItem(OPTION_KEY) : "0";
 
   // localStorage에 저장된 키를 옵션 인덱스 값으로 지정(없으면 '0'으로 지정하고 OPTION_KEY로 키값 지정해서 localStorage에 저장)

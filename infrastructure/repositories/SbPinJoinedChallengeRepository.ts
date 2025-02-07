@@ -27,4 +27,21 @@ export class SbPinJoinedChallengeRepository
 
     return formattedData || [];
   }
+
+  async createPinJoinedChallenge(data: PinJoinedChallenge[]): Promise<void> {
+    const supabase = await createClient();
+
+    const formattedData = data.map((item) => ({
+      challengeTopic_id: item.challengeTopicId,
+      pin_id: item.pinId,
+    }));
+
+    const { error } = await supabase
+      .from('pin_joined_challenge')
+      .insert(formattedData);
+
+    if (error) {
+      throw new Error(`데이터 삽입 오류: ${error.message}`);
+    }
+  }
 }

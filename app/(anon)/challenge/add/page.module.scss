@@ -11,4 +11,14 @@
   .card_container {
     @include cardContainer;
   }
+
+  button {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-bottom: 20px;
+    z-index: 999;
+    cursor: pointer;
+  }
 }
