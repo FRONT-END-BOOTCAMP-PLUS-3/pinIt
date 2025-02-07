@@ -24,10 +24,6 @@ const HEADER_CONFIG: Array<{ path: RegExp; config: PageConfig }> = [
     path: /^\/challenge\/add$/,
     config: { header: 'WhiteHeaderWithBack', hasNavigation: false },
   },
-  {
-    path: /^\/add\/location$/,
-    config: { header: 'WhiteHeaderWithBack', hasNavigation: false },
-  },
   { path: /^\/like$/, config: { header: 'Header', hasNavigation: true } },
   { path: /^\/profile$/, config: { header: 'Header', hasNavigation: true } },
   {
