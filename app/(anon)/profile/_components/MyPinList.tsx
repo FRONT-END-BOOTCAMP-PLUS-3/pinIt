@@ -16,13 +16,11 @@ interface PinDto {
 }
 
 const MyPinList = ({ userId }: { userId?: string }) => {
-  const [isEditing, setIsEditing] = useState(false); // 편집 모드 여부
+  const [isEditing, setIsEditing] = useState(false);
   const [list, setList] = useState<PinDto[]>([]);
   const [checkedItems, setCheckedItems] = useState<Record<string, boolean>>({});
   const [deletePopupOpen, setDeletePopupOpen] = useState(false);
-  const containerRef = useRef<HTMLUListElement>(null);
-  const [cardWidth, setCardWidth] = useState(112);
-  const gap = 14;
+  const containerRef = useRef<HTMLDivElement>(null);
 
   /* 핀 리스트 불러오기 */
   useEffect(() => {
@@ -37,7 +35,6 @@ const MyPinList = ({ userId }: { userId?: string }) => {
       }
     };
     fetchData();
-    console.log(checkedPinIds);
   }, [userId]);
 
   /* 핀 항목 체크 */
@@ -81,31 +78,6 @@ const MyPinList = ({ userId }: { userId?: string }) => {
     }
   };
 
-  /* 핀 카드 너비 자동 조정 */
-  const calculateCardWidth = () => {
-    if (containerRef.current) {
-      const containerWidth = containerRef.current.offsetWidth;
-      const itemsPerRow = Math.floor((containerWidth + gap) / (112 + gap));
-      const totalGaps = (itemsPerRow - 1) * gap;
-      const dynamicWidth = (containerWidth - totalGaps) / itemsPerRow;
-      setCardWidth(dynamicWidth > 112 ? dynamicWidth : 112);
-    }
-  };
-
-  useEffect(() => {
-    calculateCardWidth();
-    window.addEventListener('resize', calculateCardWidth);
-    return () => window.removeEventListener('resize', calculateCardWidth);
-  }, []);
-
-  /* .container 스타일 설정(휴지통 아이콘 고정에 필요) */
-  useEffect(() => {
-    const container = document.querySelector('.container');
-    if (container) {
-      (container as HTMLElement).style.position = 'relative';
-    }
-  }, []);
-
   return (
     <>
       {/* 삭제 확인 모달 */}
@@ -131,35 +103,25 @@ const MyPinList = ({ userId }: { userId?: string }) => {
           </button>
         </div>
 
-        <ul
-          className={styles.list}
-          ref={containerRef}
-          style={
-            {
-              '--checkbox': isEditing ? 'block' : 'none',
-              gap: gap,
-            } as React.CSSProperties
-          }
-        >
+        {/* ✅ 기존의 ul > li 구조를 div.pincard_container 내부에 배치 */}
+        <div className={styles.pincard_container} ref={containerRef}>
           {list.length > 0 ? (
-            list.map((pin, index) => (
-              <li key={pin.id} className={styles.list_item}>
-                <ProfilePinCard
-                  id={pin.id}
-                  url={pin.image}
-                  width={cardWidth}
-                  location={pin.placeName}
-                  address={pin.address}
-                  checked={checkedItems[index] || false}
-                  onClickCheckButton={() => handleCheck(pin.id)}
-                  isEditing={isEditing}
-                />
-              </li>
+            list.map((pin) => (
+              <ProfilePinCard
+                key={pin.id} // ✅ key를 여기서 사용
+                id={pin.id}
+                url={pin.image}
+                location={pin.placeName}
+                address={pin.address}
+                checked={checkedItems[pin.id] || false}
+                onClickCheckButton={() => handleCheck(pin.id)}
+                isEditing={isEditing}
+              />
             ))
           ) : (
-            <li className={styles.nodata}>리스트가 없습니다.</li>
+            <p className={styles.nodata}>리스트가 없습니다.</p>
           )}
-        </ul>
+        </div>
       </div>
 
       {/* 삭제 버튼 */}

@@ -4,6 +4,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 16px;
 
     .title {
       font-size: $font-size-xlarge;
@@ -34,22 +35,14 @@
     }
   }
 
-  .list {
-    display: flex;
-    flex-wrap: wrap;
-    margin-top: 10px;
+  .pincard_container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); // 기본적으로 3열 배치
+    gap: 14px;
+    width: 100%;
 
-    .nodata {
-      margin: 20px auto;
-    }
-
-    li.list_item svg {
-      display: var(--checkbox, none); // CSS 변수로 display 제어
-    }
-
-    img {
-      object-fit: cover;
-      object-position: center;
+    @media (min-width: 700px) {
+      grid-template-columns: repeat(4, 1fr); // 700px 이상일 때 4열 배치
     }
   }
 }

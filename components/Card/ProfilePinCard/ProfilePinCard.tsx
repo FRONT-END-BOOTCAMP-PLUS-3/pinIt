@@ -9,7 +9,6 @@ import { useEffect, useState } from 'react';
 const ProfilePinCard = ({
   id,
   url = '/default_image.png',
-  width = 120,
   location,
   address,
   checked = false,
@@ -32,11 +31,6 @@ const ProfilePinCard = ({
     setIsChecked(false);
   }, [isEditing]);
 
-  const widthStyle =
-    typeof width === 'number' && width > 100
-      ? `${width}px`
-      : `${width.toFixed(10)}vw`;
-
   const handleCardClick = (e: React.MouseEvent) => {
     if (!isEditing) return; // ✅ 편집 모드가 아닐 때 클릭 이벤트 무시
 
@@ -53,7 +47,6 @@ const ProfilePinCard = ({
   return (
     <div
       className={`${styles.MyPinCard} ${isEditing && isChecked ? styles.Selected : ''} ${isEditing && !isChecked ? styles.Unselected : ''}`}
-      style={{ '--card-width': widthStyle } as React.CSSProperties}
       onClick={handleCardClick} // ✅ 편집 모드일 때만 클릭 이벤트 활성화
     >
       {/* ✅ 편집 모드가 아닐 때: 핀 클릭 시 상세보기 이동 */}
@@ -68,7 +61,7 @@ const ProfilePinCard = ({
               height={160}
             />
           </div>
-          <div className={styles.PinCard_text}>
+          <div className={styles.text}>
             <h2 className={styles.location}>{location}</h2>
             <p className={styles.address}>{address}</p>
           </div>
@@ -85,7 +78,7 @@ const ProfilePinCard = ({
               height={160}
             />
           </div>
-          <div className={styles.PinCard_text}>
+          <div className={styles.text}>
             <h2 className={styles.location}>{location}</h2>
             <p className={styles.address}>{address}</p>
           </div>
