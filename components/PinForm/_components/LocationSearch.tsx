@@ -62,20 +62,19 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
     onClose();
   };
 
-  // 🔹 AddLocation 팝업에서 선택된 위치를 부모로 전달
+  // AddLocation 팝업에서 선택된 위치를 부모로 전달
   const handleSelectLocationFromPopup = (location: {
     name: string;
     address: string;
     latitude: number;
     longitude: number;
   }) => {
-    console.log(location);
     onSelectLocation(location);
     setShowAddLocationPopUp(false); // 팝업 닫기
     onClose(); // 전체 LocationSearch 닫기
   };
 
-  // 🔹 장소 검색 함수 (Kakao Map API 사용)
+  // 장소 검색 함수 (Kakao Map API 사용)
   const fetchLocations = async (keyword: string) => {
     if (!keyword) return;
 
@@ -129,7 +128,7 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
     }
   };
 
-  // 🔹 키워드 변경 시 fetchLocations 호출
+  // 키워드 변경 시 fetchLocations 호출
   useEffect(() => {
     const debounce = setTimeout(() => {
       fetchLocations(keyword);
@@ -180,7 +179,7 @@ const LocationSearch: React.FC<LocationSearchProps> = ({
             </li>
           ))}
         </ul>
-        {/* ✅ AddLocation 팝업 */}
+        {/* AddLocation 팝업 */}
         {showAddLocationPopUp && (
           <div className={styles.modalOverlay}>
             <div className={styles.modalContent}>

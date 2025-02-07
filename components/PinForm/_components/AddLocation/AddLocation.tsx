@@ -33,10 +33,7 @@ const AddLocation: React.FC<AddLocationProps> = ({
 
   // AddressSection에서 버튼 클릭 시 실행
   const handleRegisterLocation = () => {
-    console.log('click handleRegisterLocation!');
-
     if (selectedLocation) {
-      console.log(selectedLocation);
       onLocationSelect(selectedLocation); // 선택한 위치 부모 컴포넌트로 전달
       onLocationSearchPopupClose(); // AddLocation 팝업 닫기
     }
@@ -49,8 +46,8 @@ const AddLocation: React.FC<AddLocationProps> = ({
 
       {/* 주소 정보 */}
       <AddressSection
-        placeName={selectedLocation?.name || '로딩 중'}
-        address={selectedLocation?.address || '주소 검색 중...'}
+        placeName={selectedLocation?.name || '현재 위치 설정 중...'}
+        address={selectedLocation?.address || '잠시만 기다려주세요'}
         onAddLocationPopupClose={handleRegisterLocation} // 버튼 클릭 시 처리
       />
     </div>

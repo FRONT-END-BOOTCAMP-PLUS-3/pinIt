@@ -145,7 +145,7 @@ const PinForm: React.FC<PinFormProps> = ({
   };
 
   return (
-    <form className={styles.form} onSubmit={handleSubmit}>
+    <form className={styles.form} onSubmit={(e) => e.preventDefault()}>
       <h2 className={styles.pageTitle}>{isEdit ? '핀 수정' : '핀 생성'}</h2>
       <div className={styles.photoAndTextContainer}>
         <PhotoUpload

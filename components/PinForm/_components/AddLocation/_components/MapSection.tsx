@@ -46,17 +46,33 @@ const MapSection: React.FC<MapSectionProps> = ({ onAddressChange }) => {
 
   // ✅ 좌표를 주소로 변환하는 함수
   const fetchAddress = (latitude: number, longitude: number) => {
-    if (!window.kakao || !window.kakao.maps) return;
+    if (!window.kakao || !window.kakao.maps) {
+      console.error('Kakao Maps API is not loaded yet.');
+      return;
+    }
 
-    const geocoder = new window.kakao.maps.services.Geocoder();
-    geocoder.coord2Address(longitude, latitude, (result: any, status: any) => {
-      if (status === window.kakao.maps.services.Status.OK) {
-        const address =
-          result[0]?.road_address?.address_name ||
-          result[0]?.address?.address_name;
-        const name = result[0]?.address?.region_3depth_name || '알 수 없음';
-        onAddressChange({ name, address, latitude, longitude });
+    // ✅ SDK 로드 후 실행
+    window.kakao.maps.load(() => {
+      if (!window.kakao.maps.services) {
+        console.error('Kakao Maps Services API is missing.');
+        return;
       }
+
+      const geocoder = new window.kakao.maps.services.Geocoder();
+
+      geocoder.coord2Address(
+        longitude,
+        latitude,
+        (result: any, status: any) => {
+          if (status === window.kakao.maps.services.Status.OK) {
+            const address =
+              result[0]?.road_address?.address_name ||
+              result[0]?.address?.address_name;
+            const name = result[0]?.address?.region_3depth_name || '알 수 없음';
+            onAddressChange({ name, address, latitude, longitude });
+          }
+        },
+      );
     });
   };
 
