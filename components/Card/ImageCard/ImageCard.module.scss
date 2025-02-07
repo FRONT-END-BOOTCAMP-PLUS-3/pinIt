@@ -1,0 +1,14 @@
+.imageCard {
+  width: 112px;
+  height: 160px;
+  border-radius: $border-radius-large;
+  overflow: hidden;
+  flex: 0 0 auto;
+  scroll-snap-align: start;
+
+  .image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; // ✅ 원본 비율 유지 + 박스보다 크면 잘림
+  }
+}

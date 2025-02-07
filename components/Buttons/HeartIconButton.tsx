@@ -1,17 +1,18 @@
 import Icon from '../Icon/Icon';
 import styles from './HeartIconButton.module.scss';
 
-// liked는 상태관리
 const HeartIconButton = ({
   liked,
   w,
   h,
   onClickLikeButton,
+  heartColor = '#fff', // 기본값 설정
 }: {
   liked: boolean;
   w: number;
   h: number;
   onClickLikeButton: React.MouseEventHandler;
+  heartColor?: string; // heartColor는 선택적 속성으로 정의
 }) => {
   return (
     <>
@@ -21,8 +22,8 @@ const HeartIconButton = ({
         onClick={onClickLikeButton}
       >
         <Icon
-          id={liked ? 'heart-bold' : 'heart-bold'}
-          color={liked ? '#FF2F32' : '#ffffff'}
+          id={liked ? 'heart-bold' : 'heart'}
+          color={liked ? '#FF2F32' : heartColor} // heartColor 사용
           width={w}
           height={h}
         />

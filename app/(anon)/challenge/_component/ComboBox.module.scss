@@ -1,0 +1,109 @@
+.combo_box {
+  height: 24px;
+  position: relative;
+
+  .button {
+    line-height: 24px;
+    text-align: left;
+    font-weight: bold;
+    background-color: transparent;
+
+    svg {
+      margin-top: 3px;
+      margin-left: 10px;
+      flex-shrink: 0;
+    }
+  }
+
+  .toggle_list {
+    position: absolute;
+    top: 28px;
+    left: 0;
+    background-color: $bg-white;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.3);
+    border-radius: $border-radius-small;
+    z-index: 999;
+    transform: translateY(-10px);
+    visibility: hidden;
+    transition:
+      opacity 0.3s ease,
+      transform 0.3s ease;
+
+    &.open {
+      animation: fadeInDropdown 0.3s ease forwards;
+      visibility: visible;
+    }
+
+    &.close {
+      animation: fadeOutDropdown 0.3s ease forwards;
+    }
+
+    li {
+      height: 42px;
+      width: max-content;
+      line-height: 42px;
+      padding-left: 18px;
+      padding-right: 20px;
+      cursor: pointer;
+
+      &:hover {
+        background-color: $main-black-4;
+      }
+    }
+  }
+
+  &.sub ul {
+    z-index: 1;
+
+    li {
+      strong {
+        font-size: $font-size-small;
+        font-weight: $font-weight-normal;
+      }
+
+      @media (max-width: 520px) {
+        width: auto;
+      }
+    }
+  }
+}
+
+.ellipsis_box {
+  display: flex;
+
+  > span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+  }
+
+  strong {
+    font-size: $font-size-medium;
+    font-weight: $font-weight-bold;
+    color: $main-black-2;
+  }
+}
+
+@keyframes fadeInDropdown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px); // 위에서 내려오는 효과
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeOutDropdown {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}

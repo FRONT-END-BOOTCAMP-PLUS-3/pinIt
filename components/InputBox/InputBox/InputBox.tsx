@@ -1,35 +1,46 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
-import styles from "./InputBox.module.scss";
+import React from 'react';
+import styles from './InputBox.module.scss';
+import Icon from '@/components/Icon/Icon';
 
-const InputBox = ({value} : {value: string}) => {
-    const [inputValue, setInputValue] = useState(value);
-    const [isFocused, setIsFocused] = useState(false);
-
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setInputValue(event.target.value);
-    };
-
-    const handleFocus = () => {
-        if (!isFocused) {
-            setInputValue(""); // 포커스 시 초기값을 지움
-            setIsFocused(true);
-        }
-    };
-
-    const handleBlur = () => {
-        if (inputValue.trim() === "") {
-            setInputValue(value); // 값이 비어있을 경우 초기값으로 되돌림
-        }
-        setIsFocused(false);
-    };
-
-    return (
-        <div className={styles.input_box}>
-            <input type="text" value={inputValue} onChange={handleChange} onFocus={handleFocus} onBlur={handleBlur} />
-        </div>
-    );
+interface InputBoxProps {
+  placeholder: string;
+  value?: string;
+  rightIcon?: string;
+  readOnly?: boolean;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
+
+const InputBox: React.FC<InputBoxProps> = ({
+  placeholder,
+  value = '',
+  rightIcon,
+  readOnly = false,
+  onChange,
+}) => {
+  const handleSubmit = (event: React.FormEvent): void => {
+    event.preventDefault();
+    // 폼 데이터 처리 로직 작성
+    console.log('Form submitted');
+  };
+
+  return (
+    <div className={`${styles.input_box}${rightIcon ? ' '+styles.iconAdded : ''}`}>
+      <input
+        type='text'
+        placeholder={placeholder}
+        defaultValue={value}
+        readOnly={readOnly} // readOnly 지원
+        onChange={onChange}
+      />
+      {rightIcon && (
+      <button onClick={handleSubmit}>
+        <Icon id={rightIcon} width={26} height={26} color='#252526' />
+      </button>
+      )}
+    </div>
+  );
+};
 
 export default InputBox;

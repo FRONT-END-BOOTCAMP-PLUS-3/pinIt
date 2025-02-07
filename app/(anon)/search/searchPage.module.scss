@@ -1,0 +1,133 @@
+.searchSectionContianer {
+  margin-bottom: 5px;
+}
+
+.tabButtonSectionContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+
+  .tabButtons {
+    display: flex;
+    justify-content: space-around;
+    border-bottom: 1px solid $input-before;
+  }
+
+  .tabButton {
+    flex: 1;
+    padding: 12px 0;
+    text-align: center;
+    color: $text-gray;
+    background: none;
+    border: none;
+    cursor: pointer;
+
+    &:hover {
+      color: #000;
+      font-weight: bold;
+    }
+
+    &.active {
+      color: $text-black;
+      border-bottom: 3px solid $main-black-1;
+      font-weight: bold;
+    }
+  }
+}
+
+.locationTabContainer {
+  display: flex;
+  flex-flow: column nowrap;
+  width: 100%;
+  gap: $spacing-medium;
+  margin-top: 16px;
+
+  .pinCard_container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); // 기본적으로 3열 배치
+    gap: 14px;
+    width: 100%;
+
+    @media (min-width: 700px) {
+      grid-template-columns: repeat(4, 1fr); // 700px 이상일 때 4열 배치
+    }
+  }
+}
+
+.userTabContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  margin-top: 16px;
+
+  .userList {
+    display: block; /* 세로 리스트로 설정 */
+    width: 100%; /* 전체 너비 */
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .userItem {
+    display: flex; /* 프로필 이미지와 이름을 가로로 정렬 */
+    align-items: center;
+    padding: 12px 16px;
+    border-bottom: 1px solid #ddd; /* 항목 간 구분선 */
+    transition: background-color 0.2s ease;
+    cursor: pointer;
+
+    &:last-child {
+      border-bottom: none; /* 마지막 아이템 구분선 제거 */
+    }
+
+    &:hover {
+      background-color: #f9f9f9; /* 호버 시 배경색 변경 */
+    }
+
+    .profileImg {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-image: url('https://via.placeholder.com/100');
+      background-size: cover;
+      background-position: center;
+      margin-right: 12px;
+      background-color: $main-black-4;
+    }
+
+    .userDetails {
+      display: flex;
+      flex-direction: column;
+
+      .userName {
+        font-size: 14px;
+        font-weight: 600;
+        color: #333;
+      }
+
+      .userNickname {
+        font-size: 12px;
+        color: #666;
+      }
+    }
+  }
+}
+
+.searchMessage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+  color: #777;
+  padding: 8px 0;
+  gap: 8px;
+  background-color: transparent;
+
+  .icon {
+    width: 18px;
+    height: 18px;
+  }
+}

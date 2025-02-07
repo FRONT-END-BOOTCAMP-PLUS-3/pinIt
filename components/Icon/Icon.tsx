@@ -1,3 +1,5 @@
+'use client';
+
 import S from '@/components/Icon/Icon.module.scss';
 
 const Icon = ({

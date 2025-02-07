@@ -1,0 +1,13 @@
+.title {
+  font-size: $font-size-xxlarge;
+  .topic {
+    margin-left: 5px;
+  }
+  .date {
+    margin: 0px 5px;
+  }
+  strong {
+    font-size: $font-size-small;
+    font-weight: $font-weight-normal;
+  }
+}

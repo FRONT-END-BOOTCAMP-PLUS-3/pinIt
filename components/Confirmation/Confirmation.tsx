@@ -1,3 +1,5 @@
+'use client';
+
 import style from '@/components/Confirmation/Confirmation.module.scss';
 import Button from '../Buttons/Button';
 import { MouseEventHandler, useEffect, useRef } from 'react';
