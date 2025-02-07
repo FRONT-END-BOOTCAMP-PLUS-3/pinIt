@@ -16,14 +16,13 @@
   }
 
   .link {
-    width: fit-content;
     background-color: $main-black-1;
     color: $main-black-4;
     font-size: $font-size-large;
     font-weight: bold;
-    padding: $spacing-medium $spacing-xxlarge;
+    padding: $spacing-medium $spacing-xlarge;
     border: none;
-    border-radius: 30px;
+    border-radius: 50px;
     text-align: center;
     display: inline-block;
     text-align: center;
