@@ -1,11 +1,11 @@
 type UUID = string;
 
 export interface UserDto {
-  id: UUID | null;
+  id: UUID;
   nickname: string;
   email: string;
   deleteDate: Date | null;
-  admin: boolean | null;
+  admin: boolean | string;
   profileImg: string;
-  createAt: Date | null;
+  createAt: Date;
 }
