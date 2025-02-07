@@ -1,35 +1,27 @@
 'use client';
 
 import styles from '../addLocation.module.scss';
-import { useRouter } from 'next/navigation';
 
 interface AddressSectionProps {
   placeName: string;
   address: string;
+  onAddLocationPopupClose: () => void; // AddLocation에게 버튼 클릭 알림
 }
 
 const AddressSection: React.FC<AddressSectionProps> = ({
   placeName,
   address,
+  onAddLocationPopupClose,
 }) => {
-  const router = useRouter();
-
-  const handleRegister = () => {
-    // ✅ 선택한 장소 정보를 sessionStorage에 저장
-    sessionStorage.setItem(
-      'selectedLocation',
-      JSON.stringify({ name: placeName, address }),
-    );
-
-    // ✅ AddPage로 이동
-    router.push('/add');
-  };
-
   return (
     <div className={styles.addressSectionContainer}>
       <div className={styles.addressDetails}>{placeName}</div>
       <div className={styles.addressSubDetails}>{address}</div>
-      <button className={styles.registerButton} onClick={handleRegister}>
+      {/* 버튼 클릭 시 onAddLocationPopupClose 호출 → AddLocation에 알림 */}
+      <button
+        className={styles.registerButton}
+        onClick={onAddLocationPopupClose}
+      >
         이 위치로 주소 등록하기
       </button>
     </div>

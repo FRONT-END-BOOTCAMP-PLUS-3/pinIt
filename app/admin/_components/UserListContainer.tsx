@@ -1,121 +1,83 @@
 'use client';
 
-import style from '@/app/admin/page.module.scss';
-import HorizontalScrollHook from './HorizontalScrollHook';
-import { useRouter } from 'next/navigation';
+import ListComponent from './ListComponent';
+import { useEffect, useState } from 'react';
 import ROUTES from '@/constants/routes';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { PinListContainerProps } from './PinListContainerProps';
+import { UserDto } from '@/application/usecases/admin/user/dto/UserDto';
+import { deleteUser } from '../_api/deleteUser';
 
-const UserListContainer = (
-  {setCheckedItems}:{setCheckedItems?:Dispatch<SetStateAction<string[]>>;}
-) => {
-    const mockData = [
-        {
-            id: '1',
-            nickname: '하이룽',
-            email: 'id@email.com',
-        },
-        {
-            id: '2',
-            nickname: '안녕하세요',
-            email: 'hello@email.com',
-        },
-        {
-            id: '3',
-            nickname: '와우우우우우우우웅',
-            email: 'wow@email.com',
-        },
-    ];
+const UserListContainer = ({
+  searchKeyword,
+  sortOption, // nickname을 정렬할 기준(기본값은 최신순 정렬)
+  trashClicked,
+}: PinListContainerProps) => {
+  const [checkedItems, setCheckedItems] = useState<string[]>([]); // 선택된 아이템들
+  const [data, setData] = useState<UserDto[]>([]); // API로 받아온 핀 목록
+  const [filteredData, setFilteredData] = useState<UserDto[]>([]); // 검색된 데이터 저장
 
-    const {
-      scrollWrapperRef,
-      scrollContentTopRef,
-      scrollContentBottomRef,
-      scrollHeaderTopRef,
-      scrollHeaderBottomRef,
-      tableWrapperRef,
-      syncScroll,
-    } = HorizontalScrollHook(); // 리스트 가로 스크롤 설정 훅 사용
+  const fetchUserList = async () => {
+    const response = await fetch('/api/admin-show-user-list');
 
-    /* 체크박스 관련 설정 시작 */
-    // 체크된 항목을 관리하는 상태
-    const [checked, setChecked] = useState<string[]>([]);
-    // 개별 체크박스 클릭 핸들러
-    const handleCheckboxChange = (id: string) => {
-      if (setCheckedItems) { // setCheckedItems가 정의된 경우에만 호출
-      setCheckedItems((prev) =>
-          prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
+    if (!response.ok) {
+      console.log('생성된 유저가 없습니다.');
+      setData([]);
+      return;
+    }
+
+    const data: UserDto[] = await response.json();
+
+    const formattedData = data.map((user) => ({
+      ...user,
+      admin: String(user.admin),
+    }));
+
+    setData(formattedData);
+  };
+
+  // 데이터 렌더링
+  useEffect(() => {
+    fetchUserList();
+  }, []);
+
+  // searchKeyword로 데이터 필터링
+  useEffect(() => {
+    if (!searchKeyword || searchKeyword.trim() === '') {
+      setFilteredData(data);
+    } else {
+      const lowerSearch = searchKeyword.toLowerCase();
+      const filtered = data.filter(
+        (user) =>
+          user.nickname.toLowerCase().includes(lowerSearch) ||
+          user.email.toLowerCase().includes(lowerSearch) ||
+          (typeof user.admin === 'string' &&
+            user.admin.toLowerCase().includes(lowerSearch)),
       );
-      setChecked((prev) =>
-          prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
-      );
-      }
-    };
-    // 전체 선택 체크박스 핸들러
-    const handleSelectAll = () => {
-      setCheckedItems?.((prev) => (prev.length === mockData.length ? [] : mockData.map(item => item.id)));
-      setChecked((prev) => (prev.length === mockData.length ? [] : mockData.map(item => item.id)));
-    };
-    /* 체크박스 관련 설정 끝 */
+      setFilteredData(filtered);
+    }
+  }, [searchKeyword, data]);
 
-    const router = useRouter(); // onClick 또는 onClickEvent를 통한 페이지 이동에 필요
+  // trash 버튼 이벤트 발생 시
+  useEffect(() => {
+    if (trashClicked && checkedItems.length > 0) {
+      deleteUser(checkedItems).then(() => {
+        alert('✅ 해당 유저 정보가 삭제 되었습니다.');
+        setCheckedItems([]);
+        fetchUserList();
+      });
+    }
+  }, [trashClicked, checkedItems]);
 
-    return (
-      <div className={style.scroll_wrapper} ref={scrollWrapperRef}>
-        <div className={style.scroll_header} ref={scrollHeaderTopRef} onScroll={() => syncScroll("scroll_top")}>
-          <div className={style.scroll_content} ref={scrollContentTopRef}></div>
-        </div>
-        <div className={style.listContainer_wrapper} ref={tableWrapperRef} onScroll={() => syncScroll("table")}>
-          <table className={style.listContainer}>
-            <thead>
-              <tr className={style.listHeader}>
-                <th scope='col'>
-                  <input 
-                    type="checkbox"
-                    onChange={handleSelectAll}
-                  />
-                </th>
-                {Object.keys(mockData[0]).map((item, index) => (
-                  <th key={index} scope='col'>
-                    {item}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {mockData.map((item) => (
-                <tr key={item.id} className={style.listItem}>
-                   <td>
-                    <input
-                      type="checkbox"
-                      checked={checked?.includes(item.id)}
-                      onChange={(e) => {
-                        e.stopPropagation(); // 체크박스 클릭 시 row 클릭 이벤트 방지
-                        handleCheckboxChange(item.id);
-                      }}
-                    />
-                  </td>
-                  {Object.values(item).map((details, index) => (
-                    <td key={index} onClick={() => {
-                      console.log('hi');
-                      // 템플릿 리터럴(문자열 내에서 변수를 삽입)
-                      /* RouteConfig에 설정된 속성명을 불러온 다음
-                      (userDetail: '/admin/user/[user-id]')
-                      속성에 지정된 경로 문자열을 동적으로 교체
-                      ('/admin/user/[user-id]'→'/admin/user/[map에서 전달받은 item.id]') */
-                      router.push(ROUTES.admin.userDetail.replace('[user-id]', item.id));
-                    }}>{details}</td>
-                  ))}
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        <div className={style.scroll_header} ref={scrollHeaderBottomRef} onScroll={() => syncScroll("scroll_bottom")}>
-          <div className={style.scroll_content} ref={scrollContentBottomRef}></div>
-        </div>
-      </div>
-    );
-}
+  return (
+    <ListComponent
+      data={filteredData}
+      setCheckedItems={setCheckedItems}
+      checkedItems={checkedItems}
+      routePath={ROUTES.admin.userDetail} // 클릭시 이동할 경로 전달
+      sortOption={sortOption} // 정렬 방법 전달
+      sortKey='nickname' // 정렬 기준이 될 키 전달
+    />
+  );
+};
 
 export default UserListContainer;
