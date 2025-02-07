@@ -8,7 +8,7 @@ import { ShowNearByPinList } from '@/application/usecases/map/dto/ShowNearByPinL
 
 export const MIN_Y = 60; // Bottom Sheet가 최대로 올라갔을 때의 Y값
 
-const PinBox = () => {
+const PinBox = ({ bounds }: { bounds: any }) => {
   const box = useRef<HTMLDivElement | null>(null);
   const list = useRef<HTMLUListElement | null>(null);
   const [isOpen, setIsOpen] = useState(false);
@@ -25,6 +25,19 @@ const PinBox = () => {
     isListAreaTouched: false, // 사용자가 box 내부의 스크롤 가능한 콘텐츠를 터치했는지 여부
   });
   const [pinData, setPinData] = useState<ShowNearByPinList[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await showNearByPinList(bounds);
+        console.log('api에 받는: ', data);
+        setPinData(data);
+      } catch (error) {
+        console.error('🚨 핀 데이터 불러오기 실패:', error);
+      }
+    };
+    fetchData();
+  }, [bounds]);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -190,18 +203,6 @@ const PinBox = () => {
   const handleHeaderClick = () => {
     setIsOpen((prev) => !prev);
   };
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await showNearByPinList();
-        setPinData(data);
-      } catch (error) {
-        console.error('🚨 핀 데이터 불러오기 실패:', error);
-      }
-    };
-    fetchData();
-  }, []);
 
   const handleClick = () => {
     console.log('h');

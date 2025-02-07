@@ -8,4 +8,11 @@ export interface PinRepository {
   deletePin: (pinId: string) => Promise<void>; // 핀 삭제
   updatePin: (updateData: Pin) => Promise<void>; // 핀 수정
   searchPinsByKeyword: (keyword: string) => Promise<Pin[]>;
+  showBoundsPin: (
+    // data: Pin[],
+    swLat: number,
+    swLng: number,
+    neLat: number,
+    neLng: number,
+  ) => Promise<Pin[]>; // 지도 범위
 }

@@ -1,11 +1,13 @@
 'use client';
 
 import styles from '../ViewMap.module.scss';
+import { SelectedLocation } from '../page';
 import RoundIconButton from '@/components/Buttons/RoundIconButton';
-import { SelectedLocation } from './MapSection';
 import useCurrentLocation from '@/hooks/useCurrentLocation';
 import useKakaoMap from '@/hooks/useKakaoMap';
 import useCenteringMap from '@/hooks/useCenteringMap';
+import PinBox from './PinBox';
+import { useEffect } from 'react';
 
 interface ViewMapProps {
   selectedLocation: SelectedLocation | null;
@@ -14,9 +16,22 @@ interface ViewMapProps {
 const ViewMap: React.FC<ViewMapProps> = ({ selectedLocation }) => {
   const { lat, lng, setLat, setLng } = useCurrentLocation();
   const jsApiKey = process.env.NEXT_PUBLIC_KAKAOMAP_JS_KEY;
-  const { mapRef, markerRef } = useKakaoMap({ lat, lng, jsApiKey });
+  const { mapRef, markerRef, boundsState, fetchPin } = useKakaoMap({
+    lat,
+    lng,
+    jsApiKey,
+  });
 
   useCenteringMap({ mapRef, markerRef, selectedLocation });
+
+  useEffect(() => {
+    if (selectedLocation && mapRef.current) {
+      console.log('📌 선택한 장소로 지도 이동:', selectedLocation);
+      setTimeout(() => {
+        fetchPin(mapRef.current.getBounds()); // 지도 이동 후 fetchPin 실행
+      }, 500);
+    }
+  }, [selectedLocation]);
 
   const setCenter = () => {
     if (!mapRef.current) return;
@@ -42,14 +57,28 @@ const ViewMap: React.FC<ViewMapProps> = ({ selectedLocation }) => {
         console.error('현재 위치를 가져올 수 없습니다.');
       },
     );
+
+    setTimeout(() => {
+      fetchPin(mapRef.current.getBounds()); // 지도 이동 후 fetchPin 실행
+    }, 500);
   };
 
   return (
-    <div id='map' className={styles.map}>
-      <div className={styles.roundButton}>
-        <RoundIconButton iconId={'gps'} onClickIconButton={setCenter} />
+    <>
+      <div id='map' className={styles.map}>
+        <div className={styles.roundButton}>
+          <RoundIconButton iconId={'gps'} onClickIconButton={setCenter} />
+        </div>
       </div>
-    </div>
+      {boundsState && boundsState.sw && boundsState.ne ? (
+        <PinBox bounds={boundsState} />
+      ) : (
+        <div>
+          <p>로딩중..</p>
+        </div>
+      )}
+      {/* <PinBox bounds={bounds} /> */}
+    </>
   );
 };
 

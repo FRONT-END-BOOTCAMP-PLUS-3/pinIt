@@ -13,21 +13,32 @@ const extractTwoWords = (address: string): string => {
 export const showNearByPinListUsecase = async (
   PinRepository: PinRepository,
   LikeRepository: LikeRepository,
+  swLat: number,
+  swLng: number,
+  neLat: number,
+  neLng: number,
 ): Promise<ShowNearByPinList[]> => {
   // 사용자 아이디 받아오기
   const userId = await getUserIdFromSupabase();
 
-  // 모든 핀 리스트 가져오기
-  const pins = await PinRepository.showPin();
-
   // 모든 좋아요 데이터 가져오기
   const likes = await LikeRepository.showLike();
 
-  // 각 핀의 좋아요 여부 확인 및 주소 가공
-  const pinList = pins.map((pin) => {
+  // 위도 경도 가져오기
+  const boundsPinList = await PinRepository.showBoundsPin(
+    // pins,
+    swLat,
+    swLng,
+    neLat,
+    neLng,
+  );
+
+  // 위도,경도, 좋아요 포함한 데이터 가져오기
+  const boundsPins = boundsPinList.map((pin) => {
     const isLiked = likes.some(
       (like) => like.pinId === pin.id && like.userId === userId,
     );
+
     return {
       id: pin.id || ' ',
       placeName: pin.placeName,
@@ -38,7 +49,5 @@ export const showNearByPinListUsecase = async (
     };
   });
 
-  // 검색한 장소 위도 경도에 맞는 범위 정하기 -> 레파지토리에 보내기
-
-  return pinList;
+  return boundsPins;
 };

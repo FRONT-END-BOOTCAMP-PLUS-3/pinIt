@@ -173,4 +173,44 @@ export class SbPinRepository implements PinRepository {
       userId: pin.user_id,
     }));
   }
+
+  async showBoundsPin(
+    // pin: Pin[],
+    swLat: any,
+    swLng: any,
+    neLat: any,
+    neLng: any,
+  ): Promise<Pin[]> {
+    const supabase = await createClient();
+    const { data, error } = await supabase
+      .from('pin')
+      .select('*')
+      .gte('latitude', swLat) // 위도: swLat 이상
+      .lte('latitude', neLat) // 위도: neLat 이하
+      .gte('longitude', swLng) // 경도: swLng 이상
+      .lte('longitude', neLng) // 경도: neLng 이하
+      .order('create_at', { ascending: false });
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    // DB에서 받은 data를 사용하기 위해 카멜케이스로 변환
+    const formattedData = data.map((pin) => ({
+      id: pin.id,
+      placeName: pin.place_name,
+      captureDate: pin.capture_date,
+      address: pin.address,
+      latitude: pin.latitude,
+      longitude: pin.longitude,
+      tags: pin.tags,
+      description: pin.description,
+      image: pin.image,
+      countLike: pin.count_like,
+      createAt: pin.create_at,
+      userId: pin.user_id,
+    }));
+
+    return formattedData || [];
+  }
 }
