@@ -1,9 +1,11 @@
+import { User } from '@/domain/entities/User';
 import { UserRepository } from '@/domain/repositories/UserRepository';
 import { getUserIdFromSupabase } from '@/utils/supabase/getUserIdFromSupabase';
+import { UpdateUserDto } from './dto/UpdateUserDto';
 
-export const DeleteUserUsecase = async (
+export const UpdateUserUsecase = async (
   userRepository: UserRepository,
-  userIds: string[],
+  data: UpdateUserDto,
 ): Promise<void> => {
   const userId = await getUserIdFromSupabase();
   const loggedinId = await userRepository.getUserById(userId);
@@ -15,5 +17,15 @@ export const DeleteUserUsecase = async (
     throw new Error('권한이 없습니다.');
   }
 
-  await userRepository.deleteUsersById(userIds);
+  const updatedData: User = {
+    id: data.id,
+    nickname: data.nickname,
+    email: data.email,
+    deleteDate: data.deleteDate,
+    admin: data.admin,
+    profileImg: data.profileImg,
+    createAt: data.createAt,
+  };
+
+  await userRepository.updateUser(updatedData);
 };

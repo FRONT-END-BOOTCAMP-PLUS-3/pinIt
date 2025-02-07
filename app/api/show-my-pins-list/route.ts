@@ -1,4 +1,4 @@
-import { showMyPinListUsecase } from '@/application/usecases/challenge/ShowMyPinListUsercase';
+import { showMyPinListUsecase } from '@/application/usecases/challenge/ShowMyPinListUsecase';
 import { SbPinRepository } from '@/infrastructure/repositories/SbPinRepository';
 import { NextResponse } from 'next/server';
 
