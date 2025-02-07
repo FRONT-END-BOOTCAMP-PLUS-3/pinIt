@@ -117,17 +117,21 @@ const UserPinList = ({ userId, userName }: { userId?: string; userName?: string 
                 ref={containerRef}
                 style={{gap: gap} as React.CSSProperties}
             >
-                {list.map((pin, index) => (
-                    <li key={index} className={styles.list_item}>
-                        <ProfilePinCard
-                            id={pin.id}
-                            url={pin.image}
-                            width={cardWidth}
-                            location={pin.address}
-                            address={pin.address}
-                        />
-                    </li>
-                ))}
+                {Array.isArray(list) && list.length > 0 ? (
+                    list.map((pin, index) => (
+                        <li key={index} className={styles.list_item}>
+                            <ProfilePinCard
+                                id={pin.id}
+                                url={pin.image}
+                                width={cardWidth}
+                                location={pin.address}
+                                address={pin.address}
+                            />
+                        </li>
+                    ))
+                ) : (
+                    <li className={styles.nodata}>리스트가 없습니다.</li>
+                )}
             </ul>
         </div>
         </>
