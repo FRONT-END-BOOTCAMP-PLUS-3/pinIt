@@ -1,13 +1,38 @@
 'use client';
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import NicknameInput from "../_components/NicknameInput";
 import ProfileImageEdit from "../_components/ProfileImageEdit";
 import Button from "@/components/Buttons/Button";
 import styles from "./edit.module.scss";
 import React from "react";
+import { UserDto } from "@/application/usecases/admin/user/dto/UserDto";
 
 const ProfileEdit = () => {
+    /* 프로필 받아오기 시작 */
+    const [userProfile, setUserProfile] = useState<UserDto | null>();
+    const [userId, setUserId] = useState<string>("");
+    
+    useEffect(() => {
+        const fetchUserProfile = async () => {
+            const response: Response = await fetch('/api/show-my-profile', {
+                method: 'GET',
+                headers: { 'Content-Type': 'application/json' },
+            });
+        
+            if (!response.ok) {
+                setUserProfile(null);
+                throw new Error('회원 프로필 요청 실패');
+            }
+        
+            const result = await response.json();
+            setUserProfile(result);
+            setUserId(result.id);
+        };
+        fetchUserProfile();
+    }, [userId]);
+    /* 프로필 받아오기 끝 */
+
     /* .container를 position:relative; (버튼 하단 고정에 필요) */
     useEffect(() => {
         const container = document.querySelector('.container');
@@ -31,7 +56,7 @@ const ProfileEdit = () => {
     return (
         <React.Fragment>
             <div className="profile_image_wrap">
-                <ProfileImageEdit backgroundImage="https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcRnFnp8DEGmD6r7YLwUcnhw7G6S9sRB_H7FbuzMO_0RlErkXRmGBWZ-Y2R7ma_u-lA2dStJWeTGJSS9DXFxJJ9SdfHSugpvdi48WfVFJA" />
+                <ProfileImageEdit backgroundImage={userProfile?.profileImg as string} />
             </div>
             <NicknameInput />
             <div className={styles.button_area}>
