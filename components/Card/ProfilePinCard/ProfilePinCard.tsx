@@ -52,7 +52,7 @@ const ProfilePinCard = ({
 
   return (
     <div
-      className={`${styles.MyPinCard} ${isEditing && isChecked ? styles.Selected : ''}`}
+      className={`${styles.MyPinCard} ${isEditing && isChecked ? styles.Selected : ''} ${isEditing && !isChecked ? styles.Unselected : ''}`}
       style={{ '--card-width': widthStyle } as React.CSSProperties}
       onClick={handleCardClick} // ✅ 편집 모드일 때만 클릭 이벤트 활성화
     >
@@ -100,7 +100,7 @@ const ProfilePinCard = ({
         >
           <input type='checkbox' checked={isChecked} readOnly />
           {!isChecked ? (
-            <Icon id='check' width={16} height={16} />
+            <Icon id='check-bold' color='#ddd' width={16} height={16} />
           ) : (
             <Icon id='check-bold' color='2f88ff' width={16} height={16} />
           )}

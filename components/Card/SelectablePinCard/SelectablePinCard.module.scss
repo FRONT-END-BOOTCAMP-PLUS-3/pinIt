@@ -1,8 +1,9 @@
 .SelectablePinCard {
   @include card;
+  outline: 2px solid #ddd;
+  border-radius: $border-radius-medium;
 
   &.Selected {
-    border-radius: $border-radius-medium;
-    outline: 3px solid $check-blue;
+    outline: 2px solid $check-blue;
   }
 }
