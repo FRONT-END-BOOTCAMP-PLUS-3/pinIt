@@ -50,8 +50,14 @@ const ThisWeekChallenge = () => {
                 />
               );
             })}
-            <RoundIconButton iconId={'right'} onClickIconButton={handleClick} />
+            <Link href={ROUTES.challenge.list}>
+              <RoundIconButton
+                iconId={'right'}
+                onClickIconButton={handleClick}
+              />
+            </Link>
           </div>
+
           <Link href={ROUTES.challenge.add} className={styles.challengeAddBtn}>
             + 챌린지 참여하기
           </Link>

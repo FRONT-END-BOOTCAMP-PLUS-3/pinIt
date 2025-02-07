@@ -2,10 +2,11 @@
   display: flex;
   flex-flow: column nowrap;
   width: 100%;
-  gap: $spacing-medium;
 
   .title {
-    font-size: $font-size-xlarge;
+    margin-top: 5px;
+    font-weight: $font-weight-normal;
+    margin-bottom: 20px;
   }
 
   .card_container {
