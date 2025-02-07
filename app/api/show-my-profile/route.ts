@@ -1,22 +1,13 @@
-import { showUserProfileUsecase } from '@/application/usecases/admin/user/ShowUserProfileUsecase';
+import { showMyProfileUsecase } from '@/application/usecases/admin/user/ShowMyProfileUsecase';
 import { UserRepository } from '@/domain/repositories/UserRepository';
 import { SbUserRepository } from '@/infrastructure/repositories/SbUserRepository';
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 
-interface UserIdDto {
-  id: string;
-}
-
-export async function POST(req: NextRequest) {
+export async function GET() {
   try {
-    const userId: UserIdDto = await req.json();
-
     const userRepository: UserRepository = new SbUserRepository();
 
-    // console.log(userId.id, "| Type:", typeof userId.id);
-    // console.log("🔍 Received userId:", userId.id, "| Type:", typeof userId.id);
-
-    const result = await showUserProfileUsecase(userRepository, userId.id);
+    const result = await showMyProfileUsecase(userRepository);
 
     if (!result) {
       return NextResponse.json({ message: 'No user profile' }, { status: 404 });

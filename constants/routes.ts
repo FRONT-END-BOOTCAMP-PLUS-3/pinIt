@@ -12,7 +12,6 @@ interface RouteConfig {
   map: string;
   add: {
     nav: string;
-    location: string;
   };
   like: string;
   profile: {
@@ -45,7 +44,6 @@ const ROUTES: RouteConfig = {
   map: '/map',
   add: {
     nav: '/add',
-    location: '/add/location',
   },
   like: '/like',
   profile: {
