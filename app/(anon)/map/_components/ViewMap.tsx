@@ -16,11 +16,12 @@ interface ViewMapProps {
 const ViewMap: React.FC<ViewMapProps> = ({ selectedLocation }) => {
   const { lat, lng, setLat, setLng } = useCurrentLocation();
   const jsApiKey = process.env.NEXT_PUBLIC_KAKAOMAP_JS_KEY;
-  const { mapRef, markerRef, boundsState, fetchPin } = useKakaoMap({
-    lat,
-    lng,
-    jsApiKey,
-  });
+  const { mapRef, markerRef, boundsState, fetchPin, updateMarkers } =
+    useKakaoMap({
+      lat,
+      lng,
+      jsApiKey,
+    });
 
   useCenteringMap({ mapRef, markerRef, selectedLocation });
 
@@ -71,7 +72,7 @@ const ViewMap: React.FC<ViewMapProps> = ({ selectedLocation }) => {
         </div>
       </div>
       {boundsState && boundsState.sw && boundsState.ne ? (
-        <PinBox bounds={boundsState} />
+        <PinBox bounds={boundsState} updateMarkers={updateMarkers} />
       ) : (
         <div>
           <p>로딩중..</p>

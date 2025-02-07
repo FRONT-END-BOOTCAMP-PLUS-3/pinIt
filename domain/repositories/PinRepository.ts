@@ -12,7 +12,6 @@ export interface PinRepository {
   searchPinsByKeyword: (keyword: string) => Promise<Pin[]>;
   deletePins: (pinIds: string[]) => Promise<void>; // 아이디 리스트 받아서 핀 삭제
   showBoundsPin: (
-    // data: Pin[],
     swLat: number,
     swLng: number,
     neLat: number,

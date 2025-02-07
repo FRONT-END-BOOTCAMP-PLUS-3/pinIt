@@ -4,11 +4,18 @@ import { useEffect, useRef, useState } from 'react';
 import styles from '../ViewMap.module.scss';
 import PinList from './PinList';
 import { showNearByPinList } from '../_api/showNearByPinList';
-import { ShowNearByPinList } from '@/application/usecases/map/dto/ShowNearByPinListDto';
+import { ShowNearByPinListDto } from '@/application/usecases/map/dto/ShowNearByPinListDto';
 
 export const MIN_Y = 60; // Bottom Sheet가 최대로 올라갔을 때의 Y값
 
-const PinBox = ({ bounds }: { bounds: any }) => {
+const PinBox = ({
+  bounds,
+  updateMarkers,
+}: {
+  bounds: any;
+  updateMarkers: any;
+}) => {
+  // const { updateMarkers } = useKakaoMap();
   const box = useRef<HTMLDivElement | null>(null);
   const list = useRef<HTMLUListElement | null>(null);
   const [isOpen, setIsOpen] = useState(false);
@@ -24,14 +31,15 @@ const PinBox = ({ bounds }: { bounds: any }) => {
     },
     isListAreaTouched: false, // 사용자가 box 내부의 스크롤 가능한 콘텐츠를 터치했는지 여부
   });
-  const [pinData, setPinData] = useState<ShowNearByPinList[]>([]);
+  const [pinData, setPinData] = useState<ShowNearByPinListDto[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const data = await showNearByPinList(bounds);
-        console.log('api에 받는: ', data);
+
         setPinData(data);
+        updateMarkers(data);
       } catch (error) {
         console.error('🚨 핀 데이터 불러오기 실패:', error);
       }

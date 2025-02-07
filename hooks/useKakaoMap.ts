@@ -1,3 +1,4 @@
+import { ShowNearByPinListDto } from '@/application/usecases/map/dto/ShowNearByPinListDto';
 import { useEffect, useRef, useState } from 'react';
 
 declare global {
@@ -17,6 +18,7 @@ const useKakaoMap = ({
 }) => {
   const mapRef = useRef<any>(null);
   const markerRef = useRef<any>(null);
+  const markerRefs = useRef<any[]>([]);
   const [boundsState, setBoundsState] = useState<{
     sw: any | null;
     ne: any | null;
@@ -25,7 +27,6 @@ const useKakaoMap = ({
     ne: null,
   });
   const boundsRef = useRef<{ sw: any | null; ne: any | null } | null>(null);
-  const [response, setResponse] = useState<any>(null);
 
   useEffect(() => {
     if (!lat || !lng) return;
@@ -75,9 +76,7 @@ const useKakaoMap = ({
   }, [lat, lng, jsApiKey]);
 
   const fetchPin = async (bounds: any) => {
-    if (!window.kakao || !window.kakao.maps) return;
-
-    if (!bounds || !bounds.getSouthWest || !bounds.getNorthEast) {
+    if (!window.kakao?.maps || !bounds.getSouthWest || !bounds.getNorthEast) {
       console.error('fetchPin에 전달된 bounds 값이 올바르지 않습니다.', bounds);
       return;
     }
@@ -88,21 +87,32 @@ const useKakaoMap = ({
       ne: bounds.getNorthEast(),
     };
 
-    // console.log('받은 bounds:', bounds);
-
     // useRef를 활용하여 bounds 값을 강제 적용
     boundsRef.current = newBounds;
     setBoundsState(newBounds);
-    // console.log('처리된 bounds:', newBounds);
-
-    try {
-      setResponse(response);
-    } catch (error) {
-      console.error('Error fetching places: ', error);
-    }
   };
 
-  return { mapRef, markerRef, boundsState, fetchPin };
+  const updateMarkers = (pins: ShowNearByPinListDto[]) => {
+    if (!mapRef.current || !window.kakao.maps) return;
+
+    // 기존 마커 삭제
+    markerRefs.current.forEach((marker) => marker.setMap(null));
+    markerRefs.current = [];
+
+    // 새 마커 추가
+    pins.forEach((pin) => {
+      const position = new window.kakao.maps.LatLng(
+        pin.latitude,
+        pin.longitude,
+      );
+      const marker = new window.kakao.maps.Marker({ position });
+
+      marker.setMap(mapRef.current);
+      markerRefs.current.push(marker);
+    });
+  };
+
+  return { mapRef, markerRef, boundsState, fetchPin, updateMarkers };
 };
 
 export default useKakaoMap;

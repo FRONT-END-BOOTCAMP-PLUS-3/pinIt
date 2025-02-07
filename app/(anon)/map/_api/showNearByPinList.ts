@@ -1,4 +1,4 @@
-import { ShowNearByPinList } from '@/application/usecases/map/dto/ShowNearByPinListDto';
+import { ShowNearByPinListDto } from '@/application/usecases/map/dto/ShowNearByPinListDto';
 
 export const showNearByPinList = async (bounds: any) => {
   if (!bounds.sw || !bounds.ne) {
@@ -24,7 +24,7 @@ export const showNearByPinList = async (bounds: any) => {
     },
   );
 
-  const result: ShowNearByPinList[] = await response.json();
+  const result: ShowNearByPinListDto[] = await response.json();
 
   return result;
 };

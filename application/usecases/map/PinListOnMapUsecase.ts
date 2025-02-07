@@ -1,6 +1,6 @@
 import { LikeRepository } from '@/domain/repositories/LikeRepository';
 import { PinRepository } from '@/domain/repositories/PinRepository';
-import { ShowNearByPinList } from './dto/ShowNearByPinListDto';
+import { ShowNearByPinListDto } from './dto/ShowNearByPinListDto';
 import { getUserIdFromSupabase } from '@/utils/supabase/getUserIdFromSupabase';
 
 // 주소에서 두 단어만 추출하는 함수
@@ -13,11 +13,12 @@ const extractTwoWords = (address: string): string => {
 export const showNearByPinListUsecase = async (
   PinRepository: PinRepository,
   LikeRepository: LikeRepository,
+
   swLat: number,
   swLng: number,
   neLat: number,
   neLng: number,
-): Promise<ShowNearByPinList[]> => {
+): Promise<ShowNearByPinListDto[]> => {
   // 사용자 아이디 받아오기
   const userId = await getUserIdFromSupabase();
 
@@ -26,7 +27,6 @@ export const showNearByPinListUsecase = async (
 
   // 위도 경도 가져오기
   const boundsPinList = await PinRepository.showBoundsPin(
-    // pins,
     swLat,
     swLng,
     neLat,
@@ -44,6 +44,8 @@ export const showNearByPinListUsecase = async (
       placeName: pin.placeName,
       address: extractTwoWords(pin.address), // 두 단어만 유지
       description: pin.description,
+      latitude: pin.latitude,
+      longitude: pin.longitude,
       image: pin.image,
       isLiked: isLiked,
     };

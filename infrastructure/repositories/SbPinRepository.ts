@@ -242,7 +242,6 @@ export class SbPinRepository implements PinRepository {
   }
 
   async showBoundsPin(
-    // pin: Pin[],
     swLat: any,
     swLng: any,
     neLat: any,
