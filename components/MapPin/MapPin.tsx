@@ -22,7 +22,7 @@ const MapPin = ({
       <div className={styles.marker_area} onClick={handleShowMapListCard}>
         <div className={styles.marker_image_wrap}>
           <div className={styles.marker_image}>
-            <Image src={imgUrl} alt={placeName} width={40} height={40} />
+            <Image src={imgUrl} alt={placeName} width={30} height={30} />
           </div>
         </div>
       </div>
