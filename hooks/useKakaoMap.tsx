@@ -1,5 +1,9 @@
+'use client';
+
+import ReactDOM from 'react-dom/client';
 import { ShowNearByPinListDto } from '@/application/usecases/map/dto/ShowNearByPinListDto';
 import { useEffect, useRef, useState } from 'react';
+import MapPin from '@/components/MapPin/MapPin';
 
 declare global {
   interface Window {
@@ -105,10 +109,24 @@ const useKakaoMap = ({
         pin.latitude,
         pin.longitude,
       );
-      const marker = new window.kakao.maps.Marker({ position });
+      const markerContainer = document.createElement('div');
+      markerContainer.id = `customMarker${pin.id}`;
+      const marker = new window.kakao.maps.CustomOverlay({
+        position,
+        content: markerContainer,
+        yAnchor: 1,
+      });
 
       marker.setMap(mapRef.current);
       markerRefs.current.push(marker);
+
+      setTimeout(() => {
+        if (markerContainer) {
+          ReactDOM.createRoot(markerContainer).render(
+            <MapPin placeName={pin.placeName} imgUrl={pin.image} />,
+          );
+        }
+      }, 0);
     });
   };
 

@@ -8,6 +8,7 @@ import useKakaoMap from '@/hooks/useKakaoMap';
 import useCenteringMap from '@/hooks/useCenteringMap';
 import PinBox from './PinBox';
 import { useEffect } from 'react';
+import MapPin from '@/components/MapPin/MapPin';
 
 interface ViewMapProps {
   selectedLocation: SelectedLocation | null;
