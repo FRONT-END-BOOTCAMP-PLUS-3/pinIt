@@ -19,13 +19,19 @@ const SelectablePinCard = ({
   checked: boolean;
   onClickCheckButton: React.ChangeEventHandler;
 }) => {
+  const handleContainerClick = () => {
+    onClickCheckButton({
+      target: { checked: !checked },
+    } as React.ChangeEvent<HTMLInputElement>);
+  };
   return (
     <div
       className={
         !checked
-          ? style.SelectablePinCard
+          ? `${style.SelectablePinCard}`
           : `${style.SelectablePinCard} ${style.Selected}`
       }
+      onClick={handleContainerClick} // ✅ 컨테이너 클릭 시 체크박스 변경
     >
       <div className={style.image_wrapper}>
         <Image
@@ -40,14 +46,16 @@ const SelectablePinCard = ({
         <h2 className={style.location}>{location}</h2>
         <p className={style.address}>{address}</p>
       </div>
-      <label className={style.icon}>
+      <label className={style.icon} onClick={(e) => e.stopPropagation()}>
+        {' '}
+        {/* ✅ 체크박스 클릭 시 부모로 이벤트 전파 방지 */}
         <input
           type='checkbox'
           checked={checked}
           onChange={onClickCheckButton}
         />
         {!checked ? (
-          <Icon id='check' width={16} height={16} />
+          <Icon id='check-bold' color='ddd' width={16} height={16} />
         ) : (
           <Icon id='check-bold' color='2f88ff' width={16} height={16} />
         )}

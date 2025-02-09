@@ -54,7 +54,7 @@ const ChallengeAdd = () => {
         challengeTopic={challengeTopic}
         setchallengeTopic={setchallengeTopic}
       />
-      <h2 className={style.title}>챌린지에 등록할 핀을 선택해주세요</h2>
+      <p className={style.title}>이번주 챌린지에 등록할 핀을 선택해주세요!</p>
       <MyPinsContainer
         myPins={myPins}
         setMyPins={setMyPins}

@@ -62,6 +62,7 @@ const ThisWeekChallenge = () => {
               <p>진행 중인 챌린지가 없어요.</p>
             )}
           </div>
+
           <Link href={ROUTES.challenge.add} className={styles.challengeAddBtn}>
             + 챌린지 참여하기
           </Link>

@@ -179,13 +179,17 @@
   cursor: pointer;
   transition: all 0.2s;
   border-radius: 50px;
+  color: $main-black-1;
 }
 
-.sortButton:hover {
-  background: #e9ecef;
+@media (hover: hover) {
+  .sortButton:hover {
+    background: #e9ecef;
+  }
 }
 
-.selected {
+.selected,
+.sortButton:active {
   font-weight: bold;
   color: #fff;
   background: $main-black-1; // ✅ 선택된 옵션 강조
