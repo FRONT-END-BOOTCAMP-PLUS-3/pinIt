@@ -16,7 +16,7 @@ const MyPinsContainer = ({
 }) => {
   useEffect(() => {
     async function fetchMyPinList() {
-      const response = await fetch('/api/show-my-pins-list');
+      const response = await fetch('/api/show-my-pins-on-challenge');
 
       if (!response.ok) {
         setMyPins([]);
