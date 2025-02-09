@@ -1,0 +1,10 @@
+.list_container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); // 기본적으로 3열 배치
+  gap: 14px;
+  width: 100%;
+
+  @media (min-width: 700px) {
+    grid-template-columns: repeat(4, 1fr); // 700px 이상일 때 4열 배치
+  }
+}

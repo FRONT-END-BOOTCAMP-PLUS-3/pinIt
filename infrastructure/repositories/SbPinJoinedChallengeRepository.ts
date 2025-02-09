@@ -44,4 +44,19 @@ export class SbPinJoinedChallengeRepository
       throw new Error(`데이터 삽입 오류: ${error.message}`);
     }
   }
+
+  async deletePinJoinedChallenges(pinIds: string[]): Promise<void> {
+    const supabase = await createClient();
+
+    if (!pinIds.length) return;
+
+    const { error } = await supabase
+      .from('pin_joined_challenge')
+      .delete()
+      .in('pin_id', pinIds);
+
+    if (error) {
+      throw new Error(`데이터 삭제 오류: ${error.message}`);
+    }
+  }
 }
