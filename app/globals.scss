@@ -22,6 +22,10 @@ body {
   background-color: $bg-white;
   color: $text-black;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add subtle shadow for a polished look */
+  input,
+  select {
+    color: $text-black;
+  }
 }
 
 /* General reset */

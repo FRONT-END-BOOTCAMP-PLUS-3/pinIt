@@ -42,13 +42,14 @@ const ChallengeAddPageTitle = ({
         {!isChallengeOngoing() && <span>지금 진행 중인 챌린지가 없어요.</span>}
 
         <span>
-          {challengeTopic?.topic}{' '}
+          「<span className={style.topic}>{challengeTopic?.topic}</span>
           {challengeTopic?.startDate && challengeTopic?.endDate && (
-            <strong>
-              ({new Date(challengeTopic?.startDate).toISOString().split('T')[0]}{' '}
-              ~ {new Date(challengeTopic?.endDate).toISOString().split('T')[0]})
+            <strong className={style.date}>
+              {new Date(challengeTopic?.startDate).toISOString().split('T')[0]}{' '}
+              ~ {new Date(challengeTopic?.endDate).toISOString().split('T')[0]}
             </strong>
           )}
+          」
         </span>
       </span>
     </h2>

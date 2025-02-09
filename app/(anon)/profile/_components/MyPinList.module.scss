@@ -1,84 +1,97 @@
 .mypin_list {
-    .head {
-        position: relative;
-        height: 30px;
-        line-height: 30px;
-    }
+  .head {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
 
     .title {
-        position: absolute;
-        left: 0;
-        font-size: $font-size-large;
-        font-weight: $font-weight-bold;
+      font-size: $font-size-xlarge;
+      font-weight: $font-weight-bold;
     }
 
     .button {
-        position: absolute;
-        right: 0;
+      font-size: $font-size-medium;
+      color: $main-black-1;
+      background-color: transparent;
+      padding: 3px 12px;
+      border-radius: 50px; // 🔹 둥근 모서리 추가
+      cursor: pointer;
+      transition: all 0.3s ease-in-out; // 🔹 부드러운 효과
+      text-decoration: solid;
+      text-decoration-line: underline;
+
+      &:hover {
+        background-color: $main-black-1;
+        color: #fff;
+      }
+
+      &.complete {
+        background-color: $main-black-1;
+        color: #fff;
+        text-decoration: none;
+      }
     }
+  }
 
-    .list {
-        display: flex;
-        flex-wrap: wrap;
-        margin-top: 10px;
+  .pincard_container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); // 기본적으로 3열 배치
+    gap: 14px;
+    width: 100%;
 
-        .nodata {
-            margin: 20px auto;
-        }
-
-        li.list_item svg {
-            display: var(--checkbox, none); // CSS 변수로 display 제어
-        }
-
-        img {
-            object-fit: cover;
-            object-position: center;
-        }
+    @media (min-width: 700px) {
+      grid-template-columns: repeat(4, 1fr); // 700px 이상일 때 4열 배치
     }
+  }
 }
 
 .mypin_delete {
-    position: absolute;
-    bottom: 116px;
-    right: 0;
-    text-align: right;
-    padding-right: $global-side-padding;
+  position: absolute;
+  bottom: 116px;
+  right: 0;
+  text-align: right;
+  padding-right: 32px;
 
-    /* 휴지통 표시/숨김 관련 설정 시작 */
+  /* 휴지통 표시/숨김 관련 설정 시작 */
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity 0.5s ease,
+    transform 0.5s ease;
+
+  .delete {
+    cursor: pointer;
+    position: relative;
+    background: $main-black-1;
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+
+    svg {
+      position: absolute;
+      top: calc(50% - 1px);
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+  }
+
+  &.visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  &.hidden {
     opacity: 0;
     transform: translateY(20px);
-    transition: opacity 0.5s ease, transform 0.5s ease;
+    pointer-events: none;
+  }
+  /* 휴지통 표시/숨김 관련 설정 끝 */
 
-    .delete {
-        position: relative;
-        background: #000;
-        display: inline-block;
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-
-        svg {
-            position: absolute;
-            top: calc(50% - 1px);
-            left: 50%;
-            transform: translate(-50%,-50%);
-        }
-    }
-
-    &.visible {
-        opacity: 1;
-        transform: translateY(0);
-        pointer-events: auto;
-    }
-
-    &.hidden {
-        opacity: 0;
-        transform: translateY(20px);
-        pointer-events: none;
-    }
-    /* 휴지통 표시/숨김 관련 설정 끝 */
-
-    @media (max-width: 75vh) {
-        position: fixed; // 모바일 환경에서 휴지통이 현재 보이는 화면 오른쪽 아래에 위치하도록 설정
-    }
+  @media (max-width: 75vh) {
+    position: fixed; // 모바일 환경에서 휴지통이 현재 보이는 화면 오른쪽 아래에 위치하도록 설정
+  }
 }
