@@ -1,64 +1,78 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
 import styles from '../ViewMap.module.scss';
+import { SelectedLocation } from '../page';
 import RoundIconButton from '@/components/Buttons/RoundIconButton';
+import useCurrentLocation from '@/hooks/useCurrentLocation';
+import useKakaoMap from '@/hooks/useKakaoMap';
+import useCenteringMap from '@/hooks/useCenteringMap';
+import PinBox from './PinBox';
+import { useEffect } from 'react';
 
-declare global {
-  interface Window {
-    kakao: any;
-  }
+interface ViewMapProps {
+  selectedLocation: SelectedLocation | null;
 }
 
-const ViewMap = () => {
-  const mapRef = useRef<any>(null);
+const ViewMap: React.FC<ViewMapProps> = ({ selectedLocation }) => {
+  const { lat, lng, setLat, setLng } = useCurrentLocation();
+  const jsApiKey = process.env.NEXT_PUBLIC_KAKAOMAP_JS_KEY;
+  const { mapRef, markerRef, boundsState, fetchPin, updateMarkers } =
+    useKakaoMap({
+      lat,
+      lng,
+      jsApiKey,
+    });
+
+  useCenteringMap({ mapRef, markerRef, selectedLocation });
 
   useEffect(() => {
-    const kakaoMapScript = document.createElement('script');
-    kakaoMapScript.async = false;
-    kakaoMapScript.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=cb67c048e7001bd33041a7658fec7670&autoload=false`;
-    document.head.appendChild(kakaoMapScript);
-
-    const onLoadKakaoAPI = () => {
-      window.kakao.maps.load(() => {
-        const container = document.getElementById('map');
-        const options = {
-          center: new window.kakao.maps.LatLng(33.450701, 126.570667),
-          level: 3,
-        };
-
-        const map = new window.kakao.maps.Map(container, options);
-        mapRef.current = map;
-
-        const markerPosition = new window.kakao.maps.LatLng(
-          33.450701,
-          126.570667,
-        );
-        const marker = new window.kakao.maps.Marker({
-          position: markerPosition,
-        });
-
-        marker.setMap(map);
-      });
-    };
-
-    kakaoMapScript.addEventListener('load', onLoadKakaoAPI);
-  }, []);
-
-  const setCenter = (e) => {
-    console.log('click');
-    if (mapRef.current) {
-      const moveLatLon = new window.kakao.maps.LatLng(33.452613, 126.570888);
-      mapRef.current.setCenter(moveLatLon);
+    if (selectedLocation && mapRef.current) {
+      setTimeout(() => {
+        fetchPin(mapRef.current.getBounds()); // 지도 이동 후 fetchPin 실행
+      }, 500);
     }
+  }, [selectedLocation]);
+
+  const setCenter = () => {
+    if (!mapRef.current) return;
+
+    // 버튼 클릭 시 현재 위치로 센터 설정
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const newLat = position.coords.latitude;
+        const newLng = position.coords.longitude;
+        setLat(newLat);
+        setLng(newLng);
+
+        const newCenter = new window.kakao.maps.LatLng(newLat, newLng);
+        mapRef.current.setCenter(newCenter);
+      },
+      () => {
+        console.error('현재 위치를 가져올 수 없습니다.');
+      },
+    );
+
+    setTimeout(() => {
+      fetchPin(mapRef.current.getBounds()); // 지도 이동 후 fetchPin 실행
+    }, 500);
   };
 
   return (
-    <div id='map' className={styles.map}>
-      <div className={styles.roundButton}>
-        <RoundIconButton iconId={'gps'} onClickIconButton={setCenter} />
+    <>
+      <div id='map' className={styles.map}>
+        <div className={styles.roundButton}>
+          <RoundIconButton iconId={'gps'} onClickIconButton={setCenter} />
+        </div>
       </div>
-    </div>
+      {boundsState && boundsState.sw && boundsState.ne ? (
+        <PinBox bounds={boundsState} updateMarkers={updateMarkers} />
+      ) : (
+        <div>
+          <p>로딩중..</p>
+        </div>
+      )}
+      {/* <PinBox bounds={bounds} /> */}
+    </>
   );
 };
 
