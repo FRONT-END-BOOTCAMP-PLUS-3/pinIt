@@ -1,19 +1,21 @@
+.button_save {
+    text-align: center;
+    margin-top: 30px;
+}
+
 .button_area {
     position: fixed;
     bottom: 120px;
     left: 0;
     right: 0;
     text-align: center;
-}
 
-.button_area .button:first-child {
-    margin-top: 0;
-}
+    .button:first-child {
+        margin-top: 0;
+    }
 
-.button_area .button {
-    margin-top: 4px;
-
-    button {
-        width: 200px;
+    .button {
+        margin-top: 4px;
+        button { width: 200px; }
     }
 }
