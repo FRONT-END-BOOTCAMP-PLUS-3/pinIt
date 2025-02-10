@@ -4,7 +4,7 @@ import UserNavigation from '@/components/Navigation/UserNavigation/UserNavigatio
 // import './globals.scss';
 import '@/app/globals.scss';
 import HEADER_CONFIG from '@/constants/headerConfig'; // 상수 가져오기
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import HeaderWithIcon from '@/components/Header/HeaderWithIcon/HeaderWithIcon';
 import Header from '@/components/Header/Header/Header';
 import WhiteHeaderWithBack from '@/components/Header/WhiteHeaderWithBack/WhiteHeaderWithBack';
@@ -23,6 +23,7 @@ export default function RootLayout({
 }) {
   const pathname = usePathname(); // 현재 경로 가져오기
   const [isAdmin, setIsAdmin] = useState<boolean | null>(null);
+  const router = useRouter();
 
   useEffect(() => {
     const checkAdmin = async () => {
@@ -37,6 +38,13 @@ export default function RootLayout({
     };
 
     checkAdmin();
+  }, [isAdmin, pathname, router]);
+
+  // isAdmin이 false이고, pathname이 '/admin'으로 시작하면 리다이렉트
+  useEffect(() => {
+    if (isAdmin === false && pathname.startsWith('/admin')) {
+      router.push('/');
+    }
   }, []);
 
   // HEADER_CONFIG에서 현재 경로에 해당하는 설정 찾기
