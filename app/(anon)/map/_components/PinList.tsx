@@ -2,7 +2,6 @@
 
 import styles from '../ViewMap.module.scss';
 import Link from 'next/link';
-import ROUTES from '@/constants/routes';
 import Image from 'next/image';
 import HeartIconButton from '@/components/Buttons/HeartIconButton';
 
@@ -27,7 +26,7 @@ const PinList = ({
 }) => {
   return (
     <li>
-      <Link href={'/'} className={styles.pinItem}>
+      <Link href={`/${id}`} className={styles.pinItem}>
         <div className={styles.text}>
           <h3>{location}</h3>
           <h4>{address}</h4>

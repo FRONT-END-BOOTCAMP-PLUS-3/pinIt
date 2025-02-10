@@ -22,16 +22,16 @@ const useCurrentLocation = () => {
     );
 
     // 메모리 누수 방지를 위해 컴포넌트가 언마운트 될 때 정리
-    const watchId: number = navigator.geolocation.watchPosition((position) => {
-      const newLat = position.coords.latitude;
-      const newLng = position.coords.longitude;
-      setLat(newLat);
-      setLng(newLng);
-    });
+    // const watchId: number = navigator.geolocation.watchPosition((position) => {
+    //   const newLat = position.coords.latitude;
+    //   const newLng = position.coords.longitude;
+    //   setLat(newLat);
+    //   setLng(newLng);
+    // });
 
-    return () => {
-      if (watchId) navigator.geolocation.clearWatch(watchId);
-    };
+    // return () => {
+    //   if (watchId) navigator.geolocation.clearWatch(watchId);
+    // };
   }, []);
 
   return { lat, lng, setLat, setLng };

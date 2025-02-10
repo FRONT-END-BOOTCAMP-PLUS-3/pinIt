@@ -32,17 +32,20 @@ const PinBox = ({
     isListAreaTouched: false, // 사용자가 box 내부의 스크롤 가능한 콘텐츠를 터치했는지 여부
   });
   const [pinData, setPinData] = useState<ShowNearByPinListDto[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const data = await showNearByPinList(bounds);
 
+        setIsLoading(true);
         setPinData(data);
         updateMarkers(data);
       } catch (error) {
         console.error('🚨 핀 데이터 불러오기 실패:', error);
       }
+      setIsLoading(false);
     };
     fetchData();
   }, [bounds]);
@@ -224,21 +227,32 @@ const PinBox = ({
         <div className={styles.pinBoxHeader} onClick={handleHeaderClick}>
           <div className={styles.dragHandle} />
         </div>
-        <ul className={styles.pinList} ref={list}>
-          {pinData.map((pin, index) => (
-            <PinList
-              key={index}
-              id={pin.id}
-              url={pin.image}
-              alt={pin.placeName}
-              location={pin.placeName}
-              address={pin.address}
-              description={pin.description}
-              liked={pin.isLiked}
-              onClickLikeButton={handleClick}
-            />
-          ))}
-        </ul>
+        {isLoading ? null : (
+          <div className={styles.pinList}>
+            {(pinData ?? []).length > 0 ? (
+              <ul ref={list}>
+                {pinData.map((pin, index) => (
+                  <PinList
+                    key={index}
+                    id={pin.id}
+                    url={pin.image}
+                    alt={pin.placeName}
+                    location={pin.placeName}
+                    address={pin.address}
+                    description={pin.description}
+                    liked={pin.isLiked}
+                    onClickLikeButton={handleClick}
+                  />
+                ))}
+              </ul>
+            ) : (
+              <div className={styles.noPin}>
+                <p>근처에 핀이 없네요.</p>
+                <p>개척자가 되어보세요!!</p>
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );

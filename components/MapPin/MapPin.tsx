@@ -1,31 +1,31 @@
 'use client';
 
-import React, { useState } from 'react';
 import styles from './MapPin.module.scss';
 import Image from 'next/image';
+import Link from 'next/link';
 
 const MapPin = ({
+  id,
   placeName,
   imgUrl,
 }: {
+  id: string;
   placeName: string;
   imgUrl: string;
 }) => {
-  const [showMapListCard, setShowMapListCard] = useState(false);
-
-  const handleShowMapListCard = () => {
-    setShowMapListCard((prevState) => !prevState);
-  };
-
   return (
     <>
-      <div className={styles.marker_area} onClick={handleShowMapListCard}>
-        <div className={styles.marker_image_wrap}>
-          <div className={styles.marker_image}>
-            <Image src={imgUrl} alt={placeName} width={30} height={30} />
+      <Link href={`/${id}`} className={styles.pinItem}>
+        {' '}
+        /
+        <div className={styles.marker_area}>
+          <div className={styles.marker_image_wrap}>
+            <div className={styles.marker_image}>
+              <Image src={imgUrl} alt={placeName} width={30} height={30} />
+            </div>
           </div>
         </div>
-      </div>
+      </Link>
       {/* {showMapListCard && (
             <span>{placeName}</span>
         )} */}

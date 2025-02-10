@@ -1,4 +1,4 @@
-import { SelectedLocation } from './../app/(anon)/map/_components/MapSection';
+import { SelectedLocation } from '@/app/(anon)/map/page';
 import { useEffect } from 'react';
 
 const useCenteringMap = ({

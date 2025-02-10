@@ -8,7 +8,6 @@ import useKakaoMap from '@/hooks/useKakaoMap';
 import useCenteringMap from '@/hooks/useCenteringMap';
 import PinBox from './PinBox';
 import { useEffect } from 'react';
-import MapPin from '@/components/MapPin/MapPin';
 
 interface ViewMapProps {
   selectedLocation: SelectedLocation | null;
@@ -47,12 +46,6 @@ const ViewMap: React.FC<ViewMapProps> = ({ selectedLocation }) => {
 
         const newCenter = new window.kakao.maps.LatLng(newLat, newLng);
         mapRef.current.setCenter(newCenter);
-
-        const marker = new window.kakao.maps.Marker({
-          position: newCenter,
-        });
-
-        marker.setMap(mapRef.current);
       },
       () => {
         console.error('현재 위치를 가져올 수 없습니다.');

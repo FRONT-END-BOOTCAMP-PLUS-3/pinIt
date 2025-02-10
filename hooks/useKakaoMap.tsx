@@ -53,15 +53,12 @@ const useKakaoMap = ({
         mapRef.current = map;
 
         // 현재 위치 마커 이미지 설정
-        const imageSrc =
-          'https://i.pinimg.com/originals/9b/91/aa/9b91aada2439fe652a512ded67218623.png'; // 현재 위치 마커 이미지 경로
-        const imageSize = new window.kakao.maps.Size(30, 30); // 이미지 크기 조정
-        const imageOption = { offset: new window.kakao.maps.Point(25, 50) }; // 마커 중심 조정
+        const imageSrc = '/ellipse.png'; // 현재 위치 마커 이미지 경로
+        const imageSize = new window.kakao.maps.Size(20, 20); // 이미지 크기 조정
 
         const markerImage = new window.kakao.maps.MarkerImage(
           imageSrc,
           imageSize,
-          imageOption,
         );
 
         // 초기 지도 범위 내 장소 가져오기
@@ -136,7 +133,7 @@ const useKakaoMap = ({
       setTimeout(() => {
         if (markerContainer) {
           ReactDOM.createRoot(markerContainer).render(
-            <MapPin placeName={pin.placeName} imgUrl={pin.image} />,
+            <MapPin id={pin.id} placeName={pin.placeName} imgUrl={pin.image} />,
           );
         }
       }, 0);
