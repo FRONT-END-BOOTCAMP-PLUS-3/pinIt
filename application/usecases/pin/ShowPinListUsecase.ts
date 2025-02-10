@@ -34,6 +34,8 @@ export const showPinListUsecase = async (
       address: extractTwoWords(pin.address), // 두 단어만 유지
       image: pin.image,
       isLiked: isLiked,
+      userId: pin.userId,
+      countLike: pin.countLike || 0,
     };
   });
 

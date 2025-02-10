@@ -22,6 +22,14 @@ const MyPinList = ({ userId }: { userId?: string }) => {
   const [deletePopupOpen, setDeletePopupOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
+  /* .container 스타일 설정(휴지통 아이콘 고정에 필요) */
+  useEffect(() => {
+    const container = document.querySelector('.container');
+    if (container) {
+      (container as HTMLElement).style.position = 'relative';
+    }
+  }, []);
+
   /* 핀 리스트 불러오기 */
   useEffect(() => {
     if (!userId) return;
@@ -69,6 +77,7 @@ const MyPinList = ({ userId }: { userId?: string }) => {
     try {
       await Promise.all(checkedPinIds.map((pinId) => deletePin(pinId)));
       alert(`✅ 선택한 ${checkedPinIds.length}개의 핀이 삭제되었습니다.`);
+      // 새로고침(전체 페이지)
       window.location.reload();
     } catch (error) {
       console.error('🚨 핀 삭제 실패:', error);

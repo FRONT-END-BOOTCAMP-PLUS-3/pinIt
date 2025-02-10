@@ -20,15 +20,23 @@ const ComboBox: React.FC<ComboBoxProps> = ({
   onSelect,
   sessionStorageKey,
 }) => {
-  const [selectedId, setSelectedId] = useState<string>(options[0].id);
+  // 초기값을 빈 문자열로 수정
+  // const [selectedId, setSelectedId] = useState<string>(options[0].id);
+  const [selectedId, setSelectedId] = useState<string>('');
   const [isOpened, setIsOpened] = useState(false);
   const [isMounted, setIsMounted] = useState(false); // Hydration 방지
 
   useEffect(() => {
     setIsMounted(true);
     const savedSelectedOption = sessionStorage.getItem(sessionStorageKey);
-    if (savedSelectedOption) setSelectedId(savedSelectedOption);
-  }, []);
+    if (savedSelectedOption) {
+      setSelectedId(savedSelectedOption);
+    }
+    // options가 변경될 때, 확인해서 setSelectedId 실행
+    else if (options.length > 0) {
+      setSelectedId(options[0].id);
+    }
+  }, [options]);
 
   useEffect(() => {
     if (isMounted) {

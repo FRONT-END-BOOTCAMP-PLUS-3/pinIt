@@ -1,0 +1,11 @@
+.button_wrapper {
+  display: flex;
+  justify-content: end;
+
+  button {
+    background-color: transparent;
+    font-size: $font-size-medium;
+    color: $main-black-2;
+    cursor: pointer;
+  }
+}

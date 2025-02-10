@@ -4,4 +4,6 @@ export interface ShowPinList {
   address: string;
   image: string;
   isLiked: boolean;
+  userId: string;
+  countLike: number;
 }
