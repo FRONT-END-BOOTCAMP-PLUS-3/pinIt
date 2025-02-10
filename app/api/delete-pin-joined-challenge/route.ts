@@ -1,4 +1,4 @@
-import { DeleteMyPinFromChallengeUsecase } from '@/application/usecases/challenge/DeleteMyPinFromChallengeUsecase';
+import { DeletePinJoinedChallengeUsecase } from '@/application/usecases/challenge/DeletePinJoinedChallengeUsecase';
 import { SbPinJoinedChallengeRepository } from '@/infrastructure/repositories/SbPinJoinedChallengeRepository';
 import { NextRequest, NextResponse } from 'next/server';
 
@@ -7,7 +7,8 @@ export async function DELETE(req: NextRequest) {
     const pinIds = await req.json();
     const pinJoinedChallengeRepository = new SbPinJoinedChallengeRepository();
 
-    await DeleteMyPinFromChallengeUsecase(pinJoinedChallengeRepository, pinIds);
+    // await DeleteMyPinFromChallengeUsecase(pinJoinedChallengeRepository, pinIds);
+    await DeletePinJoinedChallengeUsecase(pinJoinedChallengeRepository, pinIds);
 
     return NextResponse.json({ message: '삭제 완료' }, { status: 200 });
   } catch (error) {
