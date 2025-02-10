@@ -20,7 +20,7 @@ const PinCard = ({
   location: string;
   address: string;
   liked: boolean;
-  onClickLikeButton: React.MouseEventHandler;
+  onClickLikeButton: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }) => {
   return (
     <Link href={`/${id}`} passHref className={style.PinCard}>
@@ -43,14 +43,18 @@ const PinCard = ({
             liked={true}
             w={16}
             h={16}
-            onClickLikeButton={onClickLikeButton}
+            onClickLikeButton={(e: React.MouseEvent<HTMLButtonElement>) =>
+              onClickLikeButton(e)
+            }
           />
         ) : (
           <HeartIconButton
             liked={false}
             w={16}
             h={16}
-            onClickLikeButton={onClickLikeButton}
+            onClickLikeButton={(e: React.MouseEvent<HTMLButtonElement>) =>
+              onClickLikeButton(e)
+            }
           />
         )}
       </div>

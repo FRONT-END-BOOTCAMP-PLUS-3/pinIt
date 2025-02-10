@@ -2,52 +2,54 @@
 
 import PinCard from '@/components/Card/PinCard/PinCard';
 import styles from '../like.module.scss';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { ShowPinList } from '@/application/usecases/pin/dto/ShowPinListDto';
+import { showPinList } from '../../(home)/_api/showPinList';
 
 const LikeList = () => {
-  const imageData = [
-    {
-      placeName: '남산타워',
-      image: '/default_image.png',
-      address: '서울특별시 용산구 남산공원길 105',
-      isLiked: true,
-    },
-    {
-      placeName: '경복궁',
-      image: '/default_image.png',
-      address: '서울특별시 종로구 사직로 161',
-      isLiked: false,
-    },
-    {
-      placeName: '해운대 해수욕장',
-      image: '/default_image.png',
-      address: '부산광역시 해운대구 우동',
-      isLiked: true,
-    },
-    {
-      placeName: '제주 성산일출봉',
-      image: '/default_image.png',
-      address: '제주특별자치도 서귀포시 성산읍 성산리',
-      isLiked: false,
-    },
-  ];
+  const [pinData, setPinData] = useState<ShowPinList[]>([]);
 
-  const handleClick = () => {
-    console.log('h');
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await showPinList();
+        setPinData(data);
+      } catch (error) {
+        console.error('🚨 핀 데이터 불러오기 실패:', error);
+      }
+    };
+    fetchData();
+  }, []);
+
+  // ✅ 핀의 좋아요 상태 변경하는 함수
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>, id: string) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    setPinData((prevPins) =>
+      prevPins.map((pin) =>
+        pin.id === id ? { ...pin, isLiked: !pin.isLiked } : pin,
+      ),
+    );
+
+    // ✅ Supabase에 좋아요 상태 업데이트 (선택 사항)
+    // updateLikeStatus(id);
   };
+
   return (
     <div className={styles.likeListContainer}>
       <div className={styles.card_container}>
-        {imageData.map((img, idx) => {
+        {pinData.map((pin, idx) => {
           return (
             <PinCard
               key={idx}
-              alt={img.placeName} // alt로 placeName 사용
-              url={img.image}
-              location={img.placeName}
-              address={img.address}
-              liked={img.isLiked}
-              onClickLikeButton={handleClick}
+              id={pin.id}
+              alt={pin.placeName} // alt로 placeName 사용
+              url={pin.image}
+              location={pin.placeName}
+              address={pin.address}
+              liked={pin.isLiked}
+              onClickLikeButton={(e) => handleClick(e, pin.id)}
             />
           );
         })}
