@@ -18,8 +18,9 @@ export async function getUserIdFromSupabase() {
     data: { user },
   } = await supabase.auth.getUser();
 
+  const loggedIn = false;
   if (!user) {
-    throw new Error('유저 정보를 가져올 수 없습니다.');
+    return loggedIn; // 유저 정보 없으면 false로 리턴하게끔 함
   }
 
   return user.id; // 로그인된 유저 ID 반환

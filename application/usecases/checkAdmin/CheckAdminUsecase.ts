@@ -7,7 +7,10 @@ export const checkAdminUsecase = async (
 ): Promise<CheckAdmin> => {
   const userId = await getUserIdFromSupabase(); // 로그인된 사용자의 아이디 받아오기
 
-  const loggedinId = await userRepository.getUserById(userId); // 로그인된 사용자의 아이디로 사용자정보 받아오기
-
-  return { isAdmin: Boolean(loggedinId.admin) };
+  if (!userId) {
+    return { isAdmin: false }; // 로그인 정보 없으면 무조건 isAdmin: false로 반환
+  } else {
+    const loggedinId = await userRepository.getUserById(userId); // 로그인된 사용자의 아이디로 사용자정보 받아오기
+    return { isAdmin: Boolean(loggedinId.admin) };
+  }
 };
