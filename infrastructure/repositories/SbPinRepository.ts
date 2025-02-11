@@ -279,4 +279,30 @@ export class SbPinRepository implements PinRepository {
 
     return formattedData || [];
   }
+
+  async findPinsById(pinId: string[] | []): Promise<Pin[]> {
+    if (pinId.length === 0) return [];
+
+    const supabase = await createClient();
+    const { data, error } = await supabase
+      .from('pin')
+      .select('id, place_name, address, image, user_id, create_at')
+      .in('id', pinId)
+      .order('create_at', { ascending: false });
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    const formattedData = data.map((pin) => ({
+      id: pin.id,
+      placeName: pin.place_name,
+      address: pin.address,
+      image: pin.image,
+      createAt: pin.create_at,
+      userId: pin.user_id,
+    }));
+
+    return formattedData || [];
+  }
 }

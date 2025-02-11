@@ -3,16 +3,18 @@
 import PinCard from '@/components/Card/PinCard/PinCard';
 import styles from '../like.module.scss';
 import { useEffect, useState } from 'react';
-import { ShowPinList } from '@/application/usecases/pin/dto/ShowPinListDto';
-import { showPinList } from '../../(home)/_api/showPinList';
+import { showLikePinList } from '../_api/showLikePinList';
+import { LikeListDto } from '@/application/usecases/like/dto/LikeListDto';
+import { createLike } from '../_api/createLike';
 
 const LikeList = () => {
-  const [pinData, setPinData] = useState<ShowPinList[]>([]);
+  const [pinData, setPinData] = useState<LikeListDto[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await showPinList();
+        const data = await showLikePinList();
+
         setPinData(data);
       } catch (error) {
         console.error('🚨 핀 데이터 불러오기 실패:', error);
@@ -21,19 +23,22 @@ const LikeList = () => {
     fetchData();
   }, []);
 
-  // ✅ 핀의 좋아요 상태 변경하는 함수
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement>, id: string) => {
+  // 핀의 좋아요 상태 변경하는 함수
+  const handleClick = async (
+    e: React.MouseEvent<HTMLButtonElement>,
+    id: string,
+  ) => {
     e.preventDefault();
     e.stopPropagation();
+
+    // Supabase에 좋아요 상태 업데이트
+    await createLike({ id: id });
 
     setPinData((prevPins) =>
       prevPins.map((pin) =>
         pin.id === id ? { ...pin, isLiked: !pin.isLiked } : pin,
       ),
     );
-
-    // ✅ Supabase에 좋아요 상태 업데이트 (선택 사항)
-    // updateLikeStatus(id);
   };
 
   return (

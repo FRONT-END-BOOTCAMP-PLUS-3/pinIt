@@ -17,4 +17,5 @@ export interface PinRepository {
     neLat: number,
     neLng: number,
   ) => Promise<Pin[]>; // 지도 범위
+  findPinsById(pinId: string[] | []): Promise<Pin[]>; // 핀 아이디로 핀 목록 찾기
 }
