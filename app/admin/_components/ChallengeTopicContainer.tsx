@@ -6,13 +6,17 @@ import ROUTES from '@/constants/routes';
 import { PinListContainerProps } from './PinListContainerProps';
 import Link from 'next/link';
 import style from '@/app/admin/page.module.scss';
-import Icon from '@/components/Icon/Icon';
 import Button from '@/components/Buttons/Button';
+import { challengeTopicList } from '../_api/challengeTopicList';
 
 // 이건 데이터 내용대로 바꾸세요
 interface ChallengeTopicData {
   id: string;
-  topic: string;
+  topic: string; // 주제 제목
+  createAt: Date; // 생성 날짜
+  startDate: Date; // 시작 날짜
+  endDate: Date; // 종료 날짜
+  adminId: string | null; // 사용자 UUID (외래 키, Foreign Key)
 }
 
 const ChallengeTopicContainer = ({
@@ -21,24 +25,61 @@ const ChallengeTopicContainer = ({
   trashClicked,
 }: PinListContainerProps) => {
   const [checkedItems, setCheckedItems] = useState<string[]>([]);
+  const [data, setData] = useState<ChallengeTopicData[]>([]); // API로 받아온 핀 목록
+  const [filteredData, setFilteredData] = useState<ChallengeTopicData[]>([]); // 검색된 데이터 저장
+
+  // fetch 여부를 통해 무한반복 로드 방지(매우 중요)
+  const [isFetching, setIsFetching] = useState(false);
+
+  const fetchChallengeTopics = async () => {
+    try {
+      const fetchedData = await challengeTopicList();
+      const validData = fetchedData.filter((challengeTopic) => challengeTopic.id !== null);
+      setData(validData);
+      setFilteredData(validData);
+    } catch (error) {
+      console.error('챌린지 주제 데이터를 불러오는 중 오류 발생', error);
+    } finally {
+      setIsFetching(false); // fetch 여부를 통해 무한반복 로드 방지(매우 중요)
+    }
+  }
 
   useEffect(() => {
-    if (trashClicked) {
-      console.log('삭제할 항목:', checkedItems);
-      // 여기서 삭제 api 호출하기
-    }
-  }, [trashClicked]);
+    if (isFetching) return; // isFetching이 true면 실행 안 함 (매우 중요)
+    fetchChallengeTopics(); // 컴포넌트 마운트 시 데이터 불러오기
+  }, [isFetching]);
 
-  const mockData: ChallengeTopicData[] = [
-    { id: '1', topic: '눈 내리는 겨울' },
-    { id: '2', topic: '울긋불긋 가을 단풍' },
-    { id: '3', topic: '아름다운 야경' },
-  ];
+  // searchKeyword에 따라 데이터 필터링
+  useEffect(() => {
+    if (!searchKeyword || searchKeyword.trim() === '') {
+      setFilteredData(data); // 검색어가 없으면 전체 데이터 반환
+    } else {
+      const lowerSearch = searchKeyword.toLowerCase();
+      const filtered = data.filter(
+        (challengeTopic) =>
+          challengeTopic.id?.toLowerCase().includes(lowerSearch) ||
+          challengeTopic.topic.toLowerCase().includes(lowerSearch) ||
+          new Date(challengeTopic.createAt).toDateString().toLowerCase().includes(lowerSearch) ||
+          new Date(challengeTopic.startDate).toDateString().toLowerCase().includes(lowerSearch) ||
+          new Date(challengeTopic.endDate).toDateString().toLowerCase().includes(lowerSearch) ||
+          challengeTopic.adminId?.toLowerCase().includes(lowerSearch),
+      );
+      setFilteredData(filtered);
+    }
+  }, [searchKeyword, data]);
+
+  // trashClicked이벤트가 발생되면 alert 띄우기
+  useEffect(() => {
+    if (trashClicked && checkedItems.length > 0) {
+      setCheckedItems([]);
+      alert('❌ 챌린지 주제 삭제는 불가합니다.');
+    }
+  }, [trashClicked, checkedItems]);
 
   return (
     <div className={style.topicContainer}>
       <ListComponent
-        data={mockData}
+        data={filteredData}
         setCheckedItems={setCheckedItems}
         checkedItems={checkedItems}
         routePath={ROUTES.admin.topic.detail}
