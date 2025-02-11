@@ -26,7 +26,6 @@ const Challenge = () => {
     async function fetchChallengeTopicList() {
       const response = await fetch('/api/challenge-topic-list');
       if (!response.ok) {
-        console.log('이번 주 챌린지 주제가 없습니다.');
         setChallengeTopicList([]);
         return;
       }
@@ -84,7 +83,12 @@ const Challenge = () => {
 
     setSelectedPins([]);
     alert('핀을 챌린지에서 제거했습니다.');
+
+    // // 리렌더링 유발
     setRefreshKey((prev) => prev + 1);
+
+    setIsFilteringMyPins(false);
+    setTimeout(() => setIsFilteringMyPins(true), 0);
   };
 
   return (
