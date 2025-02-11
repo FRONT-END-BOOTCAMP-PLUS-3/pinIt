@@ -16,7 +16,6 @@ export const likeListUsecase = async (
   const userId = await getUserIdFromSupabase();
 
   const likes = await LikeRepository.findPinIdByUserId(userId);
-  console.log('like테이블 : ', likes);
 
   if (!Array.isArray(likes) || likes.length === 0) {
     return [];

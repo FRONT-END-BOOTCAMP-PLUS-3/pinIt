@@ -8,7 +8,7 @@ export class SbLikeRepository implements LikeRepository {
     const { data, error } = await supabase
       .from('like')
       .select('*')
-      .order('create_at', { ascending: false });
+      .order('created_at', { ascending: false });
 
     if (error) {
       throw new Error(error.message);
@@ -68,5 +68,17 @@ export class SbLikeRepository implements LikeRepository {
     }));
 
     return formattedData || [];
+  }
+
+  async deleteLike(pinId: string): Promise<void> {
+    const supabase = await createClient();
+    const { error } = await supabase
+      .from('like')
+      .delete()
+      .in('pin_id', [pinId]);
+
+    if (error) {
+      throw new Error(error.message);
+    }
   }
 }
