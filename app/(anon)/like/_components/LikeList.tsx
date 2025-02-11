@@ -2,28 +2,16 @@
 
 import PinCard from '@/components/Card/PinCard/PinCard';
 import styles from '../like.module.scss';
-import { useEffect, useState } from 'react';
-import { showLikePinList } from '../_api/showLikePinList';
-import { LikeListDto } from '@/application/usecases/like/dto/LikeListDto';
 import { createLike } from '../_api/createLike';
 import { deleteLike } from '../_api/deleteLike';
+import { LikeListDto } from '@/application/usecases/like/dto/LikeListDto';
 
-const LikeList = () => {
-  const [pinData, setPinData] = useState<LikeListDto[]>([]);
+interface LikeListProps {
+  pinData: LikeListDto[];
+  setPinData: React.Dispatch<React.SetStateAction<LikeListDto[]>>;
+}
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await showLikePinList();
-
-        setPinData(data);
-      } catch (error) {
-        console.error('🚨 핀 데이터 불러오기 실패:', error);
-      }
-    };
-    fetchData();
-  }, []);
-
+const LikeList: React.FC<LikeListProps> = ({ pinData, setPinData }) => {
   // 핀의 좋아요 상태 변경하는 함수
   const handleLikeToggle = async (
     e: React.MouseEvent<HTMLButtonElement>,
