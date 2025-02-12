@@ -11,7 +11,7 @@ const HeartIconButton = ({
   liked: boolean;
   w: number;
   h: number;
-  onClickLikeButton: React.MouseEventHandler;
+  onClickLikeButton: (e: React.MouseEvent<HTMLButtonElement>) => void;
   heartColor?: string; // heartColor는 선택적 속성으로 정의
 }) => {
   return (

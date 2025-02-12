@@ -22,7 +22,7 @@ const PinList = ({
   address: string;
   description: string;
   liked: boolean;
-  onClickLikeButton: React.MouseEventHandler;
+  onClickLikeButton: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }) => {
   return (
     <li>
