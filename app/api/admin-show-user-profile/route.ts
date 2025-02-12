@@ -1,5 +1,5 @@
-import { UserIdDto } from '@/application/usecases/profile/dto/UserIdDto';
-import { showUserProfileUsecase } from '@/application/usecases/profile/ShowUserProfileUsecase';
+import { UserIdDto } from '@/application/usecases/admin/user/dto/UserIdDto';
+import { showUserProfileUsecase } from '@/application/usecases/admin/user/ShowUserProfileUsecase';
 import { UserRepository } from '@/domain/repositories/UserRepository';
 import { SbUserRepository } from '@/infrastructure/repositories/SbUserRepository';
 import { NextRequest, NextResponse } from 'next/server';
