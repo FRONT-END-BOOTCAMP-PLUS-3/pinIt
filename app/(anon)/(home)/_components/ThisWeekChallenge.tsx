@@ -26,10 +26,6 @@ const ThisWeekChallenge = () => {
     fetchThisWeekChallengedPinList();
   }, []);
 
-  const handleClick = () => {
-    console.log('이번주 주제에 참여한 핀 리스트로 가기');
-  };
-
   return (
     <>
       <div className={styles.thisWeekChallengeContainer}>
@@ -53,10 +49,9 @@ const ThisWeekChallenge = () => {
                     />
                   );
                 })}
-                <RoundIconButton
-                  iconId={'right'}
-                  onClickIconButton={handleClick}
-                />
+                <Link href={ROUTES.challenge.list} className={styles.link}>
+                  <RoundIconButton iconId={'right'} />
+                </Link>
               </>
             ) : (
               <p>진행 중인 챌린지가 없어요.</p>
