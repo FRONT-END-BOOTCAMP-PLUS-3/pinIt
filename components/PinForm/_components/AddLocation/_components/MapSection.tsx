@@ -18,9 +18,13 @@ interface Location {
 
 interface MapSectionProps {
   onAddressChange: (location: Location) => void;
+  onClose: () => void; // ✅ X 버튼 클릭 시 부모에게 알림
 }
 
-const MapSection: React.FC<MapSectionProps> = ({ onAddressChange }) => {
+const MapSection: React.FC<MapSectionProps> = ({
+  onAddressChange,
+  onClose,
+}) => {
   const [lat, setLat] = useState<number | null>(null);
   const [lng, setLng] = useState<number | null>(null);
   const [isMoved, setIsMoved] = useState(false);
@@ -129,6 +133,9 @@ const MapSection: React.FC<MapSectionProps> = ({ onAddressChange }) => {
   return (
     <div className={styles.mapSectionContainer}>
       <div id='map' className={styles.map}></div>
+      <button className={styles.closeButton} onClick={onClose}>
+        X
+      </button>
       <div className={styles.centerPin}>📍</div>
 
       {/* ✅ 현재 위치 버튼: 지도 이동 시만 표시 */}

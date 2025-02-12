@@ -39,10 +39,17 @@ const AddLocation: React.FC<AddLocationProps> = ({
     }
   };
 
+  const handleClosePopUp = () => {
+    onLocationSearchPopupClose(); // AddLocation 팝업 닫기
+  };
+
   return (
     <div className={styles.addLocationContainer}>
       {/* 지도 섹션 */}
-      <MapSection onAddressChange={handleSelectLocation} />
+      <MapSection
+        onAddressChange={handleSelectLocation}
+        onClose={handleClosePopUp}
+      />
 
       {/* 주소 정보 */}
       <AddressSection
