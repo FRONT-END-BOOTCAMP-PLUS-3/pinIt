@@ -8,15 +8,23 @@ const MyPinsContainer = ({
   setMyPins,
   selectedPins,
   setSelectedPins,
+  topicId,
 }: {
   myPins: MyPinDto[];
   setMyPins: (pins: MyPinDto[]) => void;
   selectedPins: MyPinDto[];
   setSelectedPins: React.Dispatch<React.SetStateAction<MyPinDto[]>>;
+  topicId: string;
 }) => {
   useEffect(() => {
     async function fetchMyPinList() {
-      const response = await fetch('/api/show-my-pins-on-challenge');
+      const response = await fetch('/api/show-my-pins-on-challenge', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ topicId: topicId }),
+      });
 
       if (!response.ok) {
         setMyPins([]);
@@ -28,7 +36,7 @@ const MyPinsContainer = ({
     }
 
     fetchMyPinList();
-  }, [setMyPins]);
+  }, [setMyPins, topicId]);
 
   const handleSelectablePin = (item: MyPinDto) => {
     setSelectedPins((prevSelectedPins) => {
