@@ -96,6 +96,7 @@ export default function RootLayout({
           media='screen and (device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)'
           href='icon-512x512.png'
         />
+        <title>PinIt!</title>
       </head>
       <body>
         <div
