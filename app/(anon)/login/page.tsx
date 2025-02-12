@@ -18,6 +18,7 @@ const Login = () => {
       provider: 'kakao',
       options: {
         redirectTo: `${originUrl}/auth/callback`,
+        queryParams: { prompt: 'login' },
       },
     });
   };

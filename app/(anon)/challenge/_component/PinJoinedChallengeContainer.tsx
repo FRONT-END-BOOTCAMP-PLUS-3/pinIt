@@ -5,6 +5,8 @@ import { useEffect, useState } from 'react';
 import { fetchMyId } from '../_api/showMyId';
 import { ComboBoxOption } from './ComboBox';
 import SelectablePinCard from '@/components/Card/SelectablePinCard/SelectablePinCard';
+import { deleteLike } from '../../like/_api/deleteLike';
+import { createLike } from '../../like/_api/createLike';
 
 const PinJoinedChallengeContainer = ({
   selectedOption,
@@ -84,6 +86,32 @@ const PinJoinedChallengeContainer = ({
     }, 0);
   };
 
+  // 핀의 좋아요 상태 변경하는 함수
+  const handleLikeToggle = async (
+    e: React.MouseEvent<HTMLButtonElement>,
+    id: string,
+    isLiked: boolean,
+  ) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    // Supabase에 좋아요 상태 업데이트
+    try {
+      if (isLiked) {
+        await deleteLike(id);
+      } else {
+        await createLike({ id: id });
+      }
+      setPinData((prevPins) =>
+        prevPins.map((pin) =>
+          pin.id === id ? { ...pin, isLiked: !pin.isLiked } : pin,
+        ),
+      );
+    } catch (error) {
+      console.error('🚨 좋아요 상태 변경 실패:', error);
+    }
+  };
+
   return (
     <div className={style.list_container}>
       {pinData?.map((pin) =>
@@ -106,9 +134,7 @@ const PinJoinedChallengeContainer = ({
             location={pin.placeName}
             address={pin.address}
             liked={pin.isLiked}
-            onClickLikeButton={() => {
-              console.log('클릭');
-            }}
+            onClickLikeButton={(e) => handleLikeToggle(e, pin.id, pin.isLiked)}
           />
         ),
       )}
