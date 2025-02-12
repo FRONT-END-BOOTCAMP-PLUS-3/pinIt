@@ -41,8 +41,13 @@ const UserProfile: React.FC = () => {
             nickname={userProfile?.nickname as string}
             email={userProfile?.email as string}
             profileImage={userProfile?.profileImg as string}
+            deleted={!!userProfile?.deleteDate}
         />
-        <UserPinList userId={userId} userName={userProfile?.nickname} />
+        <UserPinList
+          userId={userId}
+          userName={userProfile?.nickname}
+          deleted={!!userProfile?.deleteDate}
+        />
         </>
     );
 }

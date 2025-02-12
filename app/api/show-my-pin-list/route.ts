@@ -5,7 +5,7 @@ import { myPinListUsecase } from '@/application/usecases/profile/MyPinListUsecas
 import { SbLikeRepository } from '@/infrastructure/repositories/SbLikeRepository';
 
 // GET 요청 핸들러
-export async function GET(req: NextRequest) {
+export async function POST(req: NextRequest) {
   try {
     // 헤더에서 userId 추출
     const authHeader = req.headers.get('Authorization');

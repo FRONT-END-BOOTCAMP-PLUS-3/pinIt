@@ -13,8 +13,6 @@ export async function POST(req: NextRequest) {
 
     await createLikeUsecase(likeRepository, data);
 
-    console.log(data);
-
     return NextResponse.json({ message: '좋아요 생성 완료' }, { status: 201 });
   } catch (error) {
     console.error('좋아요 생성 오류:', error);

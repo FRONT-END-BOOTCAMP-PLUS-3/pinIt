@@ -1,26 +1,14 @@
 'use client';
 
-import ProfilePinCard from "@/components/Card/ProfilePinCard/ProfilePinCard";
 import styles from "./UserPinList.module.scss";
 import { useEffect, useState } from "react";
 import { showUserPinList } from "../_api/showUserPinList";
 import { deleteLike } from "../../like/_api/deleteLike";
 import { createLike } from "../../like/_api/createLike";
-// import { PinDto } from "@/application/usecases/profile/dto/PinDto";
+import PinCard from "@/components/Card/PinCard/PinCard";
+import { PinDto } from "@/application/usecases/profile/dto/PinDto";
 
-interface PinDto {
-  userId: string,
-  userName: string,
-  userEmail: string,
-  id: string,
-  placeName: string,
-  address: string, // 두 단어만 유지
-  image: string,
-  isLiked: boolean,
-  countLike: number
-}
-
-const UserPinList = ({ userId, userName }: { userId?: string; userName?: string }) => {
+const UserPinList = ({ userId, userName, deleted }: { userId?: string; userName?: string, deleted?: boolean }) => {
     const [list, setList] = useState<PinDto[]>([]);
 
     /* .container 스타일 설정(휴지통 아이콘 고정에 필요) */
@@ -30,25 +18,19 @@ const UserPinList = ({ userId, userName }: { userId?: string; userName?: string 
             (container as HTMLElement).style.position = 'relative';
         }
     }, []);
-    
-    /* 핀 리스트 불러오기 */
-    useEffect(()=>{
-        const fetchData = async () => {
-            // userId가 undefined거나 null일 경우 실행하지 않고 다시 돌아감
-            if (!userId || userId.trim() === "") return;
 
-            try {
-                if (!userId) {
-                    console.error("🚨 User ID is missing.");
-                    return;
-                }
-                const data = await showUserPinList(userId); // userId 전달
-                setList(data);
-            } catch (error) {
-                console.error('🚨 핀 데이터 불러오기 실패:', error);
-            }
-        };
-        fetchData();
+    /* 핀 리스트 불러오기 */
+    useEffect(() => {
+      if (!userId) return;
+      const fetchData = async () => {
+        try {
+          const data = await showUserPinList(userId);
+          setList(data);
+        } catch (error) {
+          console.error('🚨 핀 데이터 불러오기 실패:', error);
+        }
+      };
+      fetchData();
     }, [userId]);
 
     // 핀의 좋아요 상태 변경하는 함수
@@ -59,7 +41,7 @@ const UserPinList = ({ userId, userName }: { userId?: string; userName?: string 
     ) => {
       e.preventDefault();
       e.stopPropagation();
-    
+
       // Supabase에 좋아요 상태 업데이트
       try {
         if (isLiked) {
@@ -81,15 +63,16 @@ const UserPinList = ({ userId, userName }: { userId?: string; userName?: string 
         <>
         <div className={styles.mypin_list}>
             <div className={styles.head}>
-                <h1 className={styles.title}>{userName}님이 올린 핀</h1>
+                <h1 className={styles.title}>{deleted ? '탈퇴된 사용자' : userName}님이 올린 핀</h1>
             </div>
             
             {/* ✅ 기존의 ul > li 구조를 div.pincard_container 내부에 배치 */}
             <div className={styles.pincard_container}>
             {list.length > 0 ? (
                 list.map((pin) => (
-                <ProfilePinCard
+                <PinCard
                     key={pin.id} // ✅ key를 여기서 사용
+                    alt={pin.placeName}
                     id={pin.id}
                     url={pin.image}
                     location={pin.placeName}
