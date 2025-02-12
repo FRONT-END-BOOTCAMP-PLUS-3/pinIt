@@ -1,5 +1,6 @@
 'use client';
 
+import HeartIconButton from '@/components/Buttons/HeartIconButton';
 import styles from '@/components/Card/ProfilePinCard/ProfilePinCard.module.scss';
 import Icon from '@/components/Icon/Icon';
 import Image from 'next/image';
@@ -11,7 +12,9 @@ const ProfilePinCard = ({
   url = '/default_image.png',
   location,
   address,
+  liked,
   checked = false,
+  onClickLikeButton,
   onClickCheckButton,
   isEditing = false,
 }: {
@@ -20,7 +23,9 @@ const ProfilePinCard = ({
   width?: number;
   location: string;
   address: string;
+  liked?: boolean;
   checked?: boolean;
+  onClickLikeButton: (e: React.MouseEvent<HTMLButtonElement>) => void;
   onClickCheckButton?: React.ChangeEventHandler<HTMLInputElement>;
   isEditing?: boolean;
 }) => {
@@ -64,6 +69,27 @@ const ProfilePinCard = ({
           <div className={styles.text}>
             <h2 className={styles.location}>{location}</h2>
             <p className={styles.address}>{address}</p>
+          </div>
+          <div className={styles.icon}>
+            {liked ? (
+              <HeartIconButton
+                liked={true}
+                w={16}
+                h={16}
+                onClickLikeButton={(e: React.MouseEvent<HTMLButtonElement>) =>
+                  onClickLikeButton(e)
+                }
+              />
+            ) : (
+              <HeartIconButton
+                liked={false}
+                w={16}
+                h={16}
+                onClickLikeButton={(e: React.MouseEvent<HTMLButtonElement>) =>
+                  onClickLikeButton(e)
+                }
+              />
+            )}
           </div>
         </Link>
       ) : (
