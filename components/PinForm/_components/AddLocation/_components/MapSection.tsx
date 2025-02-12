@@ -136,7 +136,13 @@ const MapSection: React.FC<MapSectionProps> = ({
       <button className={styles.closeButton} onClick={onClose}>
         X
       </button>
-      <div className={styles.centerPin}>📍</div>
+      <div className={styles.centerPin}>
+        <img
+          src='./custom-pin.png'
+          style={{ width: '28px', height: '42px' }}
+          alt='Custom Pin'
+        />{' '}
+      </div>
 
       {/* ✅ 현재 위치 버튼: 지도 이동 시만 표시 */}
       {isMoved && (
