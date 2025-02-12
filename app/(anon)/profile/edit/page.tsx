@@ -143,7 +143,7 @@ const ProfileEdit = () => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(userProfile?.id),
+      body: JSON.stringify({ userId: userProfile?.id }),
     });
 
     if (!response.ok) {
