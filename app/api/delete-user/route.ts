@@ -6,7 +6,7 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export async function DELETE(req: NextRequest) {
   try {
-    const userId = await req.json();
+    const { userId } = await req.json();
     const userRepository: UserRepository = new SbUserRepository();
 
     await DeleteUserUsecase(userRepository, userId);
