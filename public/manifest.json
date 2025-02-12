@@ -1,13 +1,24 @@
 {
+  "name": "PinIt!",
+  "description": "PinIt! : pin your spot.",
+  "start_url": "/",
+  "scope": "/",
   "theme_color": "#292526",
   "background_color": "#292526",
   "display": "standalone",
-  "scope": "/",
-  "start_url": "/",
-  "name": "PinIt!",
   "short_name": "PinIt!",
-  "description": "PinIt! : pin your spot.",
   "lang": "ko-KR",
+  "orientation": "any",
+  "categories": ["lifestyle", "productivity", "social"],
+  "screenshots": [
+    {
+      "src": "screenshot-0.png",
+      "sizes": "1276x1836",
+      "type": "image/png",
+      "platform": "narrow",
+      "label": "PinIt! 앱의 홈스크린"
+    }
+  ],
   "icons": [
     {
       "src": "icon-192x192.png",
@@ -19,6 +30,80 @@
       "src": "icon-512x512.png",
       "sizes": "512x512",
       "type": "image/png"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "홈",
+      "short_name": "홈",
+      "description": "진행중인 챌린지, 전체 핀을 볼 수 있다.",
+      "url": "/",
+      "icons": [
+        {
+          "src": "icon-192x192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "지도에서 핀 검색하기",
+      "short_name": "지도에서 핀 검색",
+      "description": "지도에서 핀을 검색할 수 있다.",
+      "url": "/map",
+      "icons": [
+        {
+          "src": "icon-192x192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "검색하기",
+      "short_name": "검색",
+      "description": "핀과 사용자를 검색할 수 있다.",
+      "url": "/search",
+      "icons": [
+        {
+          "src": "icon-192x192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "핀 추가하기",
+      "short_name": "핀 추가",
+      "description": "새로운 핀을 추가할 수 있다.",
+      "url": "/add",
+      "icons": [
+        {
+          "src": "icon-192x192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "좋아요된 핀 확인하기",
+      "short_name": "좋아요",
+      "description": "내가 좋아요를 누른 핀을 확인할 수 있다.",
+      "url": "/like",
+      "icons": [
+        {
+          "src": "icon-192x192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "내 프로필 확인하기",
+      "short_name": "내 프로필",
+      "description": "내 프로필을 볼 수 있다.",
+      "url": "/profile",
+      "icons": [
+        {
+          "src": "icon-192x192.png",
+          "sizes": "192x192"
+        }
+      ]
     }
   ]
 }

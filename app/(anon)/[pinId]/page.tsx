@@ -16,6 +16,7 @@ const PinDetailPage: React.FC = () => {
 
   const [pinImage, setPinImage] = useState<string>('/logo_main.png');
   const [profile, setProfile] = useState({
+    pinId: '',
     nickname: '',
     userId: '',
     profileImg: '/default-profile-img.jpg',
@@ -45,6 +46,7 @@ const PinDetailPage: React.FC = () => {
         // 상태 업데이트
         setPinImage(data.image);
         setProfile({
+          pinId: pinId,
           nickname: data.nickname,
           userId: data.userId,
           profileImg: data.profileImg,
