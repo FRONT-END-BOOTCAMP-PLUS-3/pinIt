@@ -22,4 +22,27 @@
     z-index: 999;
     cursor: pointer;
   }
+
+  .noItems {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50%;
+    transform: translate(0, -50%);
+
+    a {
+      width: fit-content;
+      background-color: $main-black-1;
+      color: $main-black-4;
+      font-size: $font-size-large;
+      font-weight: bold;
+      padding: $spacing-medium $spacing-xxlarge;
+      border: none;
+      border-radius: 30px;
+      display: inline-block;
+      cursor: pointer;
+      margin: 8px 0;
+    }
+  }
 }

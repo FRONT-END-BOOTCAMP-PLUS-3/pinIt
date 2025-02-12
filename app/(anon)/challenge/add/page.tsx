@@ -7,11 +7,9 @@ import ChallengeAddPageTitle from '../_component/ChallengeAddPageTitle';
 import { useState } from 'react';
 import { MyPinDto } from '@/application/usecases/challenge/dto/MyPinDto';
 import { ChallengeTopicDto } from '@/application/usecases/challenge/dto/ChallengeTopicDto';
-import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 const ChallengeAdd = () => {
-  const router = useRouter();
-
   const [challengeTopic, setchallengeTopic] =
     useState<ChallengeTopicDto | null>(null);
   const [myPins, setMyPins] = useState<MyPinDto[]>([]);
@@ -38,7 +36,7 @@ const ChallengeAdd = () => {
 
       if (response.ok) {
         alert('챌린지 등록 성공!');
-        router.push('/challenge');
+        window.location.href = '/challenge';
       } else {
         alert('이미 챌린지에 등록한 핀이 포함되어 있어요!');
       }
@@ -55,13 +53,26 @@ const ChallengeAdd = () => {
         setchallengeTopic={setchallengeTopic}
       />
       <p className={style.title}>이번주 챌린지에 등록할 핀을 선택해주세요!</p>
+      {myPins.length === 0 && (
+        <div className={style.noItems}>
+          <p>챌린지에 등록할 핀이 없어요.</p>
+          <p>지도에 핀을 찍어보세요!</p>
+          <Link href={'/add'}>핀 등록하기</Link>
+        </div>
+      )}
       <MyPinsContainer
         myPins={myPins}
         setMyPins={setMyPins}
         selectedPins={selectedPins}
         setSelectedPins={setSelectedPins}
+        topicId={challengeTopic?.id ?? ''}
       />
-      <Button label='등록하기' onClickButton={handleAddPinToChallengeButton} />
+      {myPins.length > 0 && (
+        <Button
+          label='등록하기'
+          onClickButton={handleAddPinToChallengeButton}
+        />
+      )}
     </div>
   );
 };

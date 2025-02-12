@@ -1,5 +1,6 @@
 import style from '@/app/(anon)/challenge/_component/ChallengeButton.module.scss';
 import Confirmation from '@/components/Confirmation/Confirmation';
+import ROUTES from '@/constants/routes';
 import Link from 'next/link';
 import { useState } from 'react';
 
@@ -35,7 +36,7 @@ const ChallengeButton = ({
       />
     </>
   ) : (
-    <Link href={'/challenge/add'} className={style.challengeButton}>
+    <Link href={ROUTES.challenge.add} className={style.challengeButton}>
       <span>챌린지 등록하기</span>
     </Link>
   );
