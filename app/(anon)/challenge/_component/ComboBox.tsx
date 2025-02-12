@@ -23,6 +23,9 @@ const ComboBox = ({
   const [isOpened, setIsOpened] = useState(false);
   const STORAGE_KEY = 'selectedComboBoxOption';
   const [isPrevRegister, setIsPrevRegister] = useState(false); // 이전 페이지
+  const [filteredOptions, setFilteredOptions] = useState<
+    ComboBoxOption[] | undefined
+  >(options); // 필터된 옵션 상태
 
   const handleOnClickComboBox = () => {
     setIsOpened((prevState) => !prevState);
@@ -55,7 +58,16 @@ const ComboBox = ({
         return startDate <= today && today <= endDate;
       }) || null;
 
-    if (isPrevRegister && options?.length) {
+    // options에서 startDate가 오늘보다 늦은 항목을 제외
+    const filtered = options?.filter((option) => {
+      if (!option.startDate) return true; // startDate가 없는 경우 제외하지 않음
+      const startDate = new Date(option.startDate);
+      return startDate <= today; // 오늘보다 늦게 시작하는 항목은 제외
+    });
+
+    setFilteredOptions(filtered); // 필터된 옵션 상태에 저장
+
+    if (isPrevRegister && filtered?.length) {
       setSelectedOption(ongoingChallenge);
     } else {
       setSelectedOption(savedOption || options?.[0] || null);
@@ -93,7 +105,7 @@ const ComboBox = ({
         className={`${styles.toggle_list} ${isOpened ? styles.open : styles.close}`}
         style={{ display: isOpened ? 'block' : 'none' }}
       >
-        {options?.map((option) => (
+        {filteredOptions?.map((option) => (
           <li key={option.topic} onClick={() => handleOnClickOption(option)}>
             <span className={styles.ellipsis_box}>
               <span>

@@ -35,7 +35,9 @@ const MyPinsContainer = ({
       setMyPins(data);
     }
 
-    fetchMyPinList();
+    if (topicId) {
+      fetchMyPinList();
+    }
   }, [setMyPins, topicId]);
 
   const handleSelectablePin = (item: MyPinDto) => {
