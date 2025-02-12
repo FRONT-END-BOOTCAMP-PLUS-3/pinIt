@@ -5,6 +5,8 @@ import styles from '../ViewMap.module.scss';
 import PinList from './PinList';
 import { showNearByPinList } from '../_api/showNearByPinList';
 import { ShowNearByPinListDto } from '@/application/usecases/map/dto/ShowNearByPinListDto';
+import { deleteLike } from '../../like/_api/deleteLike';
+import { createLike } from '../../like/_api/createLike';
 
 export const MIN_Y = 60; // Bottom Sheet가 최대로 올라갔을 때의 Y값
 
@@ -49,6 +51,31 @@ const PinBox = ({
     };
     fetchData();
   }, [bounds]);
+
+  const handleLikeToggle = async (
+    e: React.MouseEvent<HTMLButtonElement>,
+    id: string,
+    isLiked: boolean,
+  ) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    // Supabase에 좋아요 상태 업데이트
+    try {
+      if (isLiked) {
+        await deleteLike(id);
+      } else {
+        await createLike({ id: id });
+      }
+      setPinData((prevPins) =>
+        prevPins.map((pin) =>
+          pin.id === id ? { ...pin, isLiked: !pin.isLiked } : pin,
+        ),
+      );
+    } catch (error) {
+      console.error('🚨 좋아요 상태 변경 실패:', error);
+    }
+  };
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -215,10 +242,6 @@ const PinBox = ({
     setIsOpen((prev) => !prev);
   };
 
-  const handleClick = () => {
-    console.log('h');
-  };
-
   return (
     <div className={styles.pinListContainer} ref={box}>
       {/* isOpen이 true일때만 div렌더링 */}
@@ -241,7 +264,9 @@ const PinBox = ({
                     address={pin.address}
                     description={pin.description}
                     liked={pin.isLiked}
-                    onClickLikeButton={handleClick}
+                    onClickLikeButton={(e) =>
+                      handleLikeToggle(e, pin.id, pin.isLiked)
+                    }
                   />
                 ))}
               </ul>
