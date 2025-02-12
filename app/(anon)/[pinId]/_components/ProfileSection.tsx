@@ -3,8 +3,12 @@
 import Link from 'next/link';
 import styles from '../pinDetail.module.scss';
 import HeartIconButton from '@/components/Buttons/HeartIconButton';
+import { deleteLike } from '../../like/_api/deleteLike';
+import { createLike } from '../../like/_api/createLike';
+import { useEffect, useState } from 'react';
 
 interface ProfileProps {
+  pinId: string;
   nickname: string;
   userId: string;
   profileImg: string;
@@ -13,9 +17,37 @@ interface ProfileProps {
 }
 
 const ProfileSection: React.FC<{ profile: ProfileProps }> = ({ profile }) => {
-  const handleLikeButtonClick = () => {
-    console.log('Like button clicked');
-    // 좋아요 상태 관리 로직 추가 가능
+  const [isliked, setIsliked] = useState(profile.isLiked);
+  const [countlike, setCountlike] = useState(profile.countLike);
+
+  useEffect(() => {
+    setIsliked(profile.isLiked);
+  }, [profile.isLiked]);
+  useEffect(() => {
+    setCountlike(profile.countLike);
+  }, [profile.countLike]);
+
+  const handleLikeToggle = async (
+    e: React.MouseEvent<HTMLButtonElement>,
+    id: string,
+    liked: boolean,
+  ) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    try {
+      if (liked) {
+        setIsliked(false); // 좋아요 취소
+        setCountlike((prev) => Math.max(prev - 1, 0)); // 0 이하로 내려가지 않도록
+        await deleteLike(id);
+      } else {
+        setIsliked(true); // 좋아요 추가
+        setCountlike((prev) => prev + 1);
+        await createLike({ id });
+      }
+    } catch (error) {
+      console.error('🚨 좋아요 상태 변경 실패:', error);
+    }
   };
 
   return (
@@ -30,13 +62,15 @@ const ProfileSection: React.FC<{ profile: ProfileProps }> = ({ profile }) => {
         <span className={styles.likeButton}>
           <HeartIconButton
             heartColor={'#292526'}
-            liked={profile.isLiked}
+            liked={isliked}
             w={20}
             h={20}
-            onClickLikeButton={handleLikeButtonClick}
+            onClickLikeButton={(e) =>
+              handleLikeToggle(e, profile.pinId, isliked)
+            }
           />
         </span>
-        <span>{profile.countLike}</span>
+        <span>{countlike}</span>
       </div>
     </div>
   );
