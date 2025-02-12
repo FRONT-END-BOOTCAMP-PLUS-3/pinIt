@@ -72,6 +72,17 @@ const MyPinList = ({ userId }: { userId?: string }) => {
     .filter(([_, checked]) => checked)
     .map(([id]) => id);
 
+  /* 수정 기능 */
+  const handleEdit = () => {
+    setIsEditing((prev) => {
+      if (prev) {
+        // isEditing이 false가 될 경우 체크된 항목 초기화
+        setCheckedItems({});
+      }
+      return !prev;
+    });
+  };
+
   /* 삭제 기능 */
   const handleDelete = () => {
     setDeletePopupOpen(true);
@@ -137,7 +148,7 @@ const MyPinList = ({ userId }: { userId?: string }) => {
           {/* 편집/완료 버튼 */}
           <button
             className={`${styles.button} ${isEditing ? styles.complete : ''}`}
-            onClick={() => setIsEditing((prev) => !prev)}
+            onClick={handleEdit}
           >
             {isEditing ? '취소' : '편집'}
           </button>

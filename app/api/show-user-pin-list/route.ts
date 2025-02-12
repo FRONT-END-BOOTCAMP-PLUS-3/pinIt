@@ -15,16 +15,17 @@ export async function POST(req: NextRequest) {
 
     //base64로 인코딩된 userId 디코딩
     const decodedUserId = Buffer.from(userId, 'base64').toString('utf-8');
-
-    // const userId = await req.json();
     
-    // console.log(userId.id);
     // 리포지토리 초기화
     const pinRepository = new SbPinRepository();
     const userRepository = new SbUserRepository();
 
     // 핀 리스트 가져오기
-    const pins = await userPinListUsecase(pinRepository, userRepository, decodedUserId);
+    const pins = await userPinListUsecase(
+      pinRepository,
+      userRepository,
+      decodedUserId,
+    );
 
     return NextResponse.json(pins, { status: 200 });
   } catch (error) {
