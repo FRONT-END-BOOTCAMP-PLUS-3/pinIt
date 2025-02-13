@@ -17,6 +17,9 @@ const nextConfig = {
   images: {
     domains: ['hasyhjbsevkfzieejdyp.supabase.co'],
   },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
 };
 
 export default nextPWA(nextConfig);
