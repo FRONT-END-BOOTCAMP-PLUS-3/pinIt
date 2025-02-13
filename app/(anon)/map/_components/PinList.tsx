@@ -28,9 +28,9 @@ const PinList = ({
     <li>
       <Link href={`/${id}`} className={styles.pinItem}>
         <div className={styles.text}>
-          <h3>{location}</h3>
-          <h4>{address}</h4>
-          <p>{description}</p>
+          <h3 className={styles.location}>{location}</h3>
+          <p className={styles.address}>{address}</p>
+          <p className={styles.description}>{description}</p>
         </div>
         <div className={styles.imageWrapper}>
           <Image
