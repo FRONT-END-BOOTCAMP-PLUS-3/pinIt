@@ -39,7 +39,7 @@ const Challenge = () => {
   // 챌린지 주제 콤보박스의 옵션 변경
   useEffect(() => {
     const formattedData = challengeTopicList.map((challengeTopic) => ({
-      id: challengeTopic.id,
+      id: challengeTopic.id ? challengeTopic.id.toString() : '',
       topic: challengeTopic.topic,
       startDate: challengeTopic.startDate,
       endDate: challengeTopic.endDate,
