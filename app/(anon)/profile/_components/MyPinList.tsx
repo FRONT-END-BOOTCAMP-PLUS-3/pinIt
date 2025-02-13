@@ -10,6 +10,7 @@ import { deleteLike } from '../../like/_api/deleteLike';
 import { createLike } from '../../like/_api/createLike';
 import SelectablePinCard from '@/components/Card/SelectablePinCard/SelectablePinCard';
 import PinCard from '@/components/Card/PinCard/PinCard';
+import RoundIconButton from '@/components/Buttons/RoundIconButton';
 
 interface PinDto {
   id: string;
@@ -191,9 +192,7 @@ const MyPinList = ({ userId }: { userId?: string }) => {
         <div
           className={`${styles.mypin_delete} ${isEditing && checkedCount > 0 ? styles.visible : styles.hidden}`}
         >
-          <button className={styles.delete} onClick={handleDelete}>
-            <Icon id={'trash'} />
-          </button>
+          <RoundIconButton iconId={'trash'} onClickIconButton={handleDelete} />
         </div>
       </div>
     </>
