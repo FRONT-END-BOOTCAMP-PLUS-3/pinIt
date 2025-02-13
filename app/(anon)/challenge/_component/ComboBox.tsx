@@ -67,6 +67,11 @@ const ComboBox = ({
 
     setFilteredOptions(filtered); // 필터된 옵션 상태에 저장
 
+    if (filtered?.length) {
+      setSelectedOption(ongoingChallenge);
+      return;
+    }
+
     if (isPrevRegister && filtered?.length) {
       setSelectedOption(ongoingChallenge);
     } else {
