@@ -1,7 +1,8 @@
 'use client';
 
+import { Location, SelectedLocation } from '../page';
 import styles from '../ViewMap.module.scss';
-import { Location, SelectedLocation } from './MapSection';
+// import { Location, SelectedLocation } from './MapSection';
 
 interface LocationSearchProps {
   onClose: () => void;
