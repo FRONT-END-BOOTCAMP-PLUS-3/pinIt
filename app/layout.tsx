@@ -8,6 +8,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import HeaderWithIcon from '@/components/Header/HeaderWithIcon/HeaderWithIcon';
 import Header from '@/components/Header/Header/Header';
 import WhiteHeaderWithBack from '@/components/Header/WhiteHeaderWithBack/WhiteHeaderWithBack';
+import BlackHeaderWithBack from '@/components/Header/BlackHeaderWithBack/BlackHeaderWithBack';
 import { useEffect, useState } from 'react';
 import AdminNavigation from '@/components/Navigation/AdminNavigation/AdminNavigation';
 
@@ -64,6 +65,8 @@ export default function RootLayout({
         return <Header />;
       case 'WhiteHeaderWithBack':
         return <WhiteHeaderWithBack />;
+      case 'BlackHeaderWithBack':
+        return <BlackHeaderWithBack />;
       default:
         return null;
     }
