@@ -10,6 +10,13 @@
     flex-flow: column nowrap;
     gap: $spacing-xsmall;
     width: 100%;
+    .location {
+      font-size: 10px;
+    }
+    .address {
+    }
+    .description {
+    }
   }
 
   .location_container {
