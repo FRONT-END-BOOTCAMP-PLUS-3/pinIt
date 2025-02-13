@@ -17,8 +17,20 @@ const ChallengeAddPageTitle = ({
         setchallengeTopic(null);
         return;
       }
+
       const data = await response.json();
-      setchallengeTopic(data.challengeTopics[0]);
+
+      const today = new Date();
+
+      const ongoingChallenge = data.challengeTopics.find(
+        (topic: ChallengeTopicDto) => {
+          const startDate = new Date(topic.startDate);
+          const endDate = new Date(topic.endDate);
+          return today >= startDate && today <= endDate;
+        },
+      );
+
+      setchallengeTopic(ongoingChallenge || null);
     }
 
     fetchThisWeekChallengeTopic();
@@ -39,18 +51,25 @@ const ChallengeAddPageTitle = ({
   return (
     <h2 className={style.title}>
       <span className={style.ellipsis_box}>
-        {!isChallengeOngoing() && <span>지금 진행 중인 챌린지가 없어요.</span>}
-
-        <span>
-          「<span className={style.topic}>{challengeTopic?.topic}</span>
-          {challengeTopic?.startDate && challengeTopic?.endDate && (
-            <strong className={style.date}>
-              {new Date(challengeTopic?.startDate).toISOString().split('T')[0]}{' '}
-              ~ {new Date(challengeTopic?.endDate).toISOString().split('T')[0]}
-            </strong>
-          )}
-          」
-        </span>
+        {!isChallengeOngoing() ? (
+          <span>지금 진행 중인 챌린지가 없어요.</span>
+        ) : (
+          <span>
+            「<span className={style.topic}>{challengeTopic?.topic}</span>
+            {challengeTopic?.startDate && challengeTopic?.endDate && (
+              <strong className={style.date}>
+                {
+                  new Date(challengeTopic?.startDate)
+                    .toISOString()
+                    .split('T')[0]
+                }{' '}
+                ~{' '}
+                {new Date(challengeTopic?.endDate).toISOString().split('T')[0]}
+              </strong>
+            )}
+            」
+          </span>
+        )}
       </span>
     </h2>
   );

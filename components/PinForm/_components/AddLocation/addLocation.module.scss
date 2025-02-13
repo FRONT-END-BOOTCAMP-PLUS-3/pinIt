@@ -50,6 +50,29 @@
       font-size: $font-size-medium;
       cursor: pointer;
     }
+
+    .closeButton {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: rgba(0, 0, 0, 0.5);
+      font-weight: bold;
+      color: white;
+      border: none;
+      width: 30px;
+      height: 30px;
+      font-size: 18px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+    }
+
+    .closeButton:hover {
+      background: rgba(0, 0, 0, 0.8);
+    }
   }
 
   .addressSectionContainer {

@@ -1,40 +1,50 @@
 .mypin_list {
-    .head {
-        position: relative;
-        height: 30px;
-        line-height: 30px;
-    }
+  .head {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
 
     .title {
-        position: absolute;
-        left: 0;
-        font-size: $font-size-large;
-        font-weight: $font-weight-bold;
+      font-size: $font-size-xlarge;
+      font-weight: $font-weight-bold;
     }
 
     .button {
-        position: absolute;
-        right: 0;
+      font-size: $font-size-medium;
+      color: $main-black-1;
+      background-color: transparent;
+      padding: 3px 12px;
+      border-radius: 50px; // 🔹 둥근 모서리 추가
+      cursor: pointer;
+      transition: all 0.3s ease-in-out; // 🔹 부드러운 효과
+      text-decoration: solid;
+      text-decoration-line: underline;
+
+      &:hover {
+        background-color: $main-black-1;
+        color: #fff;
+      }
+
+      &.complete {
+        background-color: $main-black-1;
+        color: #fff;
+        text-decoration: none;
+      }
     }
+  }
 
-    .list {
-        display: flex;
-        flex-wrap: wrap;
-        margin-top: 10px;
+  .pincard_container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); // 기본적으로 3열 배치
+    gap: 14px;
+    width: 100%;
 
-        .nodata {
-            margin: 20px auto;
-        }
-
-        li.list_item svg {
-            display: var(--checkbox, none); // CSS 변수로 display 제어
-        }
-
-        img {
-            object-fit: cover;
-            object-position: center;
-        }
+    @media (min-width: 700px) {
+      grid-template-columns: repeat(4, 1fr); // 700px 이상일 때 4열 배치
     }
+  }
 }
  
 .mypin_delete {

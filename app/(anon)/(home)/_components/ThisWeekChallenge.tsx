@@ -26,9 +26,6 @@ const ThisWeekChallenge = () => {
     fetchThisWeekChallengedPinList();
   }, []);
 
-  const handleClick = () => {
-    console.log('이번주 주제에 참여한 핀 리스트로 가기');
-  };
   return (
     <>
       <div className={styles.thisWeekChallengeContainer}>
@@ -40,22 +37,25 @@ const ThisWeekChallenge = () => {
         </div>
         <div className={styles.challengeContainer}>
           <div className={styles.imageCardContainer}>
-            {thisWeekChallengedPinList?.pins.map((pin) => {
-              return (
-                <ImageCard
-                  key={pin.id}
-                  alt={pin.placeName}
-                  url={pin.image}
-                  pinId={pin.id!}
-                />
-              );
-            })}
-            <Link href={ROUTES.challenge.list}>
-              <RoundIconButton
-                iconId={'right'}
-                onClickIconButton={handleClick}
-              />
-            </Link>
+            {thisWeekChallengedPinList ? (
+              <>
+                {thisWeekChallengedPinList.pins.map((pin) => {
+                  return (
+                    <ImageCard
+                      key={pin.id}
+                      alt={pin.placeName}
+                      url={pin.image}
+                      pinId={pin.id!}
+                    />
+                  );
+                })}
+                <Link href={ROUTES.challenge.list} className={styles.link}>
+                  <RoundIconButton iconId={'right'} />
+                </Link>
+              </>
+            ) : (
+              <p>진행 중인 챌린지가 없어요.</p>
+            )}
           </div>
 
           <Link href={ROUTES.challenge.add} className={styles.challengeAddBtn}>

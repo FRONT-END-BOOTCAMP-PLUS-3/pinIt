@@ -18,7 +18,7 @@ const EditUserPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const fetchUserProfile = async () => {
-    const response: Response = await fetch('/api/show-user-profile', {
+    const response: Response = await fetch('/api/admin-show-user-profile', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
 
@@ -40,7 +40,13 @@ const EditUserPage = () => {
 
   return (
     <div className={style.editUser}>
-      <ProfileSummary />
+      <ProfileSummary
+        identified={false}
+        id={userProfile?.id as string}
+        nickname={userProfile?.nickname as string}
+        email={userProfile?.email as string}
+        profileImage={userProfile?.profileImg as string}
+      />
       <AccountRoleChecker
         userProfile={userProfile}
         setUserProfile={setUserProfile}

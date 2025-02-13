@@ -25,15 +25,17 @@ export const showPinListUsecase = async (
 
   // 각 핀의 좋아요 여부 확인 및 주소 가공
   const pinList = pins.map((pin) => {
-    const isLiked = likes.some(
-      (like) => like.pinId === pin.id && like.userId === userId,
-    );
+    const isLiked = userId
+      ? likes.some((like) => like.pinId === pin.id && like.userId === userId)
+      : false; // userId가 없으면 isLiked는 항상 false이도록
     return {
       id: pin.id || ' ',
       placeName: pin.placeName,
       address: extractTwoWords(pin.address), // 두 단어만 유지
       image: pin.image,
       isLiked: isLiked,
+      userId: pin.userId,
+      countLike: pin.countLike || 0,
     };
   });
 

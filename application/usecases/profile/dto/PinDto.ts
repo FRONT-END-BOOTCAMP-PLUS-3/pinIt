@@ -6,4 +6,6 @@ export interface PinDto {
   placeName: string,
   address: string, // 두 단어만 유지
   image: string,
+  isLiked: boolean,
+  countLike: number | 0;
 }

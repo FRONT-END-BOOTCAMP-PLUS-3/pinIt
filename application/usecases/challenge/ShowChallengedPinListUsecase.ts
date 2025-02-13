@@ -27,19 +27,23 @@ export const showChallengedPinListUsecase = async (
   const userId = await getUserIdFromSupabase();
   const likes = await LikeRepository.showLike();
 
-  const pinList = challengedPinList.map((challengedPin) => {
-    const isLiked = likes.some(
-      (like) => like.pinId === challengedPin.id && like.userId === userId,
-    );
+  const pinList = challengedPinList
+    .map((challengedPin) => {
+      const isLiked = likes.some(
+        (like) => like.pinId === challengedPin.id && like.userId === userId,
+      );
 
-    return {
-      id: challengedPin.id || ' ',
-      placeName: challengedPin.placeName,
-      address: extractTwoWordsFromAddress(challengedPin.address), // 두 단어만 유지
-      image: challengedPin.image,
-      isLiked: isLiked,
-    };
-  });
+      return {
+        id: challengedPin.id || ' ',
+        placeName: challengedPin.placeName,
+        address: extractTwoWordsFromAddress(challengedPin.address), // 두 단어만 유지
+        image: challengedPin.image,
+        isLiked: isLiked,
+        userId: challengedPin.userId,
+        countLike: challengedPin.countLike || 0,
+      };
+    })
+    .sort((a, b) => b.countLike - a.countLike);
 
   return pinList;
 };

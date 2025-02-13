@@ -1,12 +1,13 @@
 'use client';
 
 import style from '@/app/(anon)/challenge/page.module.scss';
-import PinCard from '@/components/Card/PinCard/PinCard';
 import ComboBox, { ComboBoxOption } from './_component/ComboBox';
 import { ChallengeTopic } from '@/domain/entities/ChallengeTopic';
 import { useEffect, useState } from 'react';
+import ListFilterButton from './_component/ListFilterButton';
+import PinJoinedChallengeContainer from './_component/PinJoinedChallengeContainer';
 import { ShowPinList } from '@/application/usecases/pin/dto/ShowPinListDto';
-import Link from 'next/link';
+import ChallengeButton from './_component/ChallengeButton';
 
 const Challenge = () => {
   const [challengeTopicList, setChallengeTopicList] = useState<
@@ -16,14 +17,15 @@ const Challenge = () => {
   const [selectedOption, setSelectedOption] = useState<ComboBoxOption | null>(
     null,
   );
-  const [challengedPinData, setChallengedPinData] = useState<ShowPinList[]>([]);
+  const [isFilteringMyPins, setIsFilteringMyPins] = useState(false);
+  const [selectedPins, setSelectedPins] = useState<ShowPinList[]>([]);
+  const [refreshKey, setRefreshKey] = useState(0);
 
   // 챌린지 주제 리스트 가져오기
   useEffect(() => {
     async function fetchChallengeTopicList() {
       const response = await fetch('/api/challenge-topic-list');
       if (!response.ok) {
-        console.log('이번 주 챌린지 주제가 없습니다.');
         setChallengeTopicList([]);
         return;
       }
@@ -46,28 +48,48 @@ const Challenge = () => {
     setComboBoxOptions(formattedData);
   }, [challengeTopicList]);
 
-  // 선택된 챌린지 주제의 핀 리스트 가져오기
-  useEffect(() => {
-    async function fetchChallengedPinList() {
-      const response = await fetch('/api/show-challenged-pin-list', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+  // 필터링 중인지 확인하는 이벤트
+  const handleFilterButtonClick = () => {
+    setIsFilteringMyPins((prev) => {
+      const newFilteringState = !prev;
 
-        body: JSON.stringify({ id: selectedOption?.id }),
-      });
-
-      if (!response.ok) {
-        console.log('해당 챌린지에 참여 중인 핀이 없습니다.');
-        setChallengedPinData([]);
-        return;
+      if (!newFilteringState) {
+        setSelectedPins([]); // 필터링 해제될 때 selectedPins 초기화
       }
 
-      const data = await response.json();
-      setChallengedPinData(data);
+      return !prev;
+    });
+  };
+
+  const handleRemoveButtonClick = async () => {
+    if (!selectedPins.length) {
+      alert('삭제할 핀을 선택하세요.');
+      return;
     }
 
-    fetchChallengedPinList();
-  }, [selectedOption]);
+    const pinIds = selectedPins.map((pin) => pin.id);
+
+    const response = await fetch('/api/delete-pin-joined-challenge', {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(pinIds),
+    });
+
+    const result = await response.json();
+
+    if (!response.ok) {
+      throw new Error(result.error || '삭제 요청 실패');
+    }
+
+    setSelectedPins([]);
+    alert('핀을 챌린지에서 제거했습니다.');
+
+    // // 리렌더링 유발
+    setRefreshKey((prev) => prev + 1);
+
+    setIsFilteringMyPins(false);
+    setTimeout(() => setIsFilteringMyPins(true), 0);
+  };
 
   return (
     <div className={style.Challenge}>
@@ -76,25 +98,21 @@ const Challenge = () => {
         selectedOption={selectedOption}
         setSelectedOption={setSelectedOption}
       />
-      <div className={style.pinCard_container}>
-        {challengedPinData?.map((challengedPin) => (
-          <PinCard
-            id={challengedPin.id}
-            key={challengedPin.id}
-            url={challengedPin.image}
-            alt={challengedPin.placeName}
-            location={challengedPin.placeName}
-            address={challengedPin.address}
-            liked={challengedPin.isLiked}
-            onClickLikeButton={() => {
-              console.log('클릭');
-            }}
-          />
-        ))}
-      </div>
-      <Link href={'/challenge/add'} className={style.link}>
-        <span>챌린지 등록하기</span>
-      </Link>
+      <ListFilterButton
+        selectedOption={selectedOption}
+        isFilteringMyPins={isFilteringMyPins}
+        onClickFilter={handleFilterButtonClick}
+      />
+      <PinJoinedChallengeContainer
+        key={refreshKey}
+        selectedOption={selectedOption}
+        isFiltering={isFilteringMyPins}
+        setSelectedPins={setSelectedPins}
+      />
+      <ChallengeButton
+        isFilteringMyPins={isFilteringMyPins}
+        onChallengeButtonClick={handleRemoveButtonClick}
+      />
     </div>
   );
 };

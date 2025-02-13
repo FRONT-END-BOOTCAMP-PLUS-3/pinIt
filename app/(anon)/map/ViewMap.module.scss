@@ -26,10 +26,75 @@
     top: 80px;
     left: 50%;
     transform: translateX(-50%);
-    width: 90%;
+    width: 95%;
     z-index: 997;
     background-color: $bg-white;
     border-radius: 25px;
+
+    .searchDrop {
+      margin-top: 2px;
+      left: 50%;
+      transform: translateX(-50%);
+      position: absolute;
+      background: $bg-white;
+      padding: $spacing-small $spacing-xlarge;
+      width: 95%;
+      height: 30vh;
+      border-radius: $border-radius-medium;
+      overflow-y: auto;
+
+      /* 스크롤바의 너비 및 높이 */
+      &::-webkit-scrollbar {
+        width: 4px;
+      }
+
+      /* 스크롤바 트랙 */
+      &::-webkit-scrollbar-track {
+        background: transparent; /* 트랙 배경색 */
+        border-radius: $border-radius-small; /* 트랙 둥근 모서리 */
+      }
+
+      /* 스크롤바 썸(드래그 가능한 막대) */
+      &::-webkit-scrollbar-thumb {
+        background-color: #888; /* 썸 배경색 */
+        border-radius: $border-radius-small; /* 썸 둥근 모서리 */
+      }
+
+      /* 스크롤바 썸 - 호버 상태 */
+      &::-webkit-scrollbar-thumb:hover {
+        background-color: #555; /* 썸 호버 시 색상 */
+      }
+
+      // 스크롤바 위아래 여백
+      &::-webkit-scrollbar-button:vertical:start:decrement,
+      &::-webkit-scrollbar-button:vertical:end:decrement {
+        display: block;
+        height: $spacing-small;
+      }
+
+      .invisible {
+        display: none;
+      }
+
+      .locationItem {
+        padding: 10px 0px;
+        border-bottom: 1px solid #eee;
+
+        .locationName {
+          font-weight: bold;
+        }
+
+        .locationAddress {
+          font-size: $font-size-medium;
+          color: $text-gray;
+        }
+
+        &:hover {
+          background: $main-black-4;
+          cursor: pointer;
+        }
+      }
+    }
   }
 }
 
@@ -111,7 +176,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between; // 양쪽으로 배치
-    border-bottom: 1px solid black; // 하단 구분선
+    border-bottom: 1px solid $main-black-4; // 하단 구분선
     padding: $spacing-medium 0;
   }
 
@@ -122,11 +187,42 @@
   .text {
     display: flex;
     flex-direction: column;
+
+    .location {
+      font-size: $font-size-large;
+    }
+    .address {
+      font-size: $font-size-large;
+      font-weight: 500;
+    }
+
+    .description {
+      margin-top: 4px;
+      font-size: $font-size-medium;
+    }
   }
 
-  .image {
-    width: 80px;
-    height: 80px;
-    border-radius: $border-radius-large;
+  .imageWrapper {
+    position: relative;
+    .image {
+      width: 80px;
+      height: 80px;
+      border-radius: $border-radius-large;
+      object-fit: cover;
+    }
+
+    .heart {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      z-index: 99;
+      cursor: pointer;
+    }
+  }
+
+  .noPin {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 }

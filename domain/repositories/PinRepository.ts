@@ -11,4 +11,11 @@ export interface PinRepository {
   updatePin: (updateData: Pin) => Promise<void>; // 핀 수정
   searchPinsByKeyword: (keyword: string) => Promise<Pin[]>;
   deletePins: (pinIds: string[]) => Promise<void>; // 아이디 리스트 받아서 핀 삭제
+  showBoundsPin: (
+    swLat: number,
+    swLng: number,
+    neLat: number,
+    neLng: number,
+  ) => Promise<Pin[]>; // 지도 범위
+  findPinsById(pinId: string[] | []): Promise<Pin[]>; // 핀 아이디로 핀 목록 찾기
 }

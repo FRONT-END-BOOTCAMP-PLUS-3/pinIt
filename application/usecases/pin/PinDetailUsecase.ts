@@ -22,18 +22,20 @@ export const pinDetailUsecase = async (
 
   // userId가 pinId에 좋아요 눌렀는지 여부 확인
   const likes = await likeRepository.showLike();
-  const isLiked = likes.some(
-    (like) => like.pinId === pin.id && like.userId === userId,
-  );
+  const isLiked = userId
+    ? likes.some((like) => like.pinId === pin.id && like.userId === userId)
+    : false; // userId가 없으면 isLiked는 항상 false이도록
 
   // userId의 정보 가져오기
   const userProfile = await userRepository.getUserById(pin.userId);
 
-  const loggedinId = await userRepository.getUserById(userId);
+  let hasPermission = false;
 
-  // 편집/삭제 권한 여부 판단 (핀 작성자 == 로그인된 유저 아이디 혹은 로그인된 유저 아이디가 관리자거나)
-  const hasPermission =
-    userProfile?.id === userId || Boolean(loggedinId?.admin);
+  if (userId) {
+    const loggedinId = await userRepository.getUserById(userId);
+    // 편집/삭제 권한 여부 판단 (핀 작성자 == 로그인된 유저 아이디 혹은 로그인된 유저 아이디가 관리자거나)
+    hasPermission = userProfile?.id === userId || Boolean(loggedinId?.admin);
+  }
 
   // 상세 정보 반환
   return {

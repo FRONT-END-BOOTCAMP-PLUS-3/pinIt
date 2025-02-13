@@ -1,11 +1,8 @@
-import { showUserProfileUsecase } from '@/application/usecases/admin/user/ShowUserProfileUsecase';
+import { UserIdDto } from '@/application/usecases/profile/dto/UserIdDto';
+import { showUserProfileUsecase } from '@/application/usecases/profile/ShowUserProfileUsecase';
 import { UserRepository } from '@/domain/repositories/UserRepository';
 import { SbUserRepository } from '@/infrastructure/repositories/SbUserRepository';
 import { NextRequest, NextResponse } from 'next/server';
-
-interface UserIdDto {
-  id: string;
-}
 
 export async function POST(req: NextRequest) {
   try {

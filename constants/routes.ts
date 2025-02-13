@@ -1,5 +1,6 @@
 interface RouteConfig {
   home: string;
+  login: string;
   pin: {
     detail: string;
     edit: string;
@@ -32,6 +33,7 @@ interface RouteConfig {
 
 const ROUTES: RouteConfig = {
   home: '/',
+  login: '/login',
   pin: {
     detail: '/[pin-id]',
     edit: '/[pin-id]/edit',

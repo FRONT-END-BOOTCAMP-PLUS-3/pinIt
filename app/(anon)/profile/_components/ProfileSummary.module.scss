@@ -9,6 +9,10 @@
     -moz-column-gap: 12px;
     margin-bottom: $spacing-medium;
     border-bottom: $border-width-thin solid $main-black-3;
+
+    &.disabled {
+        opacity: 0.5;
+    }
 }
 
 .user_info {
@@ -17,6 +21,10 @@
         display: block;
         height: 24px;
         line-height: 24px;
+
+        .deleted {
+            display: inline-block;
+        }
 
         h1 {
             display: inline-block;

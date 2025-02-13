@@ -10,6 +10,10 @@ const HEADER_CONFIG: Array<{ path: RegExp; config: PageConfig }> = [
     path: /^\/$/,
     config: { header: 'HeaderWithIcon', hasNavigation: true },
   },
+  {
+    path: /^\/login$/,
+    config: { header: 'BlackHeaderWithBack', hasNavigation: false },
+  },
   { path: /^\/add$/, config: { header: 'Header', hasNavigation: true } },
   { path: /^\/map$/, config: { header: 'Header', hasNavigation: true } },
   {

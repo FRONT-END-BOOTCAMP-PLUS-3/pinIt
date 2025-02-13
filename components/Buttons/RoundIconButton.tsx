@@ -1,12 +1,14 @@
 import Icon from '../Icon/Icon';
 import styles from './RoundIconButton.module.scss';
 
-const RoundIconButton = ({
+interface RoundIconButtonProps {
+  iconId: string;
+  onClickIconButton: (event: React.MouseEvent<HTMLButtonElement>) => void;
+}
+
+const RoundIconButton: React.FC<RoundIconButtonProps> = ({
   iconId,
   onClickIconButton,
-}: {
-  iconId: string;
-  onClickIconButton: React.MouseEventHandler;
 }) => {
   return (
     <button type='button' className={styles.btn} onClick={onClickIconButton}>

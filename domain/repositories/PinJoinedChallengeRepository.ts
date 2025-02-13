@@ -6,4 +6,6 @@ export interface PinJoinedChallengeRepository {
   ): Promise<PinJoinedChallenge[]>;
 
   createPinJoinedChallenge(data: PinJoinedChallenge[]): Promise<void>;
+
+  deletePinJoinedChallenges(pinIds: string[]): Promise<void>;
 }

@@ -3,16 +3,22 @@
 import { useEffect, useRef, useState } from 'react';
 import { showMyPinList } from '../_api/showMyPinList';
 import styles from './MyPinList.module.scss';
-import ProfilePinCard from '@/components/Card/ProfilePinCard/ProfilePinCard';
 import Icon from '@/components/Icon/Icon';
 import Confirmation from '@/components/Confirmation/Confirmation';
 import { deletePin } from '../../[pinId]/_api/deletePin';
+import { deleteLike } from '../../like/_api/deleteLike';
+import { createLike } from '../../like/_api/createLike';
+import SelectablePinCard from '@/components/Card/SelectablePinCard/SelectablePinCard';
+import PinCard from '@/components/Card/PinCard/PinCard';
+import RoundIconButton from '@/components/Buttons/RoundIconButton';
 
 interface PinDto {
   id: string;
   placeName: string;
   address: string;
   image: string;
+  isLiked: boolean;
+  countLike: number;
 }
 
 const MyPinList = ({ userId }: { userId?: string }) => {
@@ -21,6 +27,14 @@ const MyPinList = ({ userId }: { userId?: string }) => {
   const [checkedItems, setCheckedItems] = useState<Record<string, boolean>>({});
   const [deletePopupOpen, setDeletePopupOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+
+  /* .container 스타일 설정(휴지통 아이콘 고정에 필요) */
+  useEffect(() => {
+    const container = document.querySelector('.container');
+    if (container) {
+      (container as HTMLElement).style.position = 'relative';
+    }
+  }, []);
 
   /* 핀 리스트 불러오기 */
   useEffect(() => {
@@ -59,6 +73,17 @@ const MyPinList = ({ userId }: { userId?: string }) => {
     .filter(([_, checked]) => checked)
     .map(([id]) => id);
 
+  /* 수정 기능 */
+  const handleEdit = () => {
+    setIsEditing((prev) => {
+      if (prev) {
+        // isEditing이 false가 될 경우 체크된 항목 초기화
+        setCheckedItems({});
+      }
+      return !prev;
+    });
+  };
+
   /* 삭제 기능 */
   const handleDelete = () => {
     setDeletePopupOpen(true);
@@ -69,12 +94,39 @@ const MyPinList = ({ userId }: { userId?: string }) => {
     try {
       await Promise.all(checkedPinIds.map((pinId) => deletePin(pinId)));
       alert(`✅ 선택한 ${checkedPinIds.length}개의 핀이 삭제되었습니다.`);
+      // 새로고침(전체 페이지)
       window.location.reload();
     } catch (error) {
       console.error('🚨 핀 삭제 실패:', error);
       alert('❌ 핀 삭제에 실패했습니다.');
     } finally {
       setDeletePopupOpen(false);
+    }
+  };
+
+  // 핀의 좋아요 상태 변경하는 함수
+  const handleLikeToggle = async (
+    e: React.MouseEvent<HTMLButtonElement>,
+    id: string,
+    isLiked: boolean,
+  ) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    // Supabase에 좋아요 상태 업데이트
+    try {
+      if (isLiked) {
+        await deleteLike(id);
+      } else {
+        await createLike({ id: id });
+      }
+      setList((prevPins) =>
+        prevPins.map((pin) =>
+          pin.id === id ? { ...pin, isLiked: !pin.isLiked } : pin,
+        ),
+      );
+    } catch (error) {
+      console.error('🚨 좋아요 상태 변경 실패:', error);
     }
   };
 
@@ -97,7 +149,7 @@ const MyPinList = ({ userId }: { userId?: string }) => {
           {/* 편집/완료 버튼 */}
           <button
             className={`${styles.button} ${isEditing ? styles.complete : ''}`}
-            onClick={() => setIsEditing((prev) => !prev)}
+            onClick={handleEdit}
           >
             {isEditing ? '취소' : '편집'}
           </button>
@@ -105,32 +157,43 @@ const MyPinList = ({ userId }: { userId?: string }) => {
 
         {/* ✅ 기존의 ul > li 구조를 div.pincard_container 내부에 배치 */}
         <div className={styles.pincard_container} ref={containerRef}>
-          {list.length > 0 ? (
+          {list.length === 0 ? (
+            <p className={styles.nodata}>리스트가 없습니다.</p>
+          ) : isEditing ? (
             list.map((pin) => (
-              <ProfilePinCard
+              <SelectablePinCard
                 key={pin.id} // ✅ key를 여기서 사용
-                id={pin.id}
+                alt={pin.placeName}
                 url={pin.image}
                 location={pin.placeName}
                 address={pin.address}
                 checked={checkedItems[pin.id] || false}
                 onClickCheckButton={() => handleCheck(pin.id)}
-                isEditing={isEditing}
               />
             ))
           ) : (
-            <p className={styles.nodata}>리스트가 없습니다.</p>
+            list.map((pin) => (
+              <PinCard
+                key={pin.id} // ✅ key를 여기서 사용
+                alt={pin.placeName}
+                id={pin.id}
+                url={pin.image}
+                location={pin.placeName}
+                address={pin.address}
+                liked={pin.isLiked}
+                onClickLikeButton={(e) =>
+                  handleLikeToggle(e, pin.id, pin.isLiked)
+                }
+              />
+            ))
           )}
         </div>
-      </div>
-
-      {/* 삭제 버튼 */}
-      <div
-        className={`${styles.mypin_delete} ${isEditing && checkedCount > 0 ? styles.visible : styles.hidden}`}
-      >
-        <button className={styles.delete} onClick={handleDelete}>
-          <Icon id={'trash'} />
-        </button>
+        {/* 삭제 버튼 */}
+        <div
+          className={`${styles.mypin_delete} ${isEditing && checkedCount > 0 ? styles.visible : styles.hidden}`}
+        >
+          <RoundIconButton iconId={'trash'} onClickIconButton={handleDelete} />
+        </div>
       </div>
     </>
   );

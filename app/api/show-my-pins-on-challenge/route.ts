@@ -1,11 +1,18 @@
 import { showMyPinListUsecase } from '@/application/usecases/challenge/ShowMyPinListUsecase';
+import { SbPinJoinedChallengeRepository } from '@/infrastructure/repositories/SbPinJoinedChallengeRepository';
 import { SbPinRepository } from '@/infrastructure/repositories/SbPinRepository';
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
-export async function GET() {
+export async function POST(req: NextRequest) {
   try {
     const pinRepository = new SbPinRepository();
-    const result = await showMyPinListUsecase(pinRepository);
+    const pinJoinedChallengeRepository = new SbPinJoinedChallengeRepository();
+    const { topicId } = await req.json();
+    const result = await showMyPinListUsecase(
+      pinRepository,
+      pinJoinedChallengeRepository,
+      topicId,
+    );
 
     if (!result) {
       return NextResponse.json({ message: 'No my' }, { status: 404 });

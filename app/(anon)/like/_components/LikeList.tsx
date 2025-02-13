@@ -2,52 +2,60 @@
 
 import PinCard from '@/components/Card/PinCard/PinCard';
 import styles from '../like.module.scss';
-import { useState } from 'react';
+import { createLike } from '../_api/createLike';
+import { deleteLike } from '../_api/deleteLike';
+import { LikeListDto } from '@/application/usecases/like/dto/LikeListDto';
 
-const LikeList = () => {
-  const imageData = [
-    {
-      placeName: '남산타워',
-      image: '/default_image.png',
-      address: '서울특별시 용산구 남산공원길 105',
-      isLiked: true,
-    },
-    {
-      placeName: '경복궁',
-      image: '/default_image.png',
-      address: '서울특별시 종로구 사직로 161',
-      isLiked: false,
-    },
-    {
-      placeName: '해운대 해수욕장',
-      image: '/default_image.png',
-      address: '부산광역시 해운대구 우동',
-      isLiked: true,
-    },
-    {
-      placeName: '제주 성산일출봉',
-      image: '/default_image.png',
-      address: '제주특별자치도 서귀포시 성산읍 성산리',
-      isLiked: false,
-    },
-  ];
+interface LikeListProps {
+  pinData: LikeListDto[];
+  setPinData: React.Dispatch<React.SetStateAction<LikeListDto[]>>;
+}
 
-  const handleClick = () => {
-    console.log('h');
+const LikeList: React.FC<LikeListProps> = ({ pinData, setPinData }) => {
+  // 핀의 좋아요 상태 변경하는 함수
+  const handleLikeToggle = async (
+    e: React.MouseEvent<HTMLButtonElement>,
+    id: string,
+    isLiked: boolean,
+  ) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    // Supabase에 좋아요 상태 업데이트
+    try {
+      if (isLiked) {
+        await deleteLike(id);
+
+        setPinData((prevPins) => prevPins.filter((pin) => pin.id !== id));
+      } else {
+        await createLike({ id: id });
+      }
+      setPinData((prevPins) =>
+        prevPins.map((pin) =>
+          pin.id === id ? { ...pin, isLiked: !pin.isLiked } : pin,
+        ),
+      );
+    } catch (error) {
+      console.error('🚨 좋아요 상태 변경 실패:', error);
+    }
   };
+
   return (
     <div className={styles.likeListContainer}>
       <div className={styles.card_container}>
-        {imageData.map((img, idx) => {
+        {pinData.map((pin, idx) => {
           return (
             <PinCard
               key={idx}
-              alt={img.placeName} // alt로 placeName 사용
-              url={img.image}
-              location={img.placeName}
-              address={img.address}
-              liked={img.isLiked}
-              onClickLikeButton={handleClick}
+              id={pin.id}
+              alt={pin.placeName} // alt로 placeName 사용
+              url={pin.image}
+              location={pin.placeName}
+              address={pin.address}
+              liked={pin.isLiked}
+              onClickLikeButton={(e) =>
+                handleLikeToggle(e, pin.id, pin.isLiked)
+              }
             />
           );
         })}
