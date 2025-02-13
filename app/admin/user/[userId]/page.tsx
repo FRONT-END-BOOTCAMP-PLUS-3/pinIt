@@ -18,7 +18,7 @@ const EditUserPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const fetchUserProfile = async () => {
-    const response: Response = await fetch('/api/show-user-profile', {
+    const response: Response = await fetch('/api/admin-show-user-profile', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
 

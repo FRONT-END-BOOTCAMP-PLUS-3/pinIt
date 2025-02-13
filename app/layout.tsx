@@ -8,6 +8,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import HeaderWithIcon from '@/components/Header/HeaderWithIcon/HeaderWithIcon';
 import Header from '@/components/Header/Header/Header';
 import WhiteHeaderWithBack from '@/components/Header/WhiteHeaderWithBack/WhiteHeaderWithBack';
+import BlackHeaderWithBack from '@/components/Header/BlackHeaderWithBack/BlackHeaderWithBack';
 import { useEffect, useState } from 'react';
 import AdminNavigation from '@/components/Navigation/AdminNavigation/AdminNavigation';
 
@@ -64,6 +65,8 @@ export default function RootLayout({
         return <Header />;
       case 'WhiteHeaderWithBack':
         return <WhiteHeaderWithBack />;
+      case 'BlackHeaderWithBack':
+        return <BlackHeaderWithBack />;
       default:
         return null;
     }
@@ -96,6 +99,7 @@ export default function RootLayout({
           media='screen and (device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)'
           href='icon-512x512.png'
         />
+        <title>PinIt!</title>
       </head>
       <body>
         <div

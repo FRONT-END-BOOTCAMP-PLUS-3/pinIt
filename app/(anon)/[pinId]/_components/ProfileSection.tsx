@@ -6,6 +6,8 @@ import HeartIconButton from '@/components/Buttons/HeartIconButton';
 import { deleteLike } from '../../like/_api/deleteLike';
 import { createLike } from '../../like/_api/createLike';
 import { useEffect, useState } from 'react';
+import { usePathname } from 'next/navigation';
+import { checkPinUserId } from '../_api/checkPinUserId';
 
 interface ProfileProps {
   pinId: string;
@@ -17,8 +19,15 @@ interface ProfileProps {
 }
 
 const ProfileSection: React.FC<{ profile: ProfileProps }> = ({ profile }) => {
+  // ✅ URL에서 pinId 추출
+  const pathname = usePathname();
+  const pinId = pathname.split('/').pop(); // 마지막 경로(segment) 추출
+
   const [isliked, setIsliked] = useState(profile.isLiked);
   const [countlike, setCountlike] = useState(profile.countLike);
+
+  const [owner, setOwner] = useState<any | null>(null);
+
 
   useEffect(() => {
     setIsliked(profile.isLiked);
@@ -50,9 +59,24 @@ const ProfileSection: React.FC<{ profile: ProfileProps }> = ({ profile }) => {
     }
   };
 
+  // 본인 여부 boolean으로 확인(프로필 경로 설정)
+  useEffect(() => {
+    const fetchPinData = async () => {
+      const result = await checkPinUserId(pinId as string);
+
+      if (Array.isArray(result)) {
+        setOwner(result[0]); // ✅ 여러 개라면 첫 번째 요소 사용
+      } else {
+        setOwner(result); // ✅ 단일 객체라면 그대로 사용
+      }
+    };
+
+    fetchPinData();
+  }, [pinId]);
+
   return (
     <div className={styles.profileSection}>
-      <Link className={styles.profile} href={`profile/${profile.userId}`}>
+      <Link className={styles.profile} href={owner?.isOwn ? 'profile' : `profile/${profile.userId}`}>
         <span className={styles.profileImage}>
           <img src={profile.profileImg} alt='프로필 이미지' />
         </span>

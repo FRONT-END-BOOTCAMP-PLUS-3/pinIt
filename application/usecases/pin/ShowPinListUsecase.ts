@@ -16,8 +16,6 @@ export const showPinListUsecase = async (
 ): Promise<ShowPinList[]> => {
   // 사용자 아이디 받아오기
   const userId = await getUserIdFromSupabase();
-  if (!userId) {
-  }
 
   // 모든 핀 리스트 가져오기
   const pins = await pinRepository.showPin();
