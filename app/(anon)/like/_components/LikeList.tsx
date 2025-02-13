@@ -47,14 +47,14 @@ const LikeList: React.FC<LikeListProps> = ({ pinData, setPinData }) => {
           return (
             <PinCard
               key={idx}
-              id={pin.id}
-              alt={pin.placeName} // alt로 placeName 사용
+              id={pin.id ?? ''}
+              alt={pin.placeName ?? ''} // alt로 placeName 사용
               url={pin.image}
-              location={pin.placeName}
-              address={pin.address}
-              liked={pin.isLiked}
+              location={pin.placeName ?? ''}
+              address={pin.address ?? ''}
+              liked={pin.isLiked ?? false}
               onClickLikeButton={(e) =>
-                handleLikeToggle(e, pin.id, pin.isLiked)
+                handleLikeToggle(e, pin.id ?? '', pin.isLiked ?? false)
               }
             />
           );
